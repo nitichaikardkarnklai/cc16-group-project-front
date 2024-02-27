@@ -11,7 +11,7 @@ import ProductPage from '../pages/customer/ProductPage';
 import SeriesPage from '../pages/customer/SeriesPage';
 import TopSellingPage from '../pages/customer/TopSellingPage';
 import LoginPage from '../pages/customer/LoginPage';
-import ProtectedRoute from '../features/auth/components/ProtectedRoute';
+import ProtectedRoute from '../features/Auth/components/ProtectedRoute';
 import CartPage from '../pages/customer/auth/CartPage';
 import ManageAccountPage from '../pages/customer/auth/ManageAccountPage';
 import MyAccountPage from '../pages/customer/auth/MyAccountPage';
@@ -20,7 +20,7 @@ import MyOrderPage from '../pages/customer/auth/MyOrderPage';
 import MyRewardPage from '../pages/customer/auth/MyRewardPage';
 import TransactionPage from '../pages/customer/auth/TransactionPage';
 import WishlistPage from '../pages/customer/auth/WishlistPage';
-import ProtectedAdminRoute from '../features/auth/components/ProtectedAdminRoute';
+import ProtectedAdminRoute from '../features/Auth/components/ProtectedAdminRoute';
 import AdminContainer from '../layouts/AdminContainer';
 import AdminCategoryMgtPage from '../pages/admin/AdminCategoryMgtPage';
 import AdminLoginPage from '../pages/admin/AdminLoginPage';
@@ -29,14 +29,14 @@ import AdminProductMgtPage from '../pages/admin/AdminProductMgtPage';
 import AdminTransactionMonitoringPage from '../pages/admin/AdminTransactionMonitoringPage';
 import AdminTrendMgtPage from '../pages/admin/AdminTrendMgtPage';
 import AdminUserMgtPage from '../pages/admin/AdminUserMgtPage';
-import RedirectedIfAdminAuthenticated from '../features/auth/components/RedirectedIfAdminAuthenticated';
+import RedirectedIfAdminAuthenticated from '../features/Auth/components/RedirectedIfAdminAuthenticated';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <CustomerContainer />,
     children: [
-      { path: '', element: <LandingPage /> },
+      { path: '', element: <LoginPage /> },
       { path: '/launch-calendar', element: <LaunchCalendarPage /> },
       { path: '/new-arrivals', element: <NewArrivalsPage /> },
       { path: '/accessories', element: <AccessoriesPage /> },

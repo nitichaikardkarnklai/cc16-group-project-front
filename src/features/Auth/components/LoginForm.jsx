@@ -3,9 +3,10 @@ import { toast } from "react-toastify";
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
 import { useNavigate } from "react-router-dom";
-import validateLogin from "../validators/validateLogin"; // นำเข้าฟังก์ชันตรวจสอบข้อมูล
+import RegisterForm from "./RegisterForm";
+// import validateLogin from "../validators/validateLogin"; // นำเข้าฟังก์ชันตรวจสอบข้อมูล
 import { Link } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
+// import useAuth from "../hooks/useAuth";
 
 export default function LoginForm() {
   // const { login, authUser } = useAuth();
@@ -35,13 +36,12 @@ export default function LoginForm() {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
 
-  const handleRegister = () => {
-    navigate("/auth/register");
-  };
+
+
 
   return (
     <div>
-      <div className="hero min-h-screen bg-base-200">
+      <div className="hero min-h-screen bg-base-200 ">
         <div className="hero-content flex-col">
           <div className="text-center lg:text-left">
             <h1 className="text-4xl font-bold">เข้าสู่ระบบ</h1>
@@ -77,9 +77,17 @@ export default function LoginForm() {
                 Login
               </Button>
             </form>
-            <button className="btn btn-secondary m-2" onClick={handleRegister}>
-              สมัครสมาชิก
-            </button>
+            <button className="btn" onClick={() => document.getElementById('my_modal_4').showModal()}>สมัครสมาชิก</button>
+            <dialog id="my_modal_4" className="modal">
+              <div className="modal-box w-8/12 max-w-4xl m-auto p-0">
+                <RegisterForm />
+                <div className="modal-action m-auto">
+                  <form method="dialog" className=" ">
+                    <button className="btn px-8">ปิด</button>
+                  </form>
+                </div>
+              </div>
+            </dialog>
           </div>
         </div>
       </div>

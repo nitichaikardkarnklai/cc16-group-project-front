@@ -1,25 +1,27 @@
 import React from 'react';
+import Button from '../../../components/Button';
+import Input from '../../../components/Input';
 export default function RegisterForm() {
   const handleSubmit = (e) => {
     e.target.preventDefault();
   }
   return (
     <div>
-      return (
+
       <div className="  bg-white px-6 py-5  ">
 
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">สมัครสมาชิก</h2>
 
         </div>
-        <form onSubmit={handleSubmit} className="mx-auto mt-16 max-w-xl sm:mt-20">
-          <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
+        <form onSubmit={handleSubmit} className="mx-auto mt-16 max-w-xl sm:mt-10">
+          <div className="grid grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-2">
             <div>
               <label htmlFor="first-name" className="block text-sm font-semibold leading-6 text-gray-900">
                 ชื่อ
               </label>
               <div className="mt-2.5">
-                <input
+                <Input
                 />
               </div>
             </div>
@@ -28,7 +30,7 @@ export default function RegisterForm() {
                 นามสกุล
               </label>
               <div className="mt-2.5">
-                <input
+                <Input
                 />
               </div>
             </div>
@@ -38,7 +40,7 @@ export default function RegisterForm() {
                 Email
               </label>
               <div className="mt-2.5">
-                <input
+                <Input
                 />
               </div>
             </div>
@@ -47,7 +49,7 @@ export default function RegisterForm() {
                 Password
               </label>
               <div className="mt-2.5">
-                <input
+                <Input
                 />
               </div>
             </div>
@@ -56,22 +58,18 @@ export default function RegisterForm() {
                 เบอร์โทร
               </label>
               <div className="relative mt-2.5">
-                <input>
-                </input>
+                <Input>
+                </Input>
               </div>
             </div>
           </div>
           <div className="mt-10 items-center">
-            <button type="submit" className="w-full" >
+            <Button btn bg="green" type="submit" className="w-full" >
               สมัครสมาชิก
-            </button>
+            </Button>
           </div>
         </form >
-        <button type="submit" className="w-full" >
-          ย้อนกลับ
-        </button>
       </div >
-      )
     </div>
   )
 }
