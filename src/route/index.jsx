@@ -81,13 +81,13 @@ const router = createBrowserRouter([
       </ProtectedAdminRoute>
     ),
     children: [
-      { path: '/', element: <AdminHomePage /> },
-      { path: '/admin-category-mgt-page', element: <AdminCategoryMgtPage /> },
-      { path: '/admin-chat-page', element: <AdminChatPage /> },
-      { path: '/admin-product-mgt-page', element: <AdminProductMgtPage /> },
-      { path: '/admin-transaction-monitoring-page', element: <AdminTransactionMonitoringPage /> },
-      { path: '/admin-trend-mgt-page', element: <AdminTrendMgtPage /> },
-      { path: '/admin-user-mgt-page', element: <AdminUserMgtPage /> },
+      { path: '/admin', element: <AdminHomePage /> },
+      { path: '/admin/admin-category-mgt-page', element: <AdminCategoryMgtPage /> },
+      { path: '/admin/admin-chat-page', element: <AdminChatPage /> },
+      { path: '/admin/admin-product-mgt-page', element: <AdminProductMgtPage /> },
+      { path: '/admin/admin-transaction-monitoring-page', element: <AdminTransactionMonitoringPage /> },
+      { path: '/admin/admin-trend-mgt-page', element: <AdminTrendMgtPage /> },
+      { path: '/admin/admin-user-mgt-page', element: <AdminUserMgtPage /> },
     ],
   },
 ]);
