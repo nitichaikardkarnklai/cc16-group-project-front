@@ -1,5 +1,12 @@
+import { Outlet } from 'react-router-dom';
 import React from 'react';
+import AdminSideBar from "../layouts/AdminSideBar"
 
 export default function AdminContainer() {
-  return <div>AdminContainer</div>;
+  return (
+    <>
+      <AdminSideBar />
+      <Outlet />
+    </>
+  );
 }

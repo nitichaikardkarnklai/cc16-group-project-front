@@ -39,5 +39,11 @@
     "tailwindcss": "^3.4.1",
     "vite": "^5.1.4",
     "vite-plugin-eslint": "^1.8.1"
+  },
+  "eslintConfig": {
+    "extends": "react-app",
+    "rules": {
+      "jsx-a11y/anchor-is-valid": "off"
+    }
   }
 }
