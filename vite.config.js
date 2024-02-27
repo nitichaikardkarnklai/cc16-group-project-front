@@ -5,7 +5,12 @@ import eslintPlugin from 'vite-plugin-eslint';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), eslintPlugin({ fix: true })],
+  plugins: [
+    react({
+      jsxRuntime: 'classic',
+    }),
+    eslintPlugin({ fix: true }),
+  ],
   base: '/',
   define: {
     'process.env': process.env,
