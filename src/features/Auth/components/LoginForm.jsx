@@ -5,10 +5,10 @@ import Button from "../../../components/Button";
 import { useNavigate } from "react-router-dom";
 import validateLogin from "../validators/validateLogin"; // นำเข้าฟังก์ชันตรวจสอบข้อมูล
 import { Link } from "react-router-dom";
-
+import useAuth from "../hooks/useAuth";
 
 export default function LoginForm() {
-  const { login, authUser } = useAuth();
+  // const { login, authUser } = useAuth();
   const [input, setInput] = useState({
     email: "",
     password: "",

@@ -7,7 +7,6 @@ function App() {
   return (
     <>
       <Router />
-      <RegisterForm />
       <ToastContainer
         position='bottom-right'
         autoClose={3000}
