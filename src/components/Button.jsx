@@ -1,3 +1,5 @@
+import React from 'react';
+
 const bgClass = {
     red: 'bg-red-500 hover:bg-red-600 active:bg-red-700',
     black: 'bg-black hover:bg-gray-800 active:bg-gray-900',
