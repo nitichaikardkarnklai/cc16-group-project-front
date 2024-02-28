@@ -1,5 +1,9 @@
 import React from 'react';
 
 export default function CustomerFooter() {
-  return <div>CustomerFooter</div>;
+  return (
+    <div className=''>
+      <div className='bg'></div>
+    </div>
+  );
 }
