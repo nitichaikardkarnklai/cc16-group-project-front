@@ -71,7 +71,7 @@ const router = createBrowserRouter([
       <RedirectedIfAdminAuthenticated>
         <AdminLoginPage />
       </RedirectedIfAdminAuthenticated>
-    )
+    ),
   },
   {
     path: '/admin',
@@ -82,10 +82,19 @@ const router = createBrowserRouter([
     ),
     children: [
       { path: '/admin', element: <AdminHomePage /> },
-      { path: '/admin/admin-category-mgt-page', element: <AdminCategoryMgtPage /> },
+      {
+        path: '/admin/admin-category-mgt-page',
+        element: <AdminCategoryMgtPage />,
+      },
       { path: '/admin/admin-chat-page', element: <AdminChatPage /> },
-      { path: '/admin/admin-product-mgt-page', element: <AdminProductMgtPage /> },
-      { path: '/admin/admin-transaction-monitoring-page', element: <AdminTransactionMonitoringPage /> },
+      {
+        path: '/admin/admin-product-mgt-page',
+        element: <AdminProductMgtPage />,
+      },
+      {
+        path: '/admin/admin-transaction-monitoring-page',
+        element: <AdminTransactionMonitoringPage />,
+      },
       { path: '/admin/admin-trend-mgt-page', element: <AdminTrendMgtPage /> },
       { path: '/admin/admin-user-mgt-page', element: <AdminUserMgtPage /> },
     ],
