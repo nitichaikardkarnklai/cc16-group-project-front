@@ -64,7 +64,7 @@ export default function RegisterForm() {
             </div>
           </div>
           <div className="mt-10 items-center">
-            <Button btn bg="green" type="submit" className="w-full" >
+            <Button btn bg="red" type="submit" className="w-full" >
               สมัครสมาชิก
             </Button>
           </div>

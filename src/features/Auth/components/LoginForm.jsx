@@ -73,7 +73,7 @@ export default function LoginForm() {
                   onChange={handleChangeInput}
                 />
               </div>
-              <Button bg="green" type="submit" onClick={handleSubmit}>
+              <Button bg="red" type="submit" onClick={handleSubmit}>
                 Login
               </Button>
             </form>

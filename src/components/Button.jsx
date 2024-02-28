@@ -1,7 +1,6 @@
 const bgClass = {
-    blue: 'bg-blue-500 hover:bg-blue-600',
-    green: 'bg-green-500 hover:bg-green-600',
-    gray: 'bg-gray-200 hover:bg-gray-300'
+    red: 'bg-red-500 hover:bg-red-600 active:bg-red-700',
+    black: 'bg-black hover:bg-gray-800 active:bg-gray-900',
 };
 
 const colorClass = {
@@ -16,9 +15,8 @@ export default function Button({ children, bg, color, width, onClick }) {
     let classes = bg ? bgClass[bg] : '';
     classes += color ? ' ' + colorClass[color] : '';
     classes += width ? ' ' + widthClass[width] : '';
-
     return (
-        <button className={`px-4 py-3 rounded-md ${classes}`} onClick={onClick}>
+        <button className={`px-4 py-3  ${classes}`} onClick={onClick}>
             {children}
         </button>
     );
