@@ -5,12 +5,14 @@ import Input from "../../../components/Input";
 import Button from "../../../components/Button";
 import { useNavigate } from "react-router-dom";
 import RegisterForm from "./RegisterForm";
-// import validateLogin from "../validators/validateLogin"; // นำเข้าฟังก์ชันตรวจสอบข้อมูล
+import validateLogin from "../validations/validate-login";
 import { Link } from "react-router-dom";
-// import useAuth from "../hooks/useAuth";
+import useAuth from "../../../hooks/use-auth";
 
 export default function LoginForm() {
-  // const { login, authUser } = useAuth();
+  const { login, authUser } = useAuth();
+  const [error, setError] = useState({});
+
   const [input, setInput] = useState({
     email: "",
     password: "",
@@ -20,16 +22,14 @@ export default function LoginForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      validateLogin(input);
-      await login(input);
-      if (authUser) {
-        navigate('/')
+      e.preventDefault();
+      const validationError = validateLogin(input);
+      if (validationError) {
+        return setError(validationError);
       }
-
-
-    } catch (error) {
-      toast.error("เข้าสู่ระบบไม่สำเร็จ");
-      console.log(error);
+      await login(input);
+    } catch (err) {
+      toast.error(err.response?.data.message);
     }
   };
 
@@ -37,15 +37,12 @@ export default function LoginForm() {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
 
-
-
-
   return (
     <div>
       <div className="hero min-h-screen bg-base-200 ">
-        <div className="hero-content flex-col">
+        <div className="hero-content flex-col w-[60%]">
           <div className="text-center lg:text-left">
-            <h1 className="text-4xl font-bold">เข้าสู่ระบบ</h1>
+            <h1 className="text-4xl font-bold">Log in to ToyMart</h1>
           </div>
           <div className="card shrink-0 w-full mt-5 shadow-2xl bg-base-100">
             <form className="card-body" onSubmit={handleSubmit}>
@@ -59,6 +56,7 @@ export default function LoginForm() {
                   className="input input-bordered"
                   value={input.email}
                   onChange={handleChangeInput}
+                  errorMessage={error.email}
                 />
               </div>
               <div className="form-control">
@@ -72,21 +70,22 @@ export default function LoginForm() {
                   type="password"
                   className="input input-bordered"
                   onChange={handleChangeInput}
+                  errorMessage={error.password}
                 />
               </div>
-              <Button bg="red" type="submit" onClick={handleSubmit}>
+              <Button bg="red" type="submit" color="white" onClick={handleSubmit}>
                 Login
               </Button>
             </form>
-            <button className="btn" onClick={() => document.getElementById('my_modal_4').showModal()}>สมัครสมาชิก</button>
+            <button className="btn" onClick={() => document.getElementById('my_modal_4').showModal()}>Create New Account</button>
             <dialog id="my_modal_4" className="modal">
               <div className="modal-box w-8/12 max-w-4xl m-auto p-0">
-                <RegisterForm />
                 <div className="modal-action m-auto">
-                  <form method="dialog" className=" ">
-                    <button className="btn px-8">ปิด</button>
+                  <form method="dialog" className="">
+                    <button className="my-4 mx-8">&#x2715;</button>
                   </form>
                 </div>
+                <RegisterForm />
               </div>
             </dialog>
           </div>

@@ -2,7 +2,7 @@ import { Navigate } from "react-router-dom";
 // import useAuth from "../../../hooks/use-auth";
 
 export default function RedirectedIfAdminAuthenticated({ children }) {
-    // const { authUser, isAdminMode } = useAuth();
+    const { authUser } = useAuth();
 
     return (
         // authUser ? <Navigate to="/" /> : children
