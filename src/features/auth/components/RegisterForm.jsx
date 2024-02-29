@@ -7,11 +7,9 @@ import useAuth from '../../../hooks/use-auth';
 
 export default function RegisterForm() {
   const [input, setInput] = useState({
-
     email: "",
     password: "",
     confirmPassword: "",
-
   });
   const [error, setError] = useState({});
   const { register } = useAuth();

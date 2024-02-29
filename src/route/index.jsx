@@ -30,6 +30,7 @@ import AdminTransactionMonitoringPage from '../pages/admin/AdminTransactionMonit
 import AdminTrendMgtPage from '../pages/admin/AdminTrendMgtPage';
 import AdminUserMgtPage from '../pages/admin/AdminUserMgtPage';
 import RedirectedIfAdminAuthenticated from '../features/auth/components/RedirectedIfAdminAuthenticated';
+import TypesPage from '../pages/customer/TypesPage';
 
 const router = createBrowserRouter([
   {
@@ -45,6 +46,7 @@ const router = createBrowserRouter([
       { path: '/series', element: <SeriesPage /> },
       { path: '/top-selling', element: <TopSellingPage /> },
       { path: '/login', element: <LoginPage /> },
+      { path: '/types', element: <TypesPage /> },
       {
         path: '/',
         element: (
