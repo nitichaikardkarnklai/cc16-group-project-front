@@ -15,6 +15,6 @@ export default function ProtectedAdminRoute({ children }) {
     })
 
     return (
-        authUser && authUser.role === "ADMIN" ? children : <Navigate to="/admin/login" />
+        authUser && authUser.role !== "USER" ? children : <Navigate to="/admin/login" />
     );
 }

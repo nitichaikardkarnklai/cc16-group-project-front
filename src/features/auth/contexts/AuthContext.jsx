@@ -37,7 +37,6 @@ export default function AuthContextProvider({ children }) {
     // console.log(res);
     setAuthUser(res.data.user);
     storeToken(res.data.token);
-    toast.success("Login Successfully");
   }
 
   const logout = () => {

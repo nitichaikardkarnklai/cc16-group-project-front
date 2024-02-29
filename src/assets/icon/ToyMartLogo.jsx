@@ -1,14 +1,13 @@
 import React from 'react';
 
-export default function ToyMartLogo(className) {
+export default function ToyMartLogo({ width = "94px", height = "36px" }) {
   return (
     <svg
-      width='94'
-      height='36'
+      width={width}
+      height={height}
       viewBox='0 0 94 36'
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
-      className={className}
     >
       <rect y='2' width='94' height='31' fill='#D2001F' />
       <path
