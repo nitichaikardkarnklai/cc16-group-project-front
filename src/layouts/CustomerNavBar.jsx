@@ -18,14 +18,8 @@ export default function CustomerNavBar() {
         <div>ACCESSORIES</div>
       </div>
       <div className='flex gap-4  items-center font-semibold'>
-        <div className='w-[226px] h-[42px]'>
+        <div className='w-[226px] h-[42px] border-r pr-4'>
           <SearchBar />
-        </div>
-        <div className='flex gap-2 items-center'>
-          <div>
-            <ThaiFlagIcon />
-          </div>
-          <div>TH</div>
         </div>
         <div className='flex items-center gap-4'>
           <div className='flex  justify-center items-center gap-1'>
