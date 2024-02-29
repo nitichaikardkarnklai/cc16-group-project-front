@@ -25,14 +25,12 @@ export default function MyAddressPage() {
               </div>
             </div>
             <div>
-
               <div className="mt-2.5">
                 <Input
                   placeholder={"*Last Name"}
                 />
               </div>
             </div>
-
             <div className="sm:col-span-2">
               <div className="mt-2.5">
                 <Input
@@ -47,8 +45,6 @@ export default function MyAddressPage() {
                 />
               </div>
             </div>
-
-
             <div className="sm:col-span-2">
               <div className=" mt-2.5">
                 <Input placeholder={"Apartment, suite, etc."} />
@@ -59,9 +55,19 @@ export default function MyAddressPage() {
                 <Input placeholder={"*City/ward/town/village"} />
               </div>
             </div>
-            <div className="sm:col-span-2">
-              <div className="relative mt-2.5">
-                <Input placeholder={"*Province/State"} />
+            <div>
+
+              <div className="mt-2.5">
+                <Input
+                  placeholder={"*Province"}
+                />
+              </div>
+            </div>
+            <div>
+              <div className="mt-2.5">
+                <Input
+                  placeholder={"*Postal Code"}
+                />
               </div>
             </div>
           </div>
