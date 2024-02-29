@@ -4,8 +4,11 @@ import Input from '../../../components/Input';
 import { useState } from 'react';
 import validateRegister from "../validations/validate-register"
 import useAuth from '../../../hooks/use-auth';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 export default function RegisterForm() {
+  const navigate = useNavigate();
   const [input, setInput] = useState({
     email: "",
     password: "",
@@ -33,10 +36,9 @@ export default function RegisterForm() {
       await register(input);
 
       toast.success("Register Successfully");
+
+      navigate("/");
     } catch (err) {
-      if (err.response.data.message === "EMAIL_MOBILE_IN_USE") {
-        setError({ emailOrMobile: "already in use" })
-      }
       console.log("error: ", err);
       toast.error(err.response?.data.message);
     }
