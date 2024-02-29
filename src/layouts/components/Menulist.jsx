@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 export default function menulist({ link }) {
   return (
-    <div className='w-[full] shadow-md flex justify-center p-8 gap-4'>
+    <div className='w-[full] shadow-md flex justify-center p-8 gap-4 bg-white'>
       <Link to={link}>
         <MenuCard />
       </Link>

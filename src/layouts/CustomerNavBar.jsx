@@ -10,6 +10,8 @@ import SeriesMenulist from './components/SeriesMenulist';
 import { useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import FeatureMenuList from './components/FeatureMenuList';
+import { Link } from 'react-router-dom';
+import useAuth from '../hooks/use-auth';
 
 const openState = {
   feature: false,
@@ -21,12 +23,12 @@ const openState = {
 
 const defaultClass =
   'btn bg-transparent shadow-none border-none text-lg p-0 hover:bg-transparent';
-const active = 'text-redHero';
 
 export default function CustomerNavBar() {
   const [open, setOpen] = useState(openState);
 
   const { pathname } = useLocation();
+  const { authUser } = useAuth();
 
   useEffect(() => {
     console.log(pathname);
@@ -133,10 +135,14 @@ export default function CustomerNavBar() {
   };
 
   return (
-    <>
-      <div className='sticky flex w-full h-[5rem] bg-white justify-between items-center px-8 border-b-2 border-gray-400'>
+    <div>
+      <div className='sticky top-0 flex w-full h-[5rem] bg-white justify-between items-center px-8 border-b-2 border-gray-400 z-50'>
         <div className='flex gap-6  items-center font-semibold'>
-          <ToyMartLogo />
+          <Link to='/'>
+            <div className='btn bg-transparent border-none shadow-none hover:bg-transparent'>
+              <ToyMartLogo />
+            </div>
+          </Link>
           <div
             onClick={onClickFeature}
             style={{ color: isFeaturePage() }}
@@ -178,20 +184,27 @@ export default function CustomerNavBar() {
             <SearchBar />
           </div>
           <div className='flex items-center gap-4'>
-            <div className='flex  justify-center items-center gap-1'>
-              <div className='w-[24px] h-[24px] bg-gray-400 rounded-full'></div>
-              <div>My Account</div>
-            </div>
+            <Link to='/my-account-page'>
+              {}
+              <div className='flex  justify-center items-center gap-1'>
+                <div className='w-[24px] h-[24px] bg-gray-400 rounded-full'></div>
+                <div>My Account</div>
+              </div>
+            </Link>
             <div>
               <HeadPhoneIcon />
             </div>
-            <div>
-              <HeartIcon />
-            </div>
-            <div className='w-[77px] h-[34px] rounded-3xl border border-gray-400 flex justify-center items-center'>
-              <ShoppingBagIcon />
-              <div>1</div>
-            </div>
+            <Link to='/wishlist-page'>
+              <div>
+                <HeartIcon />
+              </div>
+            </Link>
+            <Link to='/cart-page'>
+              <div className='w-[77px] h-[34px] rounded-3xl border border-gray-400 flex justify-center items-center'>
+                <ShoppingBagIcon />
+                <div>1</div>
+              </div>
+            </Link>
           </div>
         </div>
       </div>
@@ -202,6 +215,6 @@ export default function CustomerNavBar() {
         {open.types && <Menulist link={'/types'} />}
         {open.accessories && <Menulist link={'/accessories'} />}
       </div>
-    </>
+    </div>
   );
 }

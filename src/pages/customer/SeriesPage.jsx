@@ -1,5 +1,10 @@
 import React from 'react';
+import ProductsContainer from '../../layouts/ProductsContainer';
 
 export default function SeriesPage() {
-  return <div>SeriesPage</div>;
+  return (
+    <div>
+      <ProductsContainer />
+    </div>
+  );
 }
