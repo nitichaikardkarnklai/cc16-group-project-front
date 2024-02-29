@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function ToyMartLogo() {
+export default function ToyMartLogo(className) {
   return (
     <svg
       width='94'
@@ -8,6 +8,7 @@ export default function ToyMartLogo() {
       viewBox='0 0 94 36'
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
+      className={className}
     >
       <rect y='2' width='94' height='31' fill='#D2001F' />
       <path

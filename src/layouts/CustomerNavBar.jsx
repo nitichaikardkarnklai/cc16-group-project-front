@@ -1,43 +1,203 @@
 import React from 'react';
 import ToyMartLogo from '../assets/icon/ToyMartLogo';
 import SearchBar from '../components/SearchBar';
-import ThaiFlagIcon from '../assets/icon/ThaiFlagIcon';
 import HeadPhoneIcon from '../assets/icon/HeadPhoneIcon';
 import HeartIcon from '../assets/icon/HeartIcon';
 import ShoppingBagIcon from '../assets/icon/ShoppingBagIcon';
+import Menulist from './components/Menulist';
+import { useState } from 'react';
+import SeriesMenulist from './components/SeriesMenulist';
+import { useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
+import FeatureMenuList from './components/FeatureMenuList';
+
+const openState = {
+  feature: false,
+  series: false,
+  mega: false,
+  types: false,
+  accessories: false,
+};
+
+const defaultClass =
+  'btn bg-transparent shadow-none border-none text-lg p-0 hover:bg-transparent';
+const active = 'text-redHero';
 
 export default function CustomerNavBar() {
+  const [open, setOpen] = useState(openState);
+
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    console.log(pathname);
+    setOpen(openState);
+  }, [pathname]);
+
+  const onClickFeature = () => {
+    setOpen({
+      ...open,
+      feature: !open.feature,
+      series: false,
+      mega: false,
+      types: false,
+      accessories: false,
+    });
+  };
+
+  const onClickSeries = () => {
+    setOpen({
+      ...open,
+      feature: false,
+      series: !open.series,
+      mega: false,
+      types: false,
+      accessories: false,
+    });
+  };
+
+  const onClickMega = () => {
+    setOpen({
+      ...open,
+      feature: false,
+      series: false,
+      mega: !open.mega,
+      types: false,
+      accessories: false,
+    });
+  };
+
+  const onClickTypes = () => {
+    setOpen({
+      ...open,
+      feature: false,
+      series: false,
+      mega: false,
+      types: !open.types,
+      accessories: false,
+    });
+  };
+
+  const onClickAccessories = () => {
+    setOpen({
+      ...open,
+      feature: false,
+      series: false,
+      mega: false,
+      types: false,
+      accessories: !open.accessories,
+    });
+  };
+
+  const isFeaturePage = () => {
+    if (
+      pathname === '/launch-calendar' ||
+      pathname === '/new-arrivals' ||
+      pathname === '/top-selling'
+    ) {
+      return '#D2001E';
+    } else {
+      return '';
+    }
+  };
+
+  const isSeriesPage = () => {
+    if (pathname === '/series') {
+      return '#D2001E';
+    } else {
+      return '';
+    }
+  };
+
+  const isMegaPage = () => {
+    if (pathname === '/mega') {
+      return '#D2001E';
+    } else {
+      return '';
+    }
+  };
+
+  // const isTypes = () => {
+  //   if (pathname === '') {
+  //     return '#D2001E';
+  //   } else {
+  //     return '';
+  //   }
+  // }
+
+  const isAccessories = () => {
+    if (pathname === '/accessories') {
+      return '#D2001E';
+    } else {
+      return '';
+    }
+  };
+
   return (
-    <div className='sticky flex w-full h-[5rem] bg-white justify-between items-center px-8 border-b-2 border-gray-400'>
-      <div className='flex gap-6  items-center font-semibold'>
-        <ToyMartLogo />
-        <div>New & Featured</div>
-        <div>SERIES</div>
-        <div>MEGA</div>
-        <div>TYPES</div>
-        <div>ACCESSORIES</div>
-      </div>
-      <div className='flex gap-4  items-center font-semibold'>
-        <div className='w-[226px] h-[42px] border-r pr-4'>
-          <SearchBar />
+    <>
+      <div className='sticky flex w-full h-[5rem] bg-white justify-between items-center px-8 border-b-2 border-gray-400'>
+        <div className='flex gap-6  items-center font-semibold'>
+          <ToyMartLogo />
+          <div
+            onClick={onClickFeature}
+            style={{ color: isFeaturePage() }}
+            className={`${defaultClass}`}
+          >
+            New & Featured
+          </div>
+          <div
+            onClick={onClickSeries}
+            style={{ color: isSeriesPage() }}
+            className={`${defaultClass}`}
+          >
+            SERIES
+          </div>
+          <div
+            onClick={onClickMega}
+            style={{ color: isMegaPage() }}
+            className={`${defaultClass}`}
+          >
+            MEGA
+          </div>
+          <div onClick={onClickTypes} className={`${defaultClass}`}>
+            TYPES
+          </div>
+          <div
+            onClick={onClickAccessories}
+            style={{ color: isAccessories() }}
+            className={`${defaultClass}`}
+          >
+            ACCESSORIES
+          </div>
         </div>
-        <div className='flex items-center gap-4'>
-          <div className='flex  justify-center items-center gap-1'>
-            <div className='w-[24px] h-[24px] bg-gray-400 rounded-full'></div>
-            <div>My Account</div>
+        <div className='flex gap-4  items-center font-semibold'>
+          <div className='w-[226px] h-[42px] border-r pr-4'>
+            <SearchBar />
           </div>
-          <div>
-            <HeadPhoneIcon />
-          </div>
-          <div>
-            <HeartIcon />
-          </div>
-          <div className='w-[77px] h-[34px] rounded-3xl border border-gray-400 flex justify-center items-center'>
-            <ShoppingBagIcon />
-            <div>1</div>
+          <div className='flex items-center gap-4'>
+            <div className='flex  justify-center items-center gap-1'>
+              <div className='w-[24px] h-[24px] bg-gray-400 rounded-full'></div>
+              <div>My Account</div>
+            </div>
+            <div>
+              <HeadPhoneIcon />
+            </div>
+            <div>
+              <HeartIcon />
+            </div>
+            <div className='w-[77px] h-[34px] rounded-3xl border border-gray-400 flex justify-center items-center'>
+              <ShoppingBagIcon />
+              <div>1</div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      <div className='absolute w-full bg-white'>
+        {open.feature && <FeatureMenuList />}
+        {open.series && <SeriesMenulist link={'/series'} />}
+        {open.mega && <Menulist link={'/mega'} />}
+        {open.types && <Menulist />}
+        {open.accessories && <Menulist link={'/accessories'} />}
+      </div>
+    </>
   );
 }
