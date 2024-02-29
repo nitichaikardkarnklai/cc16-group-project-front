@@ -26,6 +26,9 @@ dependencies:
   react-toastify:
     specifier: ^10.0.4
     version: 10.0.4(react-dom@18.2.0)(react@18.2.0)
+  toastify:
+    specifier: ^2.0.1
+    version: 2.0.1
 
 devDependencies:
   '@types/react':
@@ -3295,6 +3298,10 @@ packages:
     dependencies:
       is-number: 7.0.0
     dev: true
+
+  /toastify@2.0.1:
+    resolution: {integrity: sha512-Me/O93yAlwiHYwqX0su60Wv+X9ngzIT6nBLbNAFED095gMSjCBYKdu+faBxV6SE8CiQjUTBLrz8LwoXMtGz+yw==}
+    dev: false
 
   /ts-interface-checker@0.1.13:
     resolution: {integrity: sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==}

@@ -7,12 +7,9 @@ import useAuth from '../../../hooks/use-auth';
 
 export default function RegisterForm() {
   const [input, setInput] = useState({
-    firstName: "",
-    lastName: "",
     email: "",
     password: "",
     confirmPassword: "",
-    phone: ""
   });
   const [error, setError] = useState({});
   const { register } = useAuth();
@@ -54,34 +51,6 @@ export default function RegisterForm() {
         </div>
         <form onSubmit={handleSubmit} className="mx-auto mt-16 max-w-xl sm:mt-10">
           <div className="grid grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-2">
-            <div>
-              <label htmlFor="first-name" className="block text-sm font-semibold leading-6 text-gray-900">
-                First Name
-              </label>
-              <div className="mt-2.5">
-                <Input
-                  placeholder="first name"
-                  value={input.firstName}
-                  name="firstName"
-                  onChange={handleChange}
-                  errorMessage={error.firstName}
-                />
-              </div>
-            </div>
-            <div>
-              <label htmlFor="last-name" className="block text-sm font-semibold leading-6 text-gray-900">
-                Last name
-              </label>
-              <div className="mt-2.5">
-                <Input
-                  placeholder="last name"
-                  value={input.lastName}
-                  name="lastName"
-                  onChange={handleChange}
-                  errorMessage={error.lastName}
-                />
-              </div>
-            </div>
 
             <div className="sm:col-span-2">
               <label htmlFor="email" className="block text-sm font-semibold leading-6 text-gray-900">
@@ -127,21 +96,7 @@ export default function RegisterForm() {
                 />
               </div>
             </div>
-            <div className="sm:col-span-2">
-              <label htmlFor="phone-number" className="block text-sm font-semibold leading-6 text-gray-900">
-                Tel (10 Digits of Number)
-              </label>
-              <div className="relative mt-2.5">
-                <Input
-                  type="text"
-                  placeholder="phone number"
-                  value={input.phone}
-                  name="phone"
-                  onChange={handleChange}
-                  errorMessage={error.phone}
-                />
-              </div>
-            </div>
+
           </div>
           <div className="mt-10 flex justify-center">
             <Button btn bg="red" type="submit" className="w-full" color="white">
