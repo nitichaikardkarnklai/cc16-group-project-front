@@ -19,12 +19,12 @@ export default function MyAccountPage() {
           <div>EDIT PROFILE</div>
         </div>
         <div className="flex  justify-between py-6 px-6 ">
-          <div className='bg-gray-200 gap-6 py-8 px-6 w-1/3 rounded-2xl'>My order > </div>
-          <div className='bg-gray-200 gap-6 py-8 px-6 w-1/3 rounded-2xl'>My reward > </div>
+          <div className='bg-gray-200 gap-6 py-8 px-6 w-1/3 rounded-2xl'>My order </div>
+          <div className='bg-gray-200 gap-6 py-8 px-6 w-1/3 rounded-2xl'>My reward </div>
         </div>
         <div className="flex  justify-between py-6 px-6 ">
-          <div className='bg-gray-200 gap-6 py-8 px-6 w-1/3 rounded-2xl'>Address book > </div>
-          <div className='bg-gray-200 gap-6 py-8 px-6 w-1/3 rounded-2xl'>Sign out > </div>
+          <div className='bg-gray-200 gap-6 py-8 px-6 w-1/3 rounded-2xl'>Address book </div>
+          <div className='bg-gray-200 gap-6 py-8 px-6 w-1/3 rounded-2xl'>Sign out </div>
         </div>
 
 

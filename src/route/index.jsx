@@ -37,7 +37,8 @@ const router = createBrowserRouter([
     path: '/',
     element: <CustomerContainer />,
     children: [
-      { path: '', element: <MyAccountPage /> },
+      { path: '/', element: <LandingPage /> },
+      { path: '/my-account-page', element: <MyAccountPage /> },
       { path: '/launch-calendar', element: <LaunchCalendarPage /> },
       { path: '/new-arrivals', element: <NewArrivalsPage /> },
       { path: '/accessories', element: <AccessoriesPage /> },
