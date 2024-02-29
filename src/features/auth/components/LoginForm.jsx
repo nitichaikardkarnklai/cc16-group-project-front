@@ -28,6 +28,8 @@ export default function LoginForm() {
         return setError(validationError);
       }
       await login(input);
+
+      navigate("/")
     } catch (err) {
       toast.error(err.response?.data.message);
     }

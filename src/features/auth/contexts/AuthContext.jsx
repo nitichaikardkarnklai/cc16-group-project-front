@@ -28,13 +28,13 @@ export default function AuthContextProvider({ children }) {
 
   const register = async user => {
     const res = await authApi.register(user);
-    setAuthUser(res.data.newUser);
+    setAuthUser(res.data.user);
     storeToken(res.data.token);
   };
 
   const login = async credential => {
     const res = await authApi.login(credential);
-    console.log(res);
+    // console.log(res);
     setAuthUser(res.data.user);
     storeToken(res.data.token);
     toast.success("Login Successfully");

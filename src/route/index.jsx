@@ -38,7 +38,6 @@ const router = createBrowserRouter([
     element: <CustomerContainer />,
     children: [
       { path: '/', element: <LandingPage /> },
-      { path: '/my-account-page', element: <MyAccountPage /> },
       { path: '/launch-calendar', element: <LaunchCalendarPage /> },
       { path: '/new-arrivals', element: <NewArrivalsPage /> },
       { path: '/accessories', element: <AccessoriesPage /> },
@@ -56,6 +55,7 @@ const router = createBrowserRouter([
           </ProtectedRoute>
         ),
         children: [
+          { path: '/my-account-page', element: <MyAccountPage /> },
           { path: '/cart-page', element: <CartPage /> },
           { path: '/manage-account-page', element: <ManageAccountPage /> },
           { path: '/my-account-page', element: <MyAccountPage /> },
