@@ -116,13 +116,13 @@ export default function CustomerNavBar() {
     }
   };
 
-  // const isTypes = () => {
-  //   if (pathname === '') {
-  //     return '#D2001E';
-  //   } else {
-  //     return '';
-  //   }
-  // }
+  const isTypes = () => {
+    if (pathname === '/types') {
+      return '#D2001E';
+    } else {
+      return '';
+    }
+  };
 
   const isAccessories = () => {
     if (pathname === '/accessories') {
@@ -158,7 +158,11 @@ export default function CustomerNavBar() {
           >
             MEGA
           </div>
-          <div onClick={onClickTypes} className={`${defaultClass}`}>
+          <div
+            onClick={onClickTypes}
+            style={{ color: isTypes() }}
+            className={`${defaultClass}`}
+          >
             TYPES
           </div>
           <div
