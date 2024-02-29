@@ -13,7 +13,7 @@ export default function Input({
 }) {
     const extendedClasses = errorMessage
         ? 'border-red-500 focus:ring-red-300'
-        : 'border-gray-300 focus:border-blue-500 focus:ring-blue-300';
+        : 'border-gray-300 focus:border-black-500 focus:ring-black-300';
     return (
         <>
             <input
