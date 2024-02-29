@@ -199,7 +199,7 @@ export default function CustomerNavBar() {
         {open.feature && <FeatureMenuList />}
         {open.series && <SeriesMenulist link={'/series'} />}
         {open.mega && <Menulist link={'/mega'} />}
-        {open.types && <Menulist />}
+        {open.types && <Menulist link={'/types'} />}
         {open.accessories && <Menulist link={'/accessories'} />}
       </div>
     </>
