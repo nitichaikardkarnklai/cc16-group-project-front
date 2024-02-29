@@ -137,7 +137,7 @@ export default function CustomerNavBar() {
 
   return (
     <div className='sticky top-0 z-50'>
-      <div className='flex w-full h-[5rem] bg-white justify-between items-center px-8 border-b-2 border-gray-400 '>
+      <div className='flex w-full h-[5rem] bg-white justify-between items-center px-8 border-b-2 border-gray-400'>
         <div className='flex gap-6  items-center font-semibold'>
           <Link to='/'>
             <div className='btn bg-transparent border-none shadow-none hover:bg-transparent'>
