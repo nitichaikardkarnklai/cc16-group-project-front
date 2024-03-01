@@ -135,6 +135,20 @@ export default function CustomerNavBar() {
     }
   };
 
+  const isMyAccount = () => {
+    if (
+      pathname === '/my-account-page' ||
+      pathname === '/manage-account-page' ||
+      pathname === '/my-address-page' ||
+      pathname === '/my-order-page' ||
+      pathname === '/my-reward-page'
+    ) {
+      return '#D2001E';
+    } else {
+      return '';
+    }
+  };
+
   return (
     <div className='sticky top-0 z-50'>
       <div className='flex w-full h-[5rem] bg-white justify-between items-center px-8 border-b-2 border-gray-400'>
@@ -189,7 +203,7 @@ export default function CustomerNavBar() {
               {authUser ? (
                 <div className='flex  justify-center items-center gap-1'>
                   <div className='w-[24px] h-[24px] bg-gray-400 rounded-full'></div>
-                  <div>My Account</div>
+                  <div style={{ color: isMyAccount() }}>My Account</div>
                 </div>
               ) : (
                 <div className='flex  justify-center items-center gap-1'>
