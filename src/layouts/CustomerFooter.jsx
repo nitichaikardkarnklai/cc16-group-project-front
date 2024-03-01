@@ -9,7 +9,7 @@ import BitCoinIcon from '../assets/icon/BitCoinIcon';
 
 export default function CustomerFooter() {
   return (
-    <div className=' w-full'>
+    <div className=' w-full mt-36'>
       <div className='w-full h-[4rem] flex justify-start items-center gap-6 px-8 bg-grayFooter'>
         <div className=' font-semibold text-xl'>FOLLOW US ON</div>
         <div className='flex gap-4'>

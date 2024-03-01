@@ -12,6 +12,7 @@ import { useEffect } from 'react';
 import FeatureMenuList from './components/FeatureMenuList';
 import { Link } from 'react-router-dom';
 import useAuth from '../hooks/use-auth';
+import UserIcon from '../assets/icon/UserIcon';
 
 const openState = {
   feature: false,
@@ -185,11 +186,17 @@ export default function CustomerNavBar() {
           </div>
           <div className='flex items-center gap-4'>
             <Link to='/my-account-page'>
-              { }
-              <div className='flex  justify-center items-center gap-1'>
-                <div className='w-[24px] h-[24px] bg-gray-400 rounded-full'></div>
-                <div>My Account</div>
-              </div>
+              {authUser ? (
+                <div className='flex  justify-center items-center gap-1'>
+                  <div className='w-[24px] h-[24px] bg-gray-400 rounded-full'></div>
+                  <div>My Account</div>
+                </div>
+              ) : (
+                <div className='flex  justify-center items-center gap-1'>
+                  <UserIcon />
+                  <div>Login / Register</div>
+                </div>
+              )}
             </Link>
             <div>
               <HeadPhoneIcon />
