@@ -1,9 +1,14 @@
 import React from 'react';
 import useAuth from '../../../hooks/use-auth';
 import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
 
 export default function MyAccountPage() {
   const { authUser, logout } = useAuth();
+
+  useEffect(() => {
+    console.log(authUser);
+  }, []);
 
   return (
     <div>
@@ -42,7 +47,10 @@ export default function MyAccountPage() {
               Address book
             </div>
           </Link>
-          <div className='btn text-lg bg-gray-200 w-[180px] h-[88px] rounded-2xl'>
+          <div
+            onClick={() => logout()}
+            className='btn text-lg bg-gray-200 w-[180px] h-[88px] rounded-2xl'
+          >
             Sign out
           </div>
         </div>
