@@ -32,6 +32,7 @@ import AdminCustomerMgtPage from '../pages/admin/AdminCustomerMgtPage';
 import RedirectedIfAdminAuthenticated from '../features/auth/components/RedirectedIfAdminAuthenticated';
 import TypesPage from '../pages/customer/TypesPage';
 import AdminAdminMgtPage from '../pages/admin/AdminAdminMgtPage';
+import UserContextProvider from '../features/user/contexts/UserContext';
 
 const router = createBrowserRouter([
   {
@@ -80,7 +81,9 @@ const router = createBrowserRouter([
     path: '/admin',
     element: (
       <ProtectedAdminRoute>
-        <AdminContainer />
+        <UserContextProvider>
+          <AdminContainer />
+        </UserContextProvider>
       </ProtectedAdminRoute>
     ),
     children: [
