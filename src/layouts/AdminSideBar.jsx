@@ -74,7 +74,7 @@ export default function AdminSideBar() {
     const { authUser } = useAuth();
 
     return (
-        <div className='w-[24%] p-8 bg-grayBg100 shadow-md'>
+        <div className='w-full'>
             <Link to="/admin"><ToyMartLogo></ToyMartLogo></Link>
             <div className='flex flex-col mt-24'>
                 {menuList.map(el => (
