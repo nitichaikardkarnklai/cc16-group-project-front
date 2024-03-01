@@ -16,7 +16,7 @@ const initial = {
 };
 
 export default function ManageAccountPage() {
-  const [input, setInput] = useState(initial);
+  const [input, setInput] = useState({ ...initial });
   const [error, setError] = useState({});
 
   const { authUser } = useAuth();
@@ -26,7 +26,13 @@ export default function ManageAccountPage() {
 
   useEffect(() => {
     console.log(authUser.userProfile);
-    setInput({ ...input, nickName, phone, birthDate, gender });
+    setInput({
+      ...input,
+      nickName: nickName || '',
+      phone: phone || '',
+      birthDate: birthDate || '',
+      gender: gender || '',
+    });
   }, []);
 
   const handleChange = (e) => {
@@ -112,9 +118,10 @@ export default function ManageAccountPage() {
                 <select
                   name='gender'
                   onChange={handleChange}
+                  defaultValue=''
                   className='select w-full border-gray-300 focus:border-black-500 focus:ring-black-300'
                 >
-                  <option disabled selected>
+                  <option value='' disabled>
                     Gender
                   </option>
                   <option value='MALE'>Male</option>
