@@ -24,7 +24,7 @@ export default function Button({ children, bg, color, width, onClick }) {
     classes += color ? ' ' + colorClass[color] : '';
     classes += width ? ' ' + widthClass[width] : '';
     return (
-        <button className={`btn border-none  ${classes}`} onClick={onClick}>
+        <button className={`btn border-none rounded-none  ${classes}`} onClick={onClick}>
             {children}
         </button>
     );

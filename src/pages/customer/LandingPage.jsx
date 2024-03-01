@@ -5,12 +5,10 @@ export default function LandingPage() {
   return (
 
     <div>
-      <div className="bg-white"></div>
+      <div className=""></div>
       <div>
         <div className="hero ">
-          <div className="  carousel w-3/4 m-auto py-10
-          
-          ">
+          <div className="  carousel w-3/4 m-auto py-10    ">
             <div id="slide1" className="carousel-item relative w-full">
               <img src="https://prod-global-static.oss-us-east-1.aliyuncs.com/globalAdmin/1709176171572.jpg?x-oss-process=image/format,webp" className="w-full" />
               <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
