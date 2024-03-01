@@ -13,27 +13,23 @@ export default function AuthContextProvider({ children }) {
 
   useEffect(() => {
     if (getToken()) {
-      authApi
-        .fetchMe()
-        .then((res) => {
-          setAuthUser(res.data.user);
-        })
-        .catch((err) => {
-          toast.error(err.response?.data.message);
-          // setAuthUser(null);
-        })
-        .finally(() => {
-          userApi
-            .getUserProfile()
-            .then((res) => {
-              console.log(res.data.userProfile);
-            })
-            .catch((err) => {
-              toast.error(err.response?.data.message);
-            });
+      (async () => {
+        try {
+          const res = await authApi.fetchMe();
+          const user = res.data.user;
 
+          const resProfile = await userApi.getUserProfile();
+          const userProfile = resProfile.data.userProfile;
+          user.userProfile = userProfile;
+
+          setAuthUser(user);
+
+        } catch (err) {
+          toast.error(err.response?.data.message);
+        } finally {
           setInitialLoading(false);
-        });
+        }
+      })()
     } else {
       setInitialLoading(false);
     }
