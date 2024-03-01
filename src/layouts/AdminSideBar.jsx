@@ -9,65 +9,83 @@ import UserIcon from '../assets/icon/UserIcon'
 import ProductIcon from '../assets/icon/ProductIcon'
 import CatagoriesIcon from '../assets/icon/CatagoriesIcon'
 import TransactionIcon from '../assets/icon/TransactionIcon'
+import useAuth from '../hooks/use-auth'
 
 const menuList = [
     {
         id: 1,
         name: "Home",
         link: "/admin",
-        component: <HomeIcon />
+        component: <HomeIcon />,
+        adminRole: ["ADMIN", "SUPERADMIN"]
     },
     {
         id: 2,
         name: "Chat",
         link: "/admin/admin-chat-page",
-        component: <ChatIcon />
+        component: <ChatIcon />,
+        adminRole: ["ADMIN", "SUPERADMIN"]
     },
     {
         id: 3,
         name: "Category Management",
         link: "/admin/admin-category-mgt-page",
-        component: <CatagoriesIcon />
+        component: <CatagoriesIcon />,
+        adminRole: ["ADMIN", "SUPERADMIN"]
     },
     {
         id: 4,
         name: "Product Management",
         link: "/admin/admin-product-mgt-page",
-        component: <ProductIcon />
+        component: <ProductIcon />,
+        adminRole: ["ADMIN", "SUPERADMIN"]
     },
     {
         id: 5,
         name: "Trend Management",
         link: "/admin/admin-trend-mgt-page",
-        component: <TrendIcon />
+        component: <TrendIcon />,
+        adminRole: ["ADMIN", "SUPERADMIN"]
     },
     {
         id: 6,
-        name: "Customer Management",
-        link: "/admin/admin-user-mgt-page",
-        component: <UserIcon />
+        name: "Transaction Monitoring",
+        link: "/admin/admin-transaction-monitoring-page",
+        component: <TransactionIcon />,
+        adminRole: ["ADMIN", "SUPERADMIN"]
     },
     {
         id: 7,
-        name: "Admin Management",
-        link: "/admin/admin-admin-mgt-page",
-        component: <UserIcon />
+        name: "Customer Management",
+        link: "/admin/admin-customer-mgt-page",
+        component: <UserIcon />,
+        adminRole: ["ADMIN", "SUPERADMIN"]
     },
     {
         id: 8,
-        name: "Transaction Monitoring",
-        link: "/admin/admin-transaction-monitoring-page",
-        component: <TransactionIcon />
+        name: "Admin Management",
+        link: "/admin/admin-admin-mgt-page",
+        component: <UserIcon />,
+        adminRole: ["SUPERADMIN"]
     },
 ]
 
 export default function AdminSideBar() {
+    const { authUser } = useAuth();
+
     return (
         <div className='w-[24%] p-8 bg-grayBg100 shadow-md'>
             <Link to="/admin"><ToyMartLogo></ToyMartLogo></Link>
             <div className='flex flex-col mt-24'>
-                {menuList.map((el) => <Link key={el.id} to={el.link}><Button textPosition="start" bg="gray" width="full">{el.component} {el.name}</Button></Link>)}
+                {menuList.map(el => (
+                    el.adminRole.includes(authUser.role) ?
+                        <Link key={el.id} to={el.link} >
+                            <Button textPosition="start" bg="gray" width="full">{el.component} {el.name}</Button>
+                        </Link>
+                        :
+                        ""
+                ))}
             </div>
-        </div>
+        </div >
     )
 }
