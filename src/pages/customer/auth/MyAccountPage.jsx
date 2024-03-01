@@ -26,8 +26,12 @@ export default function MyAccountPage() {
           </h2>
         </div>
         <div className='flex justify-center gap-6 underline '>
-          <div>ACCOUNT SETTINGS</div>
-          <div>EDIT PROFILE</div>
+          <Link to={'/my-account-setting'}>
+            <div>ACCOUNT SETTINGS</div>
+          </Link>
+          <Link to={'/manage-account-page'}>
+            <div>EDIT PROFILE</div>
+          </Link>
         </div>
         <div className='flex  justify-between py-6 px-6 '>
           <Link to='/my-order-page'>

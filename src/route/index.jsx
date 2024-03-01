@@ -31,6 +31,7 @@ import AdminTrendMgtPage from '../pages/admin/AdminTrendMgtPage';
 import AdminUserMgtPage from '../pages/admin/AdminUserMgtPage';
 import RedirectedIfAdminAuthenticated from '../features/auth/components/RedirectedIfAdminAuthenticated';
 import TypesPage from '../pages/customer/TypesPage';
+import SettingAccountPage from '../pages/customer/auth/SettingAccountPage';
 
 const router = createBrowserRouter([
   {
@@ -63,6 +64,7 @@ const router = createBrowserRouter([
           { path: '/my-reward-page', element: <MyRewardPage /> },
           { path: '/transaction-page', element: <TransactionPage /> },
           { path: '/wishlist-page', element: <WishlistPage /> },
+          { path: '/my-account-setting', element: <SettingAccountPage /> },
         ],
       },
     ],
