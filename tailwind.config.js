@@ -11,12 +11,13 @@ module.exports = {
         grayFooter: '#E5DADA',
         yellowNew: '#FEB60B',
         goldToyMart: '#AF831E',
+        goldBg100: '#E5DACA',
       },
     },
   },
 
   plugins: [require('daisyui')],
   daisyui: {
-    themes: ["light"]
-  }
+    themes: ['light'],
+  },
 };
