@@ -1,5 +1,13 @@
 import React from 'react';
+import InStockContainer from '../../layouts/components/InStockContainer';
 
 export default function LaunchCalendarPage() {
-  return <div>LaunchCalendarPage</div>;
+  return (
+    <div className='flex flex-col gap-12 pt-24'>
+      <InStockContainer />
+      <InStockContainer />
+      <InStockContainer />
+      <InStockContainer />
+    </div>
+  );
 }
