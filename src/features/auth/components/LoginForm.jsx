@@ -8,10 +8,19 @@ import RegisterForm from "./RegisterForm";
 import validateLogin from "../validations/validate-login";
 import { Link } from "react-router-dom";
 import useAuth from "../../../hooks/use-auth";
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
+import ToyMartLogo from "../../../assets/icon/ToyMartLogo";
+import RegisterModal from "./RegisterModal";
 
 export default function LoginForm() {
   const { login, authUser } = useAuth();
   const [error, setError] = useState({});
+  const location = useLocation();
+
+  useEffect(() => {
+    console.log(location);
+  }, [])
 
   const [input, setInput] = useState({
     email: "",
@@ -28,6 +37,12 @@ export default function LoginForm() {
         return setError(validationError);
       }
       await login(input);
+      if (location.pathname === "/admin/login") {
+        navigate("/admin");
+      } else {
+        navigate("/")
+        toast.success("Login Successfully");
+      }
     } catch (err) {
       toast.error(err.response?.data.message);
     }
@@ -41,8 +56,9 @@ export default function LoginForm() {
     <div>
       <div className="hero min-h-screen bg-base-200 ">
         <div className="hero-content flex-col w-[60%]">
-          <div className="text-center lg:text-left">
-            <h1 className="text-4xl font-bold">Log in to ToyMart</h1>
+          <div className="text-center lg:text-left flex flex-col gap-2">
+            {location.pathname === "/admin/login" ? <div className="text-2xl tracking-[0.5rem]">WELCOME ADMIN</div> : ""}
+            <h1 className="text-4xl font-bold flex gap-4 items-center"><>Log in to </><ToyMartLogo width="112.8px" height="43.2px"></ToyMartLogo></h1>
           </div>
           <div className="card shrink-0 w-full mt-5 shadow-2xl bg-base-100">
             <form className="card-body" onSubmit={handleSubmit}>
@@ -77,17 +93,8 @@ export default function LoginForm() {
                 Login
               </Button>
             </form>
-            <button className="btn" onClick={() => document.getElementById('my_modal_4').showModal()}>Create New Account</button>
-            <dialog id="my_modal_4" className="modal">
-              <div className="modal-box w-8/12 max-w-4xl m-auto p-0">
-                <div className="modal-action m-auto">
-                  <form method="dialog" className="">
-                    <button className="my-4 mx-8">&#x2715;</button>
-                  </form>
-                </div>
-                <RegisterForm />
-              </div>
-            </dialog>
+            {location.pathname === "/admin/login" ? "" : <button className="btn" onClick={() => document.getElementById('my_modal_4').showModal()}>Create New Account</button>}
+            <RegisterModal />
           </div>
         </div>
       </div>

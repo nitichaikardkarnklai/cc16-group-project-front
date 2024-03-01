@@ -4,8 +4,9 @@ import React from "react";
 
 export default function RedirectedIfAdminAuthenticated({ children }) {
     const { authUser } = useAuth();
+    console.log(authUser)
 
     return (
-        authUser && authUser.role === "ADMIN" ? <Navigate to="/admin/login" /> : children
+        authUser && authUser.role !== "USER" ? <Navigate to="/admin/" /> : children
     )
 }
