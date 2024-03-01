@@ -2,10 +2,14 @@ import React from 'react';
 import useAuth from '../../../hooks/use-auth';
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
+import AvatarImage from '../../../assets/default-avatar.png';
 
 export default function MyAccountPage() {
   const { authUser, logout } = useAuth();
 
+  const {
+    userProfile: { nickName },
+  } = authUser;
   useEffect(() => {
     console.log(authUser);
   }, []);
@@ -16,13 +20,13 @@ export default function MyAccountPage() {
         <div>
           <div className='avatar'>
             <div className='w-24 rounded-full'>
-              <img src='https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg' />
+              <img src={AvatarImage} />
             </div>
           </div>
         </div>
         <div>
           <h2 className=' font-bold tracking-tight text-gray-900 sm:text-2xl'>
-            "YOUR NAME" ACCOUNT
+            {nickName ? nickName : 'Guest'}
           </h2>
         </div>
         <div className='flex justify-center gap-6 underline '>
