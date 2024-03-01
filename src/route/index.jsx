@@ -31,6 +31,7 @@ import AdminTrendMgtPage from '../pages/admin/AdminTrendMgtPage';
 import AdminUserMgtPage from '../pages/admin/AdminUserMgtPage';
 import RedirectedIfAdminAuthenticated from '../features/auth/components/RedirectedIfAdminAuthenticated';
 import TypesPage from '../pages/customer/TypesPage';
+import AdminAdminMgtPage from '../pages/admin/AdminAdminMgtPage';
 
 const router = createBrowserRouter([
   {
@@ -100,6 +101,7 @@ const router = createBrowserRouter([
       },
       { path: '/admin/admin-trend-mgt-page', element: <AdminTrendMgtPage /> },
       { path: '/admin/admin-user-mgt-page', element: <AdminUserMgtPage /> },
+      { path: '/admin/admin-admin-mgt-page', element: <AdminAdminMgtPage /> },
     ],
   },
 ]);
