@@ -59,7 +59,6 @@ const router = createBrowserRouter([
           { path: '/my-account-page', element: <MyAccountPage /> },
           { path: '/cart-page', element: <CartPage /> },
           { path: '/manage-account-page', element: <ManageAccountPage /> },
-          { path: '/my-account-page', element: <MyAccountPage /> },
           { path: '/my-address-page', element: <MyAddressPage /> },
           { path: '/my-order-page', element: <MyOrderPage /> },
           { path: '/my-reward-page', element: <MyRewardPage /> },
