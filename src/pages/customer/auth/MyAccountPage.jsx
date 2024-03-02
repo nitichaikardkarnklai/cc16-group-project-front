@@ -1,9 +1,14 @@
 import React from 'react';
 import useAuth from '../../../hooks/use-auth';
 import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
 
 export default function MyAccountPage() {
-  const { authUser } = useAuth();
+  const { authUser, logout } = useAuth();
+
+  useEffect(() => {
+    console.log(authUser);
+  }, []);
 
   return (
     <div>
@@ -25,28 +30,29 @@ export default function MyAccountPage() {
           <div>EDIT PROFILE</div>
         </div>
         <div className='flex  justify-between py-6 px-6 '>
-          <Link>
+          <Link to='/my-order-page'>
             <div className='btn text-lg bg-gray-200 w-[180px] h-[88px] rounded-2xl'>
               My order
             </div>
           </Link>
-          <Link>
+          <Link to='/my-reward-page'>
             <div className='btn text-lg bg-gray-200 w-[180px] h-[88px] rounded-2xl'>
               My reward
             </div>
           </Link>
         </div>
         <div className='flex  justify-between py-6 px-6 '>
-          <Link>
+          <Link to='/my-address-page'>
             <div className='btn text-lg bg-gray-200 w-[180px] h-[88px] rounded-2xl'>
               Address book
             </div>
           </Link>
-          <Link>
-            <div className='btn text-lg bg-gray-200 w-[180px] h-[88px] rounded-2xl'>
-              Sign out
-            </div>
-          </Link>
+          <div
+            onClick={() => logout()}
+            className='btn text-lg bg-gray-200 w-[180px] h-[88px] rounded-2xl'
+          >
+            Sign out
+          </div>
         </div>
       </div>
     </div>
