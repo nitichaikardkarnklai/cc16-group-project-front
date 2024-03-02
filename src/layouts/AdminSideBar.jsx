@@ -71,12 +71,12 @@ const menuList = [
 ]
 
 export default function AdminSideBar() {
-    const { authUser } = useAuth();
+    const { authUser, logout } = useAuth();
 
     return (
-        <div className='w-full'>
+        <>
             <Link to="/admin"><ToyMartLogo></ToyMartLogo></Link>
-            <div className='flex flex-col mt-24'>
+            <div className='flex flex-col'>
                 {menuList.map(el => (
                     el.adminRole.includes(authUser.role) ?
                         <Link key={el.id} to={el.link} >
@@ -86,6 +86,9 @@ export default function AdminSideBar() {
                         ""
                 ))}
             </div>
-        </div >
+            <div className='flex justify-end'>
+                <Button onClick={logout}>LOGOUT</Button>
+            </div>
+        </ >
     )
 }

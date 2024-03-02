@@ -9,13 +9,14 @@ import { useNavigate } from 'react-router-dom';
 
 export default function RegisterForm() {
   const navigate = useNavigate();
+  const { authUser } = useAuth();
   const [input, setInput] = useState({
     email: "",
     password: "",
     confirmPassword: "",
   });
   const [error, setError] = useState({});
-  const { register } = useAuth();
+  const { register, registerAdmin } = useAuth();
 
   const handleChange = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
@@ -25,7 +26,7 @@ export default function RegisterForm() {
   const handleSubmit = async e => {
     try {
       e.preventDefault();
-
+      console.log(authUser.role);
       const validateError = validateRegister(input);
       if (validateError) {
         return setError(validateError)
@@ -33,11 +34,18 @@ export default function RegisterForm() {
 
       // console.log("input: ", input);
 
-      await register(input);
+      if (authUser.role === "SUPERADMIN") {
+        await registerAdmin(input);
+        navigate("/admin/admin-admin-mgt-page");
+
+      } else {
+        await register(input);
+        navigate("/");
+
+      }
 
       toast.success("Register Successfully");
 
-      navigate("/");
     } catch (err) {
       console.log("error: ", err);
       toast.error(err.response?.data.message);

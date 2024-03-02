@@ -11,7 +11,7 @@ export default function AdminContainer() {
 
   return (
     <div className='min-h-screen flex'>
-      <div className='min-w-60 p-6 bg-grayBg100 shadow-md'>
+      <div className='min-w-60 min-h-screen p-6 bg-grayBg100 shadow-md flex flex-col justify-between'>
         <AdminSideBar />
       </div>
       <div className='px-12 py-8  w-full'>
