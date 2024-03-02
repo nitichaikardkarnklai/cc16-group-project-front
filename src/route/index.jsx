@@ -28,11 +28,9 @@ import AdminChatPage from '../pages/admin/AdminChatPage';
 import AdminProductMgtPage from '../pages/admin/AdminProductMgtPage';
 import AdminTransactionMonitoringPage from '../pages/admin/AdminTransactionMonitoringPage';
 import AdminTrendMgtPage from '../pages/admin/AdminTrendMgtPage';
-import AdminCustomerMgtPage from '../pages/admin/AdminCustomerMgtPage';
+import AdminUserMgtPage from '../pages/admin/AdminUserMgtPage';
 import RedirectedIfAdminAuthenticated from '../features/auth/components/RedirectedIfAdminAuthenticated';
 import TypesPage from '../pages/customer/TypesPage';
-import AdminAdminMgtPage from '../pages/admin/AdminAdminMgtPage';
-import UserContextProvider from '../features/user/contexts/UserContext';
 
 const router = createBrowserRouter([
   {
@@ -60,6 +58,7 @@ const router = createBrowserRouter([
           { path: '/my-account-page', element: <MyAccountPage /> },
           { path: '/cart-page', element: <CartPage /> },
           { path: '/manage-account-page', element: <ManageAccountPage /> },
+          { path: '/my-account-page', element: <MyAccountPage /> },
           { path: '/my-address-page', element: <MyAddressPage /> },
           { path: '/my-order-page', element: <MyOrderPage /> },
           { path: '/my-reward-page', element: <MyRewardPage /> },
@@ -81,9 +80,7 @@ const router = createBrowserRouter([
     path: '/admin',
     element: (
       <ProtectedAdminRoute>
-        <UserContextProvider>
-          <AdminContainer />
-        </UserContextProvider>
+        <AdminContainer />
       </ProtectedAdminRoute>
     ),
     children: [
@@ -102,8 +99,7 @@ const router = createBrowserRouter([
         element: <AdminTransactionMonitoringPage />,
       },
       { path: '/admin/admin-trend-mgt-page', element: <AdminTrendMgtPage /> },
-      { path: '/admin/admin-customer-mgt-page', element: <AdminCustomerMgtPage /> },
-      { path: '/admin/admin-admin-mgt-page', element: <AdminAdminMgtPage /> },
+      { path: '/admin/admin-user-mgt-page', element: <AdminUserMgtPage /> },
     ],
   },
 ]);

@@ -97,20 +97,38 @@ export default function UserContextProvider({ children }) {
   }
 
   return (
-    <UserContext.Provider
+    < UserContext.Provider
       value={{
         loading,
-        user,
-        users,
-        setOnFetch,
-        bannedUser,
-        unbannedUser,
-        bannedAdmin,
-        unbannedAdmin,
-        location
       }}
     >
-      {children}
-    </UserContext.Provider>
+    </>
   );
 }
+
+
+
+
+
+
+
+
+
+
+//     <UserContext.Provider
+//       value={{
+//         loading,
+//         user,
+//         users,
+//         setOnFetch,
+//         bannedUser,
+//         unbannedUser,
+//         bannedAdmin,
+//         unbannedAdmin,
+//         location
+//       }}
+//     >
+//       {children}
+//     </UserContext.Provider>
+//   );
+// }
