@@ -4,7 +4,7 @@ import Input from '../../../components/Input';
 export default function MyRewardPage() {
   return (
     <div className="w-[800px] py-10 m-auto items-center">
-      <h1 className="text-4xl font-bold text-left py-8 "> MyRewardPage</h1>
+      <h1 className="text-4xl font-bold text-left py-8 "> My Reward</h1>
       <div className="flex flex-col w-[800px] h-[90px] py-4 bg-orange-200 text-amber-700 ">
         <h1 className="text-4xl font-bold text-center py-4 ">
           50 Points

@@ -2,8 +2,8 @@ import React from 'react';
 
 export default function MyOrderPage() {
   return (
-    <div>
-      <div>MyOrderPage</div>
+    <div className="w-[800px] py-10 m-auto items-center">
+      <div className="text-4xl font-bold text-left py-4 ">My Order</div>
       <div>
         <div className="flex py-10 ">
           <input type="checkbox" defaultChecked className="checkbox " />
@@ -16,7 +16,7 @@ export default function MyOrderPage() {
               <p className="text-mx "> Select All</p>
               <h4 className="text-mx font-bold text-red-600"> ฿380.00</h4>
             </div>
-            <div className="flex">
+            <div className="flex justify-end gap-44 ">
               <form className="max-w-xs mx-auto">
 
                 <div className="relative flex items-center max-w-[8rem]">
@@ -33,6 +33,7 @@ export default function MyOrderPage() {
                   </button>
                 </div>
               </form>
+              <button className='underline' >REMOVE</button>
             </div>
           </div>
         </div>

@@ -4,7 +4,7 @@ import './index.css';
 // import App from './App';
 // import AuthContextProvider from './features/auth/contexts/AuthContext';
 import "react-toastify/dist/ReactToastify.css";
-import MyRewardPage from './pages/customer/auth/MyRewardPage';
+import MyOrderPage from './pages/customer/auth/MyOrderPage';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   // <React.StrictMode>
@@ -12,5 +12,5 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   //   <App />
   // </AuthContextProvider>
   // </React.StrictMode>
-  <MyRewardPage />
+  <MyOrderPage />
 );
