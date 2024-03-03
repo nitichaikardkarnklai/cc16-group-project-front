@@ -28,10 +28,11 @@ import AdminChatPage from '../pages/admin/AdminChatPage';
 import AdminProductMgtPage from '../pages/admin/AdminProductMgtPage';
 import AdminTransactionMonitoringPage from '../pages/admin/AdminTransactionMonitoringPage';
 import AdminTrendMgtPage from '../pages/admin/AdminTrendMgtPage';
-import AdminUserMgtPage from '../pages/admin/AdminUserMgtPage';
+import AdminCustomerMgtPage from '../pages/admin/AdminCustomerMgtPage';
 import RedirectedIfAdminAuthenticated from '../features/auth/components/RedirectedIfAdminAuthenticated';
 import TypesPage from '../pages/customer/TypesPage';
-import SettingAccountPage from '../pages/customer/auth/SettingAccountPage';
+import AdminAdminMgtPage from '../pages/admin/AdminAdminMgtPage';
+import UserContextProvider from '../features/user/contexts/UserContext';
 
 const router = createBrowserRouter([
   {
@@ -81,7 +82,9 @@ const router = createBrowserRouter([
     path: '/admin',
     element: (
       <ProtectedAdminRoute>
-        <AdminContainer />
+        <UserContextProvider>
+          <AdminContainer />
+        </UserContextProvider>
       </ProtectedAdminRoute>
     ),
     children: [
@@ -100,7 +103,11 @@ const router = createBrowserRouter([
         element: <AdminTransactionMonitoringPage />,
       },
       { path: '/admin/admin-trend-mgt-page', element: <AdminTrendMgtPage /> },
-      { path: '/admin/admin-user-mgt-page', element: <AdminUserMgtPage /> },
+      {
+        path: '/admin/admin-customer-mgt-page',
+        element: <AdminCustomerMgtPage />,
+      },
+      { path: '/admin/admin-admin-mgt-page', element: <AdminAdminMgtPage /> },
     ],
   },
 ]);
