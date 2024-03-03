@@ -13,6 +13,7 @@ const bgClass = {
 const colorClass = {
     white: "text-white",
     black: "text-black",
+    red: "text-redHero"
 };
 
 const textPositionClass = {
