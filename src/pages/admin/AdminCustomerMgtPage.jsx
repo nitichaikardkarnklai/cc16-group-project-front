@@ -16,7 +16,7 @@ export default function AdminCustomerMgtPage() {
     setOnFetch(c => !c)
   }
 
-  return <div className='flex flex-col gap-4 h-screen'>
+  return <div className='flex flex-col gap-4'>
     {users?.map(el => <UserRow key={el.id} user={el} onToggleBanned={onToggleBanned} location={location}></UserRow>)}
   </div>;
 }
