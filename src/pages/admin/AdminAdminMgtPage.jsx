@@ -21,7 +21,7 @@ export default function AdminAdminMgtPage() {
     if (loading) return <Spinner />
 
     return (
-        <div className='flex flex-col gap-4 h-screen'>
+        <div className='flex flex-col gap-4'>
             {
                 location.pathname === "/admin/admin-customer-mgt-page" ?
                     ""

@@ -53,7 +53,9 @@ const router = createBrowserRouter([
         path: '/',
         element: (
           <ProtectedRoute>
-            <Outlet />
+            <UserContextProvider>
+              <Outlet />
+            </UserContextProvider>
           </ProtectedRoute>
         ),
         children: [
