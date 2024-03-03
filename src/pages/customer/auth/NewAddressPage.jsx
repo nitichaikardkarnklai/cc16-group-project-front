@@ -1,11 +1,15 @@
 import React from 'react';
 import Input from '../../../components/Input';
 import Button from '../../../components/Button';
+import { useState } from 'react';
 
 export default function NewAddressPage() {
+  const { input, setInput } = useState;
+
   const handleSubmit = (e) => {
     e.target.preventDefault();
   };
+
   return (
     <div>
       <div className='  bg-white px-8 py-10  '>
