@@ -33,6 +33,7 @@ import RedirectedIfAdminAuthenticated from '../features/auth/components/Redirect
 import TypesPage from '../pages/customer/TypesPage';
 import AdminAdminMgtPage from '../pages/admin/AdminAdminMgtPage';
 import UserContextProvider from '../features/user/contexts/UserContext';
+import SettingAccountPage from '../pages/customer/auth/SettingAccountPage';
 
 const router = createBrowserRouter([
   {

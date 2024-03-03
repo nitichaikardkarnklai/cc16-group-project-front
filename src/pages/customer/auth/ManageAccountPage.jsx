@@ -6,6 +6,8 @@ import { useEffect } from 'react';
 import useAuth from '../../../hooks/use-auth';
 import FileIcon from '../../../assets/icon/FileIcon';
 import validateEditProfile from '../../../features/user/validations/validate-editProfile';
+import useUser from '../../../hooks/use-user';
+import { toast } from 'react-toastify';
 // import useAuth from '../../../hooks/use-auth';
 
 const initial = {
@@ -20,6 +22,7 @@ export default function ManageAccountPage() {
   const [error, setError] = useState({});
 
   const { authUser } = useAuth();
+  const { editUserProfile } = useUser();
   const {
     userProfile: { nickName, phone, birthDate, gender },
   } = authUser;
@@ -51,6 +54,8 @@ export default function ManageAccountPage() {
         console.log(validationError);
         return setError(validationError);
       }
+      editUserProfile(input);
+      toast.success('update success');
     } catch (error) {
       console.log(error);
     }

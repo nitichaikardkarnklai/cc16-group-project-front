@@ -92,10 +92,12 @@ export default function UserContextProvider({ children }) {
     }
   };
 
-  const editUserProfile = async () => {
+  const editUserProfile = async (data) => {
     try {
-      await customerApi;
-    } catch (err) {}
+      await customerApi.editUserProfile(data);
+    } catch (err) {
+      toast.error(err.response?.data.message);
+    }
   };
 
   return (
@@ -110,6 +112,7 @@ export default function UserContextProvider({ children }) {
         bannedAdmin,
         unbannedAdmin,
         location,
+        editUserProfile,
       }}
     >
       {children}
