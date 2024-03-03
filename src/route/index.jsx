@@ -34,6 +34,7 @@ import TypesPage from '../pages/customer/TypesPage';
 import AdminAdminMgtPage from '../pages/admin/AdminAdminMgtPage';
 import UserContextProvider from '../features/user/contexts/UserContext';
 import SettingAccountPage from '../pages/customer/auth/SettingAccountPage';
+import NewAddressPage from '../pages/customer/auth/NewAddressPage';
 
 const router = createBrowserRouter([
   {
@@ -64,6 +65,7 @@ const router = createBrowserRouter([
           { path: '/cart-page', element: <CartPage /> },
           { path: '/manage-account-page', element: <ManageAccountPage /> },
           { path: '/my-address-page', element: <MyAddressPage /> },
+          { path: '/add-address-page', element: <NewAddressPage /> },
           { path: '/my-order-page', element: <MyOrderPage /> },
           { path: '/my-reward-page', element: <MyRewardPage /> },
           { path: '/transaction-page', element: <TransactionPage /> },

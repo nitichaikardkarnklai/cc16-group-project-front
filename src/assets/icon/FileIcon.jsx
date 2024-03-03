@@ -1,13 +1,15 @@
 import React from 'react';
 
-export default function FileIcon() {
+export default function FileIcon({ size = '24px', color = '#3F3F46' }) {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
-      className='h-10 w-10 fill-white stroke-red-500'
+      height={size}
+      widths={size}
       viewBox='0 0 24 24'
-      stroke='currentColor'
+      stroke={color}
       strokeWidth='2'
+      fill='none'
     >
       <path
         strokeLinecap='round'
