@@ -31,10 +31,10 @@ import AdminTrendMgtPage from '../pages/admin/AdminTrendMgtPage';
 import AdminCustomerMgtPage from '../pages/admin/AdminCustomerMgtPage';
 import RedirectedIfAdminAuthenticated from '../features/auth/components/RedirectedIfAdminAuthenticated';
 import TypesPage from '../pages/customer/TypesPage';
-import AdminAdminMgtPage from '../pages/admin/AdminAdminMgtPage';
 import UserContextProvider from '../features/user/contexts/UserContext';
 import SettingAccountPage from '../pages/customer/auth/SettingAccountPage';
 import NewAddressPage from '../pages/customer/auth/NewAddressPage';
+import AdminAdminMgtPage from '../pages/admin/AdminAdminMgtPage';
 
 const router = createBrowserRouter([
   {
@@ -64,6 +64,7 @@ const router = createBrowserRouter([
           { path: '/my-account-page', element: <MyAccountPage /> },
           { path: '/cart-page', element: <CartPage /> },
           { path: '/manage-account-page', element: <ManageAccountPage /> },
+          { path: '/my-account-page', element: <MyAccountPage /> },
           { path: '/my-address-page', element: <MyAddressPage /> },
           { path: '/add-address-page', element: <NewAddressPage /> },
           { path: '/my-order-page', element: <MyOrderPage /> },
