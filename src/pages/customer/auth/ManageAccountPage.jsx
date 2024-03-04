@@ -4,7 +4,6 @@ import Input from '../../../components/Input';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import useAuth from '../../../hooks/use-auth';
-import FileIcon from '../../../assets/icon/FileIcon';
 import validateEditProfile from '../../../features/user/validations/validate-editProfile';
 import useUser from '../../../hooks/use-user';
 import { toast } from 'react-toastify';
@@ -39,7 +38,10 @@ export default function ManageAccountPage() {
   }, []);
 
   const handleChange = (e) => {
-    setInput({ ...input, [e.target.name]: e.target.value });
+    setInput({
+      ...input,
+      [e.target.name]: e.target.value === '' ? null : e.target.value,
+    });
     setError((c) => {
       return { ...error, [e.target.name]: '' };
     });
@@ -114,16 +116,10 @@ export default function ManageAccountPage() {
                 Gender
               </label>
               <div className='mt-2.5'>
-                {/* <Input
-                  value={input.gender}
-                  name='  gender'
-                  onChange={handleChange}
-                /> */}
-                {/* ENUM('MALE', 'FEMALE', 'AFAB', 'AMAB', 'UNSPECIFIED') */}
                 <select
                   name='gender'
                   onChange={handleChange}
-                  defaultValue=''
+                  defaultValue={input.gender ? '' : `${input.gender}`}
                   className='select w-full border-gray-300 focus:border-black-500 focus:ring-black-300'
                 >
                   <option value='' disabled>

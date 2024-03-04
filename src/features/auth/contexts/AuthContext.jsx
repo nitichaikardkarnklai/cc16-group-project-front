@@ -21,15 +21,14 @@ export default function AuthContextProvider({ children }) {
           const resProfile = await userApi.getUserProfile();
           const userProfile = resProfile.data.userProfile;
           user.userProfile = userProfile;
-
+          console.log('FROM AUTHCONTEXT', user);
           setAuthUser(user);
-
         } catch (err) {
           toast.error(err.response?.data.message);
         } finally {
           setInitialLoading(false);
         }
-      })()
+      })();
     } else {
       setInitialLoading(false);
     }

@@ -7,9 +7,6 @@ import AvatarImage from '../../../assets/default-avatar.png';
 export default function MyAccountPage() {
   const { authUser, logout } = useAuth();
 
-  const {
-    userProfile: { nickName },
-  } = authUser;
   useEffect(() => {
     console.log(authUser);
   }, []);
@@ -26,7 +23,9 @@ export default function MyAccountPage() {
         </div>
         <div>
           <h2 className=' font-bold tracking-tight text-gray-900 sm:text-2xl'>
-            {nickName ? nickName : 'Guest'}
+            {authUser.userProfile?.nickName
+              ? authUser.userProfile?.nickName
+              : 'Guest'}
           </h2>
         </div>
         <div className='flex justify-center gap-6 underline '>
