@@ -5,10 +5,11 @@ import { useEffect } from 'react';
 import AvatarImage from '../../../assets/default-avatar.png';
 
 export default function MyAccountPage() {
-  const { authUser, logout } = useAuth();
+  const { authUser, logout, setOnFetch } = useAuth();
 
   useEffect(() => {
     console.log(authUser);
+    setOnFetch(c => !c)
   }, []);
 
   return (
