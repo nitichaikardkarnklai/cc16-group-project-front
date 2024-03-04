@@ -2,9 +2,10 @@ import React from 'react';
 import Button from '../../components/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchGroups, addGroup, editGroup, onChangeGroupInput, onChangeGroupsInput, resetGroupInput } from '../../store/slices/groupSlice';
+import { fetchSeries } from '../../store/slices/seriesSlice';
 import { useEffect } from 'react';
 import GroupsRow from '../../layouts/components/GroupsRow';
-import GroupsRowForm from '../../features/product/components/GroupsRowForm';
+import GroupsRowForm from '../../features/product-group/components/GroupsRowForm';
 import { useState } from 'react';
 import { toast } from "react-toastify";
 import Spinner from '../../components/Spinner';
@@ -18,6 +19,7 @@ export default function AdminCategoryMgtPage() {
 
   useEffect(() => {
     dispatch(fetchGroups());
+    dispatch(fetchSeries());
   }, [])
 
   // ======================== SERIES =====================================
