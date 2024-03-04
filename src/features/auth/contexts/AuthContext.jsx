@@ -40,6 +40,9 @@ export default function AuthContextProvider({ children }) {
     setAuthUser(res.data.user);
     storeToken(res.data.token);
   };
+  const registerAdmin = async (user) => {
+    const res = await authApi.registerAdmin(user);
+  };
 
   const login = async (credential) => {
     const res = await authApi.login(credential);
@@ -58,6 +61,7 @@ export default function AuthContextProvider({ children }) {
       value={{
         login,
         register,
+        registerAdmin,
         logout,
         authUser,
         initialLoading,

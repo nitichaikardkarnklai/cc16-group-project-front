@@ -45,7 +45,7 @@ export default function UserRow({ user, onToggleBanned, location }) {
                     {user.isActive ?
                         <Button bg="red" color="white" onClick={() => onToggleBanned(user)}>ACTIVATE</Button>
                         :
-                        <Button bg="gray" onClick={() => onToggleBanned(user)}>BANNED</Button>
+                        <Button bg="gray" onClick={() => onToggleBanned(user)}>DEACTIVATE</Button>
                     }
                 </div>
             </div>

@@ -13,6 +13,7 @@ export default function UserContextProvider({ children }) {
   const [onFetch, setOnFetch] = useState(false); // toggle btw T and F
 
   useEffect(() => {
+    setLoading(true);
     if (location.pathname === "/admin/admin-customer-mgt-page") {
       (async () => {
         try {

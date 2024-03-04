@@ -4,6 +4,7 @@ const bgClass = {
     blue: "bg-blue-500 hover:bg-blue-600",
     green: "bg-green-500 hover:bg-green-600",
     gray: "bg-grayBg100 hover:bg-gray-400",
+    darkGray: "bg-grayBg200 hover:bg-gray-400",
     yellow: "bg-amber-400 hover:bg-amber-600",
     none: "bg-none",
     red: 'bg-redHero hover:bg-red-600 active:bg-red-700',
@@ -13,6 +14,7 @@ const bgClass = {
 const colorClass = {
     white: "text-white",
     black: "text-black",
+    red: "text-redHero"
 };
 
 const textPositionClass = {
@@ -23,13 +25,13 @@ const widthClass = {
     full: 'w-full'
 };
 
-export default function Button({ children, bg, color, width, onClick, textPosition }) {
+export default function Button({ children, bg, color, width, onClick, textPosition, type }) {
     let classes = bg ? bgClass[bg] : '';
     classes += color ? ' ' + colorClass[color] : '';
     classes += width ? ' ' + widthClass[width] : '';
     classes += textPosition ? ' ' + textPositionClass[textPosition] : '';
     return (
-        <button className={`btn border-none rounded-none  ${classes}`} onClick={onClick}>
+        <button className={`btn border-none ${classes}`} onClick={onClick} type={type}>
             {children}
         </button>
     );

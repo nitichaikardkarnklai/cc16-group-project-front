@@ -1,4 +1,5 @@
 import React from 'react'
+import { cloneElement } from 'react'
 import ToyMartLogo from '../assets/icon/ToyMartLogo'
 import Button from '../components/Button'
 import { Link } from 'react-router-dom'
@@ -10,6 +11,9 @@ import ProductIcon from '../assets/icon/ProductIcon'
 import CatagoriesIcon from '../assets/icon/CatagoriesIcon'
 import TransactionIcon from '../assets/icon/TransactionIcon'
 import useAuth from '../hooks/use-auth'
+import LogoutIcon from '../assets/icon/LogoutIcon'
+import { useLocation } from 'react-router-dom'
+import UserLineIcon from '../assets/icon/UserLineIcon'
 
 const menuList = [
     {
@@ -58,34 +62,42 @@ const menuList = [
         id: 7,
         name: "Customer Management",
         link: "/admin/admin-customer-mgt-page",
-        component: <UserIcon />,
+        component: <UserLineIcon />,
         adminRole: ["ADMIN", "SUPERADMIN"]
     },
     {
         id: 8,
         name: "Admin Management",
         link: "/admin/admin-admin-mgt-page",
-        component: <UserIcon />,
+        component: <UserLineIcon />,
         adminRole: ["SUPERADMIN"]
     },
 ]
 
 export default function AdminSideBar() {
-    const { authUser } = useAuth();
+    const { authUser, logout } = useAuth();
+    const location = useLocation();
 
     return (
-        <div className='w-full'>
+        <>
             <Link to="/admin"><ToyMartLogo></ToyMartLogo></Link>
-            <div className='flex flex-col mt-24'>
+            <div className='flex flex-col'>
                 {menuList.map(el => (
                     el.adminRole.includes(authUser.role) ?
                         <Link key={el.id} to={el.link} >
-                            <Button textPosition="start" bg="gray" width="full">{el.component} {el.name}</Button>
+                            {location.pathname === el.link ?
+                                <Button textPosition="start" bg="gray" width="full" color="red"><>{cloneElement(el.component, { color: "#D2001E" })}</> {el.name}</Button>
+                                :
+                                <Button textPosition="start" bg="gray" width="full">{el.component} {el.name}</Button>
+                            }
                         </Link>
                         :
                         ""
                 ))}
             </div>
-        </div >
+            <div className='flex justify-end'>
+                <Button onClick={logout}>LOGOUT <LogoutIcon></LogoutIcon></Button>
+            </div>
+        </ >
     )
 }
