@@ -32,6 +32,7 @@ import AdminCustomerMgtPage from '../pages/admin/AdminCustomerMgtPage';
 import RedirectedIfAdminAuthenticated from '../features/auth/components/RedirectedIfAdminAuthenticated';
 import TypesPage from '../pages/customer/TypesPage';
 import UserContextProvider from '../features/user/contexts/UserContext';
+import AdminAdminMgtPage from '../pages/admin/AdminAdminMgtPage';
 
 const router = createBrowserRouter([
   {
@@ -83,7 +84,9 @@ const router = createBrowserRouter([
     path: '/admin',
     element: (
       <ProtectedAdminRoute>
-        <AdminContainer />
+        <UserContextProvider>
+          <AdminContainer />
+        </UserContextProvider>
       </ProtectedAdminRoute>
     ),
     children: [
@@ -103,6 +106,7 @@ const router = createBrowserRouter([
       },
       { path: '/admin/admin-trend-mgt-page', element: <AdminTrendMgtPage /> },
       { path: '/admin/admin-customer-mgt-page', element: <AdminCustomerMgtPage /> },
+      { path: '/admin/admin-admin-mgt-page', element: <AdminAdminMgtPage /> },
     ],
   },
 ]);

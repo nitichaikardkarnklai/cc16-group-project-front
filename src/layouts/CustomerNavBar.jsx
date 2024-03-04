@@ -32,7 +32,7 @@ export default function CustomerNavBar() {
   const { authUser } = useAuth();
 
   useEffect(() => {
-    console.log(pathname);
+    // console.log(pathname);
     setOpen(openState);
   }, [pathname]);
 

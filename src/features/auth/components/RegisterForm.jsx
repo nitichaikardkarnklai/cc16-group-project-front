@@ -26,7 +26,8 @@ export default function RegisterForm() {
   const handleSubmit = async e => {
     try {
       e.preventDefault();
-      console.log(authUser.role);
+      console.log(authUser?.role);
+      console.log(authUser);
       const validateError = validateRegister(input);
       if (validateError) {
         return setError(validateError)
@@ -34,14 +35,13 @@ export default function RegisterForm() {
 
       // console.log("input: ", input);
 
-      if (authUser.role === "SUPERADMIN") {
+      if (authUser?.role === "SUPERADMIN") {
         await registerAdmin(input);
         navigate("/admin/admin-admin-mgt-page");
 
       } else {
         await register(input);
         navigate("/");
-
       }
 
       toast.success("Register Successfully");
