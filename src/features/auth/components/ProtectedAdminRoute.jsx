@@ -8,7 +8,7 @@ export default function ProtectedAdminRoute({ children }) {
     const { authUser } = useAuth();
 
     useEffect(() => {
-        console.log(authUser)
+        // console.log(authUser)
         if (authUser?.role === "USER") {
             toast.error("you are not admin")
         }
