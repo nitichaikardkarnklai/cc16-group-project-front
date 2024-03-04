@@ -11,6 +11,7 @@ export default function UserContextProvider({ children }) {
   const [user, setUser] = useState(null);
   const [users, setUsers] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [address, setAddress] = useState({});
   const [onFetch, setOnFetch] = useState(false); // toggle btw T and F
 
   useEffect(() => {
@@ -100,6 +101,32 @@ export default function UserContextProvider({ children }) {
     }
   };
 
+  const getUserAddress = async () => {
+    try {
+      const data = await customerApi.getUserAddress();
+      console.log(data.data.allAddress);
+      setAddress(data.data.allAddress);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const createUserAddress = async (data) => {
+    try {
+      await customerApi.createAddress(data);
+    } catch (err) {
+      toast.error(err.response?.data.message);
+    }
+  };
+
+  const deleteUserAddress = async (id) => {
+    try {
+      await customerApi.deleteUserAddress(id);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -113,6 +140,10 @@ export default function UserContextProvider({ children }) {
         unbannedAdmin,
         location,
         editUserProfile,
+        createUserAddress,
+        getUserAddress,
+        address,
+        deleteUserAddress,
       }}
     >
       {children}
