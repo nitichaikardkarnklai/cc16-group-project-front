@@ -5,7 +5,7 @@ import HeadPhoneIcon from '../assets/icon/HeadPhoneIcon';
 import HeartIcon from '../assets/icon/HeartIcon';
 import ShoppingBagIcon from '../assets/icon/ShoppingBagIcon';
 import Menulist from './components/Menulist';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import SeriesMenulist from './components/SeriesMenulist';
 import { useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
@@ -31,10 +31,30 @@ export default function CustomerNavBar() {
   const { pathname } = useLocation();
   const { authUser } = useAuth();
 
+  const navRef = useRef(null);
+
+  useEffect(() => {
+    // Function to close navbar on click outside
+    const handleClickOutside = (event) => {
+      if (navRef.current && !navRef.current.contains(event.target)) {
+        setOpen(openState);
+      }
+    };
+
+    // Add event listener on document
+    document.addEventListener('click', handleClickOutside);
+
+    // Cleanup function to remove listener on unmount
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, [open, navRef.current]);
+
   useEffect(() => {
     // console.log(pathname);
     setOpen(openState);
+
   }, [pathname]);
+
+
 
   const onClickFeature = () => {
     setOpen({
@@ -150,7 +170,7 @@ export default function CustomerNavBar() {
   };
 
   return (
-    <div className='sticky top-0 z-50'>
+    <div className='sticky top-0 z-50' ref={navRef}>
       <div className='flex w-full h-[5rem] bg-white justify-between items-center px-8 border-b-2 border-gray-400'>
         <div className='flex gap-6  items-center font-semibold'>
           <Link to='/'>
