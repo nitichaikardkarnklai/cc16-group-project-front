@@ -98,12 +98,12 @@ export default function UserContextProvider({ children }) {
   }
 
   return (
-    < UserContext.Provider
+    <UserContext.Provider
       value={{
         loading,
       }}
     >
-    </>
+    </UserContext.Provider>
   );
 }
 

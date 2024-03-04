@@ -28,9 +28,10 @@ import AdminChatPage from '../pages/admin/AdminChatPage';
 import AdminProductMgtPage from '../pages/admin/AdminProductMgtPage';
 import AdminTransactionMonitoringPage from '../pages/admin/AdminTransactionMonitoringPage';
 import AdminTrendMgtPage from '../pages/admin/AdminTrendMgtPage';
-import AdminUserMgtPage from '../pages/admin/AdminUserMgtPage';
+import AdminCustomerMgtPage from '../pages/admin/AdminCustomerMgtPage';
 import RedirectedIfAdminAuthenticated from '../features/auth/components/RedirectedIfAdminAuthenticated';
 import TypesPage from '../pages/customer/TypesPage';
+import UserContextProvider from '../features/user/contexts/UserContext';
 
 const router = createBrowserRouter([
   {
@@ -101,7 +102,7 @@ const router = createBrowserRouter([
         element: <AdminTransactionMonitoringPage />,
       },
       { path: '/admin/admin-trend-mgt-page', element: <AdminTrendMgtPage /> },
-      { path: '/admin/admin-user-mgt-page', element: <AdminUserMgtPage /> },
+      { path: '/admin/admin-customer-mgt-page', element: <AdminCustomerMgtPage /> },
     ],
   },
 ]);
