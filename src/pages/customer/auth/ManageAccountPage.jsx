@@ -32,7 +32,7 @@ export default function ManageAccountPage() {
       ...input,
       nickName: nickName || '',
       phone: phone || '',
-      birthDate: birthDate || '',
+      birthDate: JSON.stringify(birthDate).slice(1, 11) || '',
       gender: gender || '',
     });
   }, []);
