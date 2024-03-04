@@ -10,6 +10,7 @@ export const AuthContext = createContext();
 export default function AuthContextProvider({ children }) {
   const [authUser, setAuthUser] = useState(null);
   const [initialLoading, setInitialLoading] = useState(true);
+  const [onFetch, setOnFetch] = useState(false);
 
   useEffect(() => {
     if (getToken()) {
@@ -18,22 +19,21 @@ export default function AuthContextProvider({ children }) {
           const res = await authApi.fetchMe();
           const user = res.data.user;
 
-          const resProfile = await userApi.getUserProfile();
-          const userProfile = resProfile.data.userProfile;
-          user.userProfile = userProfile;
-
+          // const resProfile = await userApi.getUserProfile();
+          // const userProfile = resProfile.data.userProfile;
+          // user.userProfile = userProfile;
+          // console.log('FROM AUTHCONTEXT', user);
           setAuthUser(user);
-
         } catch (err) {
           toast.error(err.response?.data.message);
         } finally {
           setInitialLoading(false);
         }
-      })()
+      })();
     } else {
       setInitialLoading(false);
     }
-  }, []);
+  }, [onFetch]);
 
   const register = async (user) => {
     const res = await authApi.register(user);
@@ -65,6 +65,7 @@ export default function AuthContextProvider({ children }) {
         logout,
         authUser,
         initialLoading,
+        setOnFetch,
       }}
     >
       {children}

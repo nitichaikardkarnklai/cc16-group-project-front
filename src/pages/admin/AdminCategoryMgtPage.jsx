@@ -20,6 +20,10 @@ export default function AdminCategoryMgtPage() {
     dispatch(fetchGroups());
   }, [])
 
+  // ======================== SERIES =====================================
+
+
+  // ======================== GROUP =====================================
   const handleSubmitAddGroup = async (e, index) => {
     e.preventDefault();
     console.log("group: ", group)
