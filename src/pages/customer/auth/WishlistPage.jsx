@@ -22,7 +22,7 @@ export default function WishlistPage() {
             </div>
           </div>
         </div>
-        <div className="flex justify-end ">
+        <div className="flex justify-end " >
           <button >
             REMOVE
           </button>
