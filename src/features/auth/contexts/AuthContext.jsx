@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { getToken } from '../../../utils/local-storage';
+import { clearToken, getToken } from '../../../utils/local-storage';
 import * as authApi from '../../../api/auth';
 import * as userApi from '../../../api/user';
 import { toast } from 'react-toastify';
@@ -18,10 +18,10 @@ export default function AuthContextProvider({ children }) {
           const res = await authApi.fetchMe();
           const user = res.data.user;
 
-          const resProfile = await userApi.getUserProfile();
-          const userProfile = resProfile.data.userProfile;
-          user.userProfile = userProfile;
-          console.log('FROM AUTHCONTEXT', user);
+          // const resProfile = await userApi.getUserProfile();
+          // const userProfile = resProfile.data.userProfile;
+          // user.userProfile = userProfile;
+          // console.log('FROM AUTHCONTEXT', user);
           setAuthUser(user);
         } catch (err) {
           toast.error(err.response?.data.message);

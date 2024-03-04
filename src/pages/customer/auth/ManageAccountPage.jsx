@@ -40,7 +40,7 @@ export default function ManageAccountPage() {
   const handleChange = (e) => {
     setInput({
       ...input,
-      [e.target.name]: e.target.value === '' ? null : e.target.value,
+      [e.target.name]: e.target.value,
     });
     setError((c) => {
       return { ...error, [e.target.name]: '' };
@@ -50,14 +50,23 @@ export default function ManageAccountPage() {
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
-      console.log(input);
       const validationError = validateEditProfile(input);
       if (validationError) {
         console.log(validationError);
         return setError(validationError);
       }
-      editUserProfile(input);
-      toast.success('update success');
+      console.log({
+        ...input,
+        nickName: input.nickName === '' ? null : input.nickName,
+      });
+      editUserProfile({
+        ...input,
+        nickName: input.nickName === '' ? null : input.nickName,
+        phone: input.phone === '' ? null : input.phone,
+        gender: input.gender === '' ? null : input.gender,
+        birthDate: input.birthDate === '' ? null : input.birthDate,
+      });
+      toast.success('updated');
     } catch (error) {
       console.log(error);
     }
@@ -119,7 +128,7 @@ export default function ManageAccountPage() {
                 <select
                   name='gender'
                   onChange={handleChange}
-                  defaultValue={input.gender ? '' : `${input.gender}`}
+                  defaultValue={gender ? `${gender}` : ''}
                   className='select w-full border-gray-300 focus:border-black-500 focus:ring-black-300'
                 >
                   <option value='' disabled>
@@ -146,6 +155,7 @@ export default function ManageAccountPage() {
                   value={input.birthDate}
                   name='birthDate'
                   onChange={handleChange}
+                  defaultValue={birthDate ? birthDate : ''}
                 />
               </div>
             </div>
