@@ -20,7 +20,7 @@ export default function ManageAccountPage() {
   const [input, setInput] = useState({ ...initial });
   const [error, setError] = useState({});
 
-  const { authUser } = useAuth();
+  const { authUser, setOnFetch } = useAuth();
   const { editUserProfile } = useUser();
   const {
     userProfile: { nickName, phone, birthDate, gender },
@@ -69,6 +69,8 @@ export default function ManageAccountPage() {
       toast.success('updated');
     } catch (error) {
       console.log(error);
+    } finally {
+      setOnFetch((c) => !c);
     }
   };
 
