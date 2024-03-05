@@ -41,6 +41,7 @@ export default function ManageAccountPage() {
   }, []);
 
   const { authUser } = useAuth();
+  const { editUserProfile } = useUser();
   const {
     userProfile: { nickName, phone, birthDate, gender },
   } = authUser;
