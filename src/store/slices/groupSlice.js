@@ -96,6 +96,19 @@ const groupSlice = createSlice({
                 state.error = action.payload;
             });
         // editGroup: (state, action) => { },
+        builder
+            .addCase(editGroup.pending, (state, action) => {
+                state.loading = true;
+            })
+            .addCase(editGroup.fulfilled, (state, action) => {
+                // state.group = action.payload;
+                state.loading = false;
+                state.error = "";
+            })
+            .addCase(editGroup.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            });
     },
 });
 

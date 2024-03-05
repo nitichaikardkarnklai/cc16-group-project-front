@@ -13,7 +13,7 @@ export default function AdminCustomerMgtPage() {
     } else {
       unbannedUser(userObj.id);
     }
-    setOnFetch(c => !c)
+    // setOnFetch(c => !c)
   }
 
   return <div className='flex flex-col gap-4'>
