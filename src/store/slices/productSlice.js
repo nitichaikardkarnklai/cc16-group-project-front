@@ -34,7 +34,7 @@ export const fetchAllProduct = createAsyncThunk("product/fetchAllProduct", async
     try {
         const { data } = await productApi.fetchAllProduct();
         // console.log(data.getAllSeries)
-        return fulfillWithValue(data.result);
+        return fulfillWithValue(data.resultAllProduct);
     } catch (error) {
         console.log(error);
         return rejectWithValue(error.response.statusText);

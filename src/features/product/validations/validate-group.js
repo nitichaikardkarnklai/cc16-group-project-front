@@ -13,7 +13,7 @@ const productSchema = Joi.object({
 });
 
 const validateProduct = input => {
-    const { value, error } = productGroupSchema.validate(input);
+    const { value, error } = productSchema.validate(input);
     if (error) {
         throw error
     }
