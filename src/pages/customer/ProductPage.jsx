@@ -1,7 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '../../components/Button';
 
 export default function ProductPage() {
+  const [selectedImage, setSelectedImage] = useState('https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8');
+  const smallImages = [
+    'https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8',
+    'https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8',
+    'https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8'
+  ];
+
+  const handleImageClick = (image) => {
+    setSelectedImage(image);
+  };
   return (
     <div className="hero ">
       <div className=" m-auto w-3/4  ">
@@ -11,23 +21,25 @@ export default function ProductPage() {
               <div class="lg:col-gap-12 xl:col-gap-16 mt-8 grid grid-cols-1 gap-12 lg:mt-12 lg:grid-cols-5 lg:gap-16">
                 <div class="lg:col-span-3 lg:row-end-1">
                   <div class="lg:flex lg:items-start">
-                    <div class="lg:order-2 lg:ml-5">
-                      <div class="max-w-xl overflow-hidden rounded-lg">
-                        <img class="h-full w-full max-w-full object-cover" src="https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8&w=1000&q=80" alt="" />
+                    <div className="lg:flex lg:justify-start lg:gap-1">
+                      <div className="lg:order-2 flex flex-col justify-center w-auto">
+                        <div className="">
+                          <img className="h-full w-full max-w-full object-cover" src={selectedImage} alt="" />
+                        </div>
                       </div>
-                    </div>
-
-                    <div class="mt-2 w-full lg:order-1 lg:w-32 lg:flex-shrink-0">
-                      <div class="flex flex-row items-start lg:flex-col">
-                        <button type="button" class="flex-0 aspect-square mb-3 h-20 overflow-hidden rounded-lg border-2 border-gray-900 text-center">
-                          <img class="h-full w-full object-cover" src="https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8&w=1000&q=80" alt="" />
-                        </button>
-                        <button type="button" class="flex-0 aspect-square mb-3 h-20 overflow-hidden rounded-lg border-2 border-transparent text-center">
-                          <img class="h-full w-full object-cover" src="https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8&w=1000&q=80" alt="" />
-                        </button>
-                        <button type="button" class="flex-0 aspect-square mb-3 h-20 overflow-hidden rounded-lg border-2 border-transparent text-center">
-                          <img class="h-full w-full object-cover" src="https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8&w=1000&q=80" alt="" />
-                        </button>
+                      <div className=" w-full">
+                        <div className="flex flex-row items-start lg:flex-col">
+                          {smallImages.map((image, index) => (
+                            <button
+                              key={index}
+                              type="button"
+                              className="flex-0 aspect-square mb-3 h-20 overflow-hidden border-2 border-gray-200 text-center"
+                              onClick={() => handleImageClick(image)}
+                            >
+                              <img className="h-full w-full object-cover" src={image} alt="" />
+                            </button>
+                          ))}
+                        </div>
                       </div>
                     </div>
                   </div>

@@ -2,7 +2,8 @@ import React from 'react';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 
-export default function ProductManagePage() {
+
+export default function ProductEdit() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
