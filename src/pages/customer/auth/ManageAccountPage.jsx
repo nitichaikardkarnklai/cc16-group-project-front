@@ -40,6 +40,16 @@ export default function ManageAccountPage() {
     });
   }, []);
 
+  const { authUser } = useAuth();
+  const {
+    userProfile: { nickName, phone, birthDate, gender },
+  } = authUser;
+
+  useEffect(() => {
+    console.log(authUser.userProfile);
+    setInput({ ...input, nickName, phone, birthDate, gender });
+  }, []);
+
   const handleChange = (e) => {
     setInput({
       ...input,
