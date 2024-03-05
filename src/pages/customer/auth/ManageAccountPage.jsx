@@ -7,6 +7,7 @@ import useAuth from '../../../hooks/use-auth';
 import validateEditProfile from '../../../features/user/validations/validate-editProfile';
 import useUser from '../../../hooks/use-user';
 import { toast } from 'react-toastify';
+import BackIcon from '../../../assets/icon/BackIcon';
 import { useNavigate } from 'react-router-dom';
 // import useAuth from '../../../hooks/use-auth';
 
@@ -27,6 +28,8 @@ export default function ManageAccountPage() {
   const {
     userProfile: { nickName, phone, birthDate, gender },
   } = authUser;
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     console.log(authUser.userProfile);
@@ -78,13 +81,19 @@ export default function ManageAccountPage() {
 
   return (
     <div>
-      <div className='  bg-white px-36 pb-5  py-10 '>
+      <div className='relative px-6 pb-5  py-24 '>
+        <div
+          onClick={() => navigate('/my-account-page')}
+          className='absolute left-24 top-12 btn bg-transparent border-none shadow-none'
+        >
+          <BackIcon />
+        </div>
         <div className='mx-auto max-w-2xl text-center'>
           <h2 className='text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl'>
             Manage Account
           </h2>
         </div>
-        <button onClick={() => navigate(-1)}>{"< Back"}</button>
+        <button onClick={() => navigate(-1)}>{'< Back'}</button>
         <form
           onSubmit={handleSubmit}
           className='mx-auto mt-16 max-w-xl sm:mt-10'
