@@ -8,9 +8,6 @@ import AvatarImage from '../../../assets/default-avatar.png';
 export default function MyAccountPage() {
   const { authUser, logout, setOnFetch } = useAuth();
 
-  const {
-    userProfile: { nickName },
-  } = authUser;
   useEffect(() => {
     console.log(authUser);
     setOnFetch(c => !c)
