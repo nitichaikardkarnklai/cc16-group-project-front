@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import * as seriesApi from "../../api/productSeries"
-// import { toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 
 const initialSeries = { series: "" }
@@ -9,7 +9,8 @@ const initialState = {
     series: [], // curtain series
     loading: false,
     error: "",
-    newSeries: { ...initialSeries } // new series
+    newSeries: { ...initialSeries }, // new series
+    isAddSeries: false
 };
 
 export const fetchSeries = createAsyncThunk("series/fetchSeries", async (payload, { rejectWithValue, fulfillWithValue }) => {
@@ -24,44 +25,51 @@ export const fetchSeries = createAsyncThunk("series/fetchSeries", async (payload
 });
 
 export const addSeries = createAsyncThunk("series/addSeries", async (payload, { rejectWithValue, fulfillWithValue }) => {
-    // try {
-    //     // console.log(payload);
-    //     await seriesApi.createSeries(payload);
-    //     // const { data } = await seriesApi.createSeries(payload);
-    //     // console.log(data)
-    //     // return fulfillWithValue(data);
-    // } catch (error) {
-    //     // console.log(error);
-    //     toast.error(error.response?.data.message);
-    //     return rejectWithValue(error.response?.data.message);
-    // }
+    try {
+        // console.log(payload);
+        const { resultSeries } = await seriesApi.createSeries(payload);
+        // console.log(data)
+        return fulfillWithValue(resultSeries);
+    } catch (error) {
+        console.log(error);
+        toast.error(error.response?.data.message);
+        return rejectWithValue(error.response?.data.message);
+    }
 });
 
-export const editSeries = createAsyncThunk("series/editSeries", async ({ id, categories }, { rejectWithValue, fulfillWithValue }) => {
-    // try {
-    //     await seriesApi.editSeries(id, categories);
-    // } catch (error) {
-    //     // console.log("xxx", error.response.statusText);
-    //     // console.log("xxx", error.response?.data.message);
-    //     toast.error(error.response?.data.message);
-    //     return rejectWithValue(error.response?.data.message);
-    // }
+export const editSeries = createAsyncThunk("series/editSeries", async ({ id, seriesName }, { rejectWithValue, fulfillWithValue }) => {
+    try {
+        await seriesApi.editSeries(id, { series: seriesName });
+    } catch (error) {
+        // console.log("xxx", error.response.statusText);
+        // console.log("xxx", error.response?.data.message);
+        console.log("xxx", error.response);
+        if (error.response?.data.message.includes("Unique constraint failed on the constraint")) {
+            toast.error("this series has been used");
+        } else {
+            toast.error(error.response?.data.message);
+        }
+        return rejectWithValue(error.response?.data.message);
+    }
 });
 
 const seriesSlice = createSlice({
     name: "series",
     initialState,
     reducers: {
+        setIsAddSeries: (state, action) => {
+            state.isAddSeries = !state.isAddSeries;
+        },
         onChangeNewSeriesInput: (state, action) => {
             // console.log(action.payload)
-            state.series = { ...state.series, [action.payload.name]: action.payload.value }
+            state.newSeries = { ...state.newSeries, [action.payload.name]: action.payload.value }
         },
-        onChangeSeriesInput: (state, action) => {
-            // console.log(action.payload.index);
+        onChangeSeriesInputArr: (state, action) => {
+            // console.log(action.payload.name, action.payload.value);
             state.series[action.payload.index] = { ...state.series[action.payload.index], [action.payload.name]: action.payload.value }
         },
-        resetSeriesInput: (state, action) => {
-            state.series = { ...initialSeries }
+        resetNewSeriesInput: (state, action) => {
+            state.newSeries = { ...initialSeries }
         }
     },
     extraReducers: (builder) => {
@@ -72,7 +80,7 @@ const seriesSlice = createSlice({
                 state.loading = true;
             })
             .addCase(fetchSeries.fulfilled, (state, action) => {
-                state.series = action.payload;
+                state.series = action.payload.sort((a, b) => a.id - b.id);
                 state.loading = false;
                 state.error = "";
             })
@@ -86,7 +94,6 @@ const seriesSlice = createSlice({
                 state.loading = true;
             })
             .addCase(addSeries.fulfilled, (state, action) => {
-                state.series = action.payload;
                 state.loading = false;
                 state.error = "";
             })
@@ -114,4 +121,4 @@ const seriesReducer = seriesSlice.reducer;
 export default seriesReducer;
 
 const allActionCreator = seriesSlice.actions;
-export const { } = allActionCreator;
+export const { onChangeSeriesInputArr, setIsAddSeries, onChangeNewSeriesInput, resetNewSeriesInput } = allActionCreator;
