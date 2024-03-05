@@ -11,7 +11,7 @@ export default function UserContextProvider({ children }) {
   const [user, setUser] = useState(null);
   const [users, setUsers] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [address, setAddress] = useState({});
+  const [address, setAddress] = useState([]);
   const [onFetch, setOnFetch] = useState(false); // toggle btw T and F
 
   useEffect(() => {
@@ -38,6 +38,18 @@ export default function UserContextProvider({ children }) {
           console.log(userArr);
 
           setUsers(userArr);
+        } catch (err) {
+          toast.error(err.response?.data.message);
+        } finally {
+          setLoading(false);
+        }
+      })();
+    } else if (location.pathname === '/my-address-page') {
+      (async () => {
+        try {
+          const data = await customerApi.getUserAddress();
+          console.log(data.data.allAddress);
+          setAddress(data.data.allAddress);
         } catch (err) {
           toast.error(err.response?.data.message);
         } finally {
@@ -98,24 +110,25 @@ export default function UserContextProvider({ children }) {
       await customerApi.editUserProfile(data);
     } catch (err) {
       toast.error(err.response?.data.message);
+    } finally {
+      setOnFetch((c) => !c);
     }
   };
 
-  const getUserAddress = async () => {
-    try {
-      const data = await customerApi.getUserAddress();
-      console.log(data.data.allAddress);
-      setAddress(data.data.allAddress);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  // const getUserAddress = async () => {
+  //   try {
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
   const createUserAddress = async (data) => {
     try {
       await customerApi.createAddress(data);
     } catch (err) {
       toast.error(err.response?.data.message);
+    } finally {
+      setOnFetch((c) => !c);
     }
   };
 
@@ -124,6 +137,8 @@ export default function UserContextProvider({ children }) {
       await customerApi.deleteUserAddress(id);
     } catch (err) {
       console.log(err);
+    } finally {
+      setOnFetch((c) => !c);
     }
   };
 
@@ -141,7 +156,6 @@ export default function UserContextProvider({ children }) {
         location,
         editUserProfile,
         createUserAddress,
-        getUserAddress,
         address,
         deleteUserAddress,
       }}

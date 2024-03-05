@@ -28,7 +28,7 @@ export default function NewAddressPage() {
 
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     try {
       e.preventDefault();
       const validateError = validateUserAddress(input);
@@ -37,12 +37,11 @@ export default function NewAddressPage() {
         return setError(validateError);
       }
       console.log(input);
-      createUserAddress(input);
+      await createUserAddress(input);
       toast.success('add address');
+      navigate('/my-address-page');
     } catch (err) {
       console.log(err);
-    } finally {
-      navigate('/my-address-page');
     }
   };
 
