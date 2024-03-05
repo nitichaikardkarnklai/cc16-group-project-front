@@ -1,9 +1,23 @@
 import React from 'react';
 import ProductCard from '../../layouts/components/ProductCard';
+import { useSelector } from 'react-redux';
+import { fetchAllProduct } from '../../store/slices/productSlice';
+import { fetchSeries } from '../../store/slices/seriesSlice';
+import { fetchGroups } from '../../store/slices/groupSlice';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
 export default function LandingPage() {
-  return (
+  const dispatch = useDispatch();
+  const { products } = useSelector(store => store.products);
 
+  useEffect(() => {
+    dispatch(fetchAllProduct());
+    dispatch(fetchGroups());
+    dispatch(fetchSeries());
+  }, [])
+
+  return (
     <div>
       <div className=""></div>
       <div>
@@ -44,12 +58,10 @@ export default function LandingPage() {
           <h1 className='text-2xl text-red-500 font-semibold'>New arrivals</h1>
         </div>
         <div className='flex flex-col justify-center items-center ' >
-
           <div className="hero ">
-
             <div className="  carousel w-3/4 m-auto   py-5">
               <div className="carousel h-2/4 gap-4 carousel-end  rounded-box">
-                <div className="carousel-item">
+                {/* <div className="carousel-item">
                   <ProductCard />
                 </div>
                 <div className="carousel-item">
@@ -66,10 +78,10 @@ export default function LandingPage() {
                 </div>
                 <div className="carousel-item">
                   <ProductCard />
+                </div> */}
+                <div className="carousel-item">
+                  {products.map((el, index) => <ProductCard key={el.id} productObj={el} />)}
                 </div>
-
-
-
               </div>
 
             </div>
@@ -89,22 +101,7 @@ export default function LandingPage() {
             <div className="  carousel w-3/4 m-auto   py-5">
               <div className="carousel h-2/4 gap-4 carousel-end  rounded-box">
                 <div className="carousel-item">
-                  <ProductCard />
-                </div>
-                <div className="carousel-item">
-                  <ProductCard />
-                </div>
-                <div className="carousel-item">
-                  <ProductCard />
-                </div>
-                <div className="carousel-item">
-                  <ProductCard />
-                </div>
-                <div className="carousel-item">
-                  <ProductCard />
-                </div>
-                <div className="carousel-item">
-                  <ProductCard />
+                  {products.map((el, index) => <ProductCard key={el.id} productObj={el} />)}
                 </div>
 
 
