@@ -18,9 +18,13 @@ export default function AddressRow({ address, onEdit, onDelete }) {
         </div>
       </div>
       <div className='flex gap-4'>
-        <div className='btn bg-grayBg300 text-white'>Edit</div>
         <button
-          role='button'
+          onClick={(e) => onEdit(address.id)}
+          className='btn bg-grayBg300 text-white'
+        >
+          Edit
+        </button>
+        <button
           onClick={(e) => onDelete(address.id)}
           className='btn bg-redHero text-white'
         >

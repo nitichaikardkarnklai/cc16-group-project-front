@@ -12,6 +12,7 @@ export default function UserContextProvider({ children }) {
   const [users, setUsers] = useState(null);
   const [loading, setLoading] = useState(true);
   const [address, setAddress] = useState([]);
+  const [editAddress, setEditAddress] = useState({});
   const [onFetch, setOnFetch] = useState(false); // toggle btw T and F
 
   useEffect(() => {
@@ -115,13 +116,6 @@ export default function UserContextProvider({ children }) {
     }
   };
 
-  // const getUserAddress = async () => {
-  //   try {
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-
   const createUserAddress = async (data) => {
     try {
       await customerApi.createAddress(data);
@@ -135,6 +129,16 @@ export default function UserContextProvider({ children }) {
   const deleteUserAddress = async (id) => {
     try {
       await customerApi.deleteUserAddress(id);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setOnFetch((c) => !c);
+    }
+  };
+
+  const editUserAddress = async (id, data) => {
+    try {
+      await customerApi.editUserAddress(id, data);
     } catch (err) {
       console.log(err);
     } finally {
@@ -158,6 +162,9 @@ export default function UserContextProvider({ children }) {
         createUserAddress,
         address,
         deleteUserAddress,
+        setEditAddress,
+        editAddress,
+        editUserAddress,
       }}
     >
       {children}

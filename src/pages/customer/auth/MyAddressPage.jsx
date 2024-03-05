@@ -8,14 +8,19 @@ import AddressRow from '../../../layouts/components/AddressRow';
 import BackIcon from '../../../assets/icon/BackIcon';
 
 export default function MyAddressPage() {
-  const [toggle, setToggle] = useState(false);
   const navigate = useNavigate();
 
-  const { address, deleteUserAddress } = useUser();
+  const { address, deleteUserAddress, setEditAddress, editAddress } = useUser();
 
   const handleOnDelete = (id) => {
     deleteUserAddress(id);
-    setToggle((prev) => !prev);
+  };
+
+  const handleOnEdit = (id) => {
+    const editData = address.filter((data) => data.id === id);
+    setEditAddress(Object.assign({}, editData[0]));
+    console.log('editAddress', editAddress);
+    navigate('/edit-address-page');
   };
 
   return (
@@ -32,7 +37,12 @@ export default function MyAddressPage() {
       {address && address.length != 0 ? (
         address.map((el) => {
           return (
-            <AddressRow key={el.id} address={el} onDelete={handleOnDelete} />
+            <AddressRow
+              key={el.id}
+              address={el}
+              onDelete={handleOnDelete}
+              onEdit={handleOnEdit}
+            />
           );
         })
       ) : (

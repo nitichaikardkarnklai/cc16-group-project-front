@@ -1,13 +1,12 @@
 import React from 'react';
-import Input from '../../../components/Input';
-import Button from '../../../components/Button';
-import { useState } from 'react';
-import BackIcon from '../../../assets/icon/BackIcon';
-import { useNavigate } from 'react-router-dom';
-import validateUserAddress from '../../../features/user/validations/validate-address';
 import useUser from '../../../hooks/use-user';
-import { toast } from 'react-toastify';
+import BackIcon from '../../../assets/icon/BackIcon';
 import AddressForm from '../../../features/user/components/AddressForm';
+import validateUserAddress from '../../../features/user/validations/validate-address';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 const initial = {
   firstName: '',
@@ -21,13 +20,29 @@ const initial = {
   setDefault: false,
 };
 
-export default function NewAddressPage() {
+export default function EditAddressPage() {
   const [input, setInput] = useState({ ...initial });
   const [error, setError] = useState({});
 
-  const { createUserAddress } = useUser();
+  const { editAddress, editUserAddress } = useUser();
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log('editAddress', editAddress);
+    setInput({
+      ...input,
+      firstName: editAddress.firstName,
+      lastName: editAddress.lastName,
+      phone: editAddress.phone,
+      other: editAddress.other,
+      apartmentSuite: editAddress.apartmentSuite,
+      cityVillage: editAddress.cityVillage,
+      province: editAddress.province,
+      zipCode: editAddress.zipCode,
+      setDefault: editAddress.setDefault,
+    });
+  }, []);
 
   const handleSubmit = async (e) => {
     try {
@@ -38,8 +53,8 @@ export default function NewAddressPage() {
         return setError(validateError);
       }
       console.log(input);
-      await createUserAddress(input);
-      toast.success('add address');
+      editUserAddress(+editAddress.id, input);
+      toast.success('edit address');
       navigate('/my-address-page');
     } catch (err) {
       console.log(err);
@@ -66,7 +81,7 @@ export default function NewAddressPage() {
         </div>
         <div className='mx-auto max-w-2xl text-center'>
           <h2 className='text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl'>
-            ADD ADDRESS
+            EDIT ADDRESS
           </h2>
         </div>
         <AddressForm
