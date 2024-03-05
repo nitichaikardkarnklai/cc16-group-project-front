@@ -121,7 +121,7 @@ export default function LandingPage() {
 
             <div className="  carousel w-3/4 m-auto   py-5">
               <div className="carousel h-2/4 gap-4 carousel-end  rounded-box">
-                <div className="carousel-item">
+                {/* <div className="carousel-item">
                   <ProductCard />
                 </div>
                 <div className="carousel-item">
@@ -138,6 +138,9 @@ export default function LandingPage() {
                 </div>
                 <div className="carousel-item">
                   <ProductCard />
+                </div> */}
+                <div className="carousel-item">
+                  {products.map((el, index) => <ProductCard key={el.id} productObj={el} />)}
                 </div>
 
 

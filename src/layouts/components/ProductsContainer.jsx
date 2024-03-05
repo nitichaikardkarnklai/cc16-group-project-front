@@ -1,8 +1,9 @@
 import React from 'react';
 import ProductCard from './ProductCard';
+import { useSelector } from 'react-redux';
 
 export default function ProductsContainer({ title = 'TITLE' }) {
-  const { products } = useSelector(store => store.product);
+  const { products } = useSelector(store => store.product) || {};
 
   return (
     <div className='flex flex-col justify-center items-center'>
@@ -12,7 +13,7 @@ export default function ProductsContainer({ title = 'TITLE' }) {
         <p className='text-lg font-medium underline'>Filter</p>
       </div>
       <div className='grid grid-cols-4 gap-8 w-[1235px] mx-auto'>
-        {products.map((el, index) => <ProductCard key={el.id} productObj={el} />)}
+        {products?.map((el, index) => <ProductCard key={el.id} productObj={el} />)}
       </div>
     </div>
   );
