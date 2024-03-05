@@ -4,7 +4,7 @@ import React from "react";
 
 export default function ProtectedRoute({ children }) {
     const { authUser } = useAuth();
-    console.log(authUser);
+    // console.log(authUser);
 
     return (
         authUser ? children : <Navigate to="/login" />

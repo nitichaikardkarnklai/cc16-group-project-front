@@ -21,6 +21,7 @@ const initial = {
 export default function ManageAccountPage() {
   const [input, setInput] = useState({ ...initial });
   const [error, setError] = useState({});
+  const navigate = useNavigate();
 
   const { authUser, setOnFetch } = useAuth();
   const { editUserProfile } = useUser();
@@ -92,6 +93,7 @@ export default function ManageAccountPage() {
             Manage Account
           </h2>
         </div>
+        <button onClick={() => navigate(-1)}>{'< Back'}</button>
         <form
           onSubmit={handleSubmit}
           className='mx-auto mt-16 max-w-xl sm:mt-10'

@@ -1,5 +1,4 @@
 import Joi from "joi";
-import validate from "../../../utils/validate"
 
 const productSeriesSchema = Joi.object({
     series: Joi.string().required().messages({
