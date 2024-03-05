@@ -6,7 +6,6 @@ export default function MyOrderPage() {
       <div className='text-4xl font-bold text-left py-4 '>My Order</div>
       <div>
         <div className='flex py-10 '>
-          <input type='checkbox' defaultChecked className='checkbox ' />
           <div className='flex px-2'>
             <img
               src='https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8&w=1000&q=80'
