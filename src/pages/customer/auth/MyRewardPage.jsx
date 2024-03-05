@@ -17,5 +17,5 @@ export default function MyRewardPage() {
         <h1>Points</h1>
       </div>
     </div>
-  );
+  )
 }

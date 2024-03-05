@@ -58,5 +58,5 @@ export default function MyAddressPage() {
         ADD A NEW ADDRESS
       </div>
     </div>
-  );
+  )
 }

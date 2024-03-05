@@ -1,6 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
 import * as userApi from '../../../api/admin';
-import * as customerApi from '../../../api/user.js';
 import { toast } from 'react-toastify';
 import { useLocation } from 'react-router-dom';
 
@@ -17,28 +16,30 @@ export default function UserContextProvider({ children }) {
 
   useEffect(() => {
     setLoading(true);
-    if (location.pathname === '/admin/admin-customer-mgt-page') {
+    if (location.pathname === "/admin/admin-customer-mgt-page") {
       (async () => {
         try {
           const res = await userApi.getUsers();
           const userArr = res.data.user;
-          console.log(userArr);
+          console.log(userArr)
 
           setUsers(userArr);
+
         } catch (err) {
           toast.error(err.response?.data.message);
         } finally {
           setLoading(false);
         }
-      })();
-    } else if (location.pathname === '/admin/admin-admin-mgt-page') {
+      })()
+    } else if (location.pathname === "/admin/admin-admin-mgt-page") {
       (async () => {
         try {
           const res = await userApi.getAdmins();
           const userArr = res.data.user;
-          console.log(userArr);
+          console.log(userArr)
 
           setUsers(userArr);
+
         } catch (err) {
           toast.error(err.response?.data.message);
         } finally {
@@ -60,49 +61,53 @@ export default function UserContextProvider({ children }) {
     } else {
       setLoading(false);
     }
-  }, [onFetch, location]);
+  }, [onFetch, location])
 
   const bannedUser = async (id) => {
     try {
-      console.log('banned');
+      console.log("banned");
       await userApi.bannedUser(id);
+
     } catch (err) {
       toast.error(err.response?.data.message);
     } finally {
-      setOnFetch((c) => !c);
+      setOnFetch(c => !c);
     }
-  };
+  }
 
   const unbannedUser = async (id) => {
     try {
-      console.log('unbanned');
+      console.log("unbanned")
       await userApi.unbannedUser(id);
+
     } catch (err) {
       toast.error(err.response?.data.message);
     } finally {
-      setOnFetch((c) => !c);
+      setOnFetch(c => !c);
     }
-  };
+  }
 
   const bannedAdmin = async (id) => {
     try {
-      console.log('banned');
+      console.log("banned");
       await userApi.bannedAdmin(id);
+
     } catch (err) {
       toast.error(err.response?.data.message);
     } finally {
-      setOnFetch((c) => !c);
+      setOnFetch(c => !c);
     }
-  };
+  }
 
   const unbannedAdmin = async (id) => {
     try {
-      console.log('unbanned');
+      console.log("unbanned")
       await userApi.unbannedAdmin(id);
+
     } catch (err) {
       toast.error(err.response?.data.message);
     } finally {
-      setOnFetch((c) => !c);
+      setOnFetch(c => !c);
     }
   };
 
