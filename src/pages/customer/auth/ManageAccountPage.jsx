@@ -40,6 +40,23 @@ export default function ManageAccountPage() {
     });
   }, []);
 
+  const { authUser } = useAuth();
+  const { editUserProfile } = useUser();
+  const {
+    userProfile: { nickName, phone, birthDate, gender },
+  } = authUser;
+
+  useEffect(() => {
+    console.log(authUser.userProfile);
+    setInput({
+      ...input,
+      nickName: nickName || '',
+      phone: phone || '',
+      birthDate: birthDate || '',
+      gender: gender || '',
+    });
+  }, []);
+
   const handleChange = (e) => {
     setInput({
       ...input,

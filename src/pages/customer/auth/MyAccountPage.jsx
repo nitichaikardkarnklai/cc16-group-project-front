@@ -3,6 +3,7 @@ import useAuth from '../../../hooks/use-auth';
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import AvatarImage from '../../../assets/default-avatar.png';
+import AvatarImage from '../../../assets/default-avatar.png';
 
 export default function MyAccountPage() {
   const { authUser, logout, setOnFetch } = useAuth();
@@ -18,6 +19,7 @@ export default function MyAccountPage() {
         <div>
           <div className='avatar'>
             <div className='w-24 rounded-full'>
+              <img src={AvatarImage} />
               <img src={AvatarImage} />
             </div>
           </div>
