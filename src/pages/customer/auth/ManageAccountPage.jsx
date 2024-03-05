@@ -47,7 +47,13 @@ export default function ManageAccountPage() {
 
   useEffect(() => {
     console.log(authUser.userProfile);
-    setInput({ ...input, nickName, phone, birthDate, gender });
+    setInput({
+      ...input,
+      nickName: nickName || '',
+      phone: phone || '',
+      birthDate: birthDate || '',
+      gender: gender || '',
+    });
   }, []);
 
   const handleChange = (e) => {
