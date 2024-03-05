@@ -12,7 +12,7 @@ export default function ProductCard({ productObj, location }) {
         <div className=' font-semibold text-goldToyMart'>{productObj.brand}</div>
         <div className='font-medium text-lg'>{productObj.productName}</div>
         <div className='font-medium text-xl mt-2 text-redHero flex justify-between w-full items-center'>
-          {productObj.price}
+          {(+productObj.price).toLocaleString()} Baht
           {location.pathname === "/admin/admin-product-mgt-page" &&
             <div className='flex gap-2'>
               <Button color="white" bg="darkGray">Edit</Button>
