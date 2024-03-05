@@ -17,6 +17,7 @@ export default function AddressRow({ address, onEdit, onDelete }) {
           {address.province} {address.zipCode}
         </div>
       </div>
+      {address.setDefault && <div>Default Address</div>}
       <div className='flex gap-4'>
         <button
           onClick={(e) => onEdit(address.id)}
