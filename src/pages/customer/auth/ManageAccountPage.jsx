@@ -29,8 +29,6 @@ export default function ManageAccountPage() {
     userProfile: { nickName, phone, birthDate, gender },
   } = authUser;
 
-  const navigate = useNavigate();
-
   useEffect(() => {
     console.log(authUser.userProfile);
     setInput({
@@ -93,7 +91,6 @@ export default function ManageAccountPage() {
             Manage Account
           </h2>
         </div>
-        <button onClick={() => navigate(-1)}>{'< Back'}</button>
         <form
           onSubmit={handleSubmit}
           className='mx-auto mt-16 max-w-xl sm:mt-10'
