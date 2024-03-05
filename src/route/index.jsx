@@ -35,6 +35,7 @@ import UserContextProvider from '../features/user/contexts/UserContext';
 import SettingAccountPage from '../pages/customer/auth/SettingAccountPage';
 import NewAddressPage from '../pages/customer/auth/NewAddressPage';
 import AdminAdminMgtPage from '../pages/admin/AdminAdminMgtPage';
+import EditAddressPage from '../pages/customer/auth/EditAddressPage';
 
 const router = createBrowserRouter([
   {
@@ -67,6 +68,7 @@ const router = createBrowserRouter([
           { path: '/my-account-page', element: <MyAccountPage /> },
           { path: '/my-address-page', element: <MyAddressPage /> },
           { path: '/add-address-page', element: <NewAddressPage /> },
+          { path: '/edit-address-page', element: <EditAddressPage /> },
           { path: '/my-order-page', element: <MyOrderPage /> },
           { path: '/my-reward-page', element: <MyRewardPage /> },
           { path: '/transaction-page', element: <TransactionPage /> },
