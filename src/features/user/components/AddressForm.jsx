@@ -10,7 +10,7 @@ export default function AddressForm({
   onSubmit,
 }) {
   return (
-    <form onSubmit={onSubmit} className='mx-auto mt-16 max-w-xl sm:mt-10'>
+    <form onSubmit={onSubmit} className='mx-auto max-w-xl sm:mt-10'>
       <div className='grid grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-2'>
         <div className='mt-2.5'>
           <Input
@@ -99,6 +99,7 @@ export default function AddressForm({
             onChange={onCheck}
             value={input.setDefault}
             className='checkbox'
+            checked={input.setDefault ? true : false}
           />
           <div>Set as default Address</div>
         </div>

@@ -1,6 +1,6 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import * as productApi from "../../api/product"
-import { toast } from "react-toastify";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import * as productApi from '../../api/product';
+import { toast } from 'react-toastify';
 
 const initialProduct = {
     // id: "",
@@ -22,24 +22,40 @@ const initialProduct = {
 };
 
 const initialState = {
+    product: {},
     products: [], // curtain products
     newProduct: { ...initialProduct }, // new product
     loading: false,
-    error: "",
-    isAddProduct: false
+    error: '',
+    isAddProduct: false,
 };
 
-
-export const fetchAllProduct = createAsyncThunk("product/fetchAllProduct", async (payload, { rejectWithValue, fulfillWithValue }) => {
-    try {
-        const { data } = await productApi.fetchAllProduct();
-        // console.log(data.getAllSeries)
-        return fulfillWithValue(data.resultAllProduct);
-    } catch (error) {
-        console.log(error);
-        return rejectWithValue(error.response.statusText);
+export const fetchAllProduct = createAsyncThunk(
+    'product/fetchAllProduct',
+    async (payload, { rejectWithValue, fulfillWithValue }) => {
+        try {
+            const { data } = await productApi.fetchAllProduct();
+            // console.log(data.getAllSeries)
+            return fulfillWithValue(data.resultAllProduct);
+        } catch (error) {
+            console.log(error);
+            return rejectWithValue(error.response.statusText);
+        }
     }
-});
+);
+
+export const fetchProductById = createAsyncThunk(
+    'product/fetchProductById',
+    async (payload, { rejectWithValue, fulfillWithValue }) => {
+        try {
+            const { data } = await productApi.fetchProductById(payload);
+            return fulfillWithValue(data.resultProductById);
+        } catch (error) {
+            console.log(error);
+            return rejectWithValue(error.response.statusText);
+        }
+    }
+);
 
 export const createProduct = createAsyncThunk("product/createProduct", async (payload, { rejectWithValue, fulfillWithValue }) => {
     try {
@@ -92,6 +108,21 @@ const productSlice = createSlice({
                 state.error = "";
             })
             .addCase(createProduct.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            });
+        // ====== Fetch Product ======
+        builder
+            .addCase(fetchProductById.pending, (state, action) => {
+                state.product = {};
+                state.loading = true;
+            })
+            .addCase(fetchProductById.fulfilled, (state, action) => {
+                state.product = action.payload;
+                state.loading = false;
+                state.error = '';
+            })
+            .addCase(fetchProductById.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             });

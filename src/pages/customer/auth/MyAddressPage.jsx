@@ -24,38 +24,40 @@ export default function MyAddressPage() {
   };
 
   return (
-    <div className='relative w-[850px] mx-auto my-12'>
+    <div className='relative w-full min-h-screen'>
       <div
         onClick={() => navigate('/my-account-page')}
-        className='absolute -left-32 btn bg-transparent border-none shadow-none'
+        className='absolute left-24 top-12 btn bg-transparent border-none shadow-none'
       >
         <BackIcon />
       </div>
-      <div className='text-3xl text-center font-bold tracking-tight text-gray-900 sm:text-4xl'>
-        MY ADDRESS
-      </div>
-      {address && address.length != 0 ? (
-        address.map((el) => {
-          return (
-            <AddressRow
-              key={el.id}
-              address={el}
-              onDelete={handleOnDelete}
-              onEdit={handleOnEdit}
-            />
-          );
-        })
-      ) : (
-        <div className='flex flex-col justify-center items-center py-12'>
-          <FileIcon size='60px' />
-          <div>You don't have any address</div>
+      <div className='relative w-[850px] mx-auto py-24'>
+        <div className='text-3xl text-center font-bold tracking-tight text-gray-900 sm:text-4xl'>
+          MY ADDRESS
         </div>
-      )}
-      <div
-        onClick={() => navigate('/add-address-page')}
-        className='btn w-full bg-black text-white'
-      >
-        ADD A NEW ADDRESS
+        {address && address.length != 0 ? (
+          address.map((el) => {
+            return (
+              <AddressRow
+                key={el.id}
+                address={el}
+                onDelete={handleOnDelete}
+                onEdit={handleOnEdit}
+              />
+            );
+          })
+        ) : (
+          <div className='flex flex-col justify-center items-center py-12'>
+            <FileIcon size='60px' />
+            <div>You don't have any address</div>
+          </div>
+        )}
+        <div
+          onClick={() => navigate('/add-address-page')}
+          className='btn w-full bg-black text-white'
+        >
+          ADD A NEW ADDRESS
+        </div>
       </div>
     </div>
   );
