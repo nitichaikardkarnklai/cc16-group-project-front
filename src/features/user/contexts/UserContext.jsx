@@ -14,6 +14,7 @@ export default function UserContextProvider({ children }) {
   const [address, setAddress] = useState([]);
   const [editAddress, setEditAddress] = useState({});
   const [subscribe, setSubscribe] = useState({});
+  const [reward, setReward] = useState({});
   const [onFetch, setOnFetch] = useState(false); // toggle btw T and F
 
   useEffect(() => {
@@ -62,6 +63,18 @@ export default function UserContextProvider({ children }) {
         try {
           const data = await customerApi.getSubscribe();
           setSubscribe(data.data.subscribe.isSubscribe);
+        } catch (err) {
+          toast.error(err.response?.data.message);
+        } finally {
+          setLoading(false);
+        }
+      })();
+    } else if (location.pathname === '/my-reward-page') {
+      (async () => {
+        try {
+          const data = await customerApi.getReward();
+          // console.log('REWARD', data.data.reward);
+          setReward(data.data.reward);
         } catch (err) {
           toast.error(err.response?.data.message);
         } finally {
@@ -188,6 +201,7 @@ export default function UserContextProvider({ children }) {
         editUserAddress,
         updateUserSubscribe,
         subscribe,
+        reward,
       }}
     >
       {children}

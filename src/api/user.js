@@ -14,3 +14,6 @@ export const editUserAddress = (addressId, data) =>
 //Subscribe
 export const userSubscribe = (data) => axios.patch('/user/subscribe', data);
 export const getSubscribe = () => axios.get('/user/subscribe');
+
+//reward
+export const getReward = () => axios.get('/reward');
