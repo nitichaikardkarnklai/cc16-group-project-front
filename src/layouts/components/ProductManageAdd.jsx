@@ -6,10 +6,10 @@ import DummyImageSmall from './DummyImageSmall';
 import DummyImageLarge from './DummyImageLarge';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { createProduct, fetchAllProduct, fetchProductById } from '../../store/slices/productSlice';
+import { createProduct, fetchAllProduct, resetNewProductInput } from '../../store/slices/productSlice';
 import { fetchGroups } from '../../store/slices/groupSlice';
 import { fetchSeries } from '../../store/slices/seriesSlice';
-import { onChangeProduct } from '../../store/slices/productSlice';
+import { onChangeNewProduct } from '../../store/slices/productSlice';
 import { useRef } from 'react';
 import ProductEdit from './ProductEdit';
 import { toast } from 'react-toastify';
@@ -17,12 +17,12 @@ import Spinner from '../../components/Spinner';
 import { validateAddProduct } from '../../features/product/validations/validate-product';
 
 
-export default function ProductManageEdit() {
+export default function ProductManageAdd() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { series } = useSelector(store => store.series);
     const { groups } = useSelector(store => store.group);
-    const { loading, product } = useSelector(store => store.products);
+    const { newProduct, loading } = useSelector(store => store.products);
     const coverProductEl = useRef(null);
     const poster1El = useRef(null);
     const poster2El = useRef(null);
@@ -44,22 +44,20 @@ export default function ProductManageEdit() {
         dispatch(fetchAllProduct());
         dispatch(fetchGroups());
         dispatch(fetchSeries());
-
-        const productId = +localStorage.getItem('productId');
-        dispatch(fetchProductById(productId));
     }, [])
 
     const handleSubmitFormAddProduct = async e => {
         e.preventDefault();
-        console.log("submit");
+        // console.log("submit");
         try {
-            const validationError = validateAddProduct(product);
+            const validationError = validateAddProduct(newProduct);
             // console.log(validationError);
             if (!images.coverProduct) { return toast.error("cover image is required"); }
 
             const formData = new FormData();
-            Object.keys(product).forEach(key => {
-                formData.append(key, product[key]);
+            Object.keys(newProduct).forEach(key => {
+                // console.log(newProduct[key])
+                formData.append(key, newProduct[key]);
             })
             Object.keys(images).forEach(key => {
                 if (key !== "imageProduct") {
@@ -74,23 +72,19 @@ export default function ProductManageEdit() {
                     })
                 }
             })
-            Object.keys(product).forEach(key => {
-                console.log(key, formData.getAll(key));
-            })
-            console.log("coverProduct", formData.getAll("coverProduct"));
-            console.log("imageProduct", formData.getAll("imageProduct"));
-            console.log("poster1", formData.getAll("poster1"));
+            // Object.keys(newProduct).forEach(key => {
+            //     console.log(key, formData.getAll(key));
+            // })
+            // console.log("coverProduct", formData.getAll("coverProduct"));
+            // console.log("imageProduct", formData.getAll("imageProduct"));
+            // console.log("poster1", formData.getAll("poster1"));
 
             await dispatch(createProduct(formData));
-            toast.success("create product success")
         } catch (err) {
             console.log(err.details)
             if (err.details[0]) {
                 toast.error(err?.details[0]?.message);
-            } else if (err.response) {
-                toast.error(err.response?.data.message);
-            }
-            else {
+            } else {
                 toast.error(err);
             }
         } finally {
@@ -108,7 +102,7 @@ export default function ProductManageEdit() {
 
     return (
         <form className='flex gap-4' onSubmit={(e) => handleSubmitFormAddProduct(e)}>
-            <button type="button" className="flex items-start" onClick={() => { localStorage.removeItem('productId'); navigate(-1); }}><BackIcon /></button>
+            <button type="button" className="flex items-start" onClick={() => { dispatch(resetNewProductInput()); navigate(-1) }}><BackIcon /></button>
             <div className="hero h-full ">
                 <div className="flex">
                     <div className="w-full lg:w-1/2">
@@ -368,7 +362,7 @@ export default function ProductManageEdit() {
                                 </button>}
                         </div>
                     </div>
-                    <ProductEdit productObj={product} handleOnChange={onChangeProduct} />
+                    <ProductEdit productObj={newProduct} handleOnChange={onChangeNewProduct} />
                 </div>
             </div>
         </form>

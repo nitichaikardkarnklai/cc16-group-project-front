@@ -40,7 +40,7 @@ const menuList = [
     {
         id: 4,
         name: "Product Management",
-        link: ["/admin/admin-product-mgt-page", "/admin/admin-product-form"],
+        link: ["/admin/admin-product-mgt-page", "/admin/admin-product-add-form"],
         component: <ProductIcon />,
         adminRole: ["ADMIN", "SUPERADMIN"]
     },

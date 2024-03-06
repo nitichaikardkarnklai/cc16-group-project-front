@@ -1,8 +1,14 @@
 import React from 'react';
 import Button from '../../components/Button';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { fetchProductById } from '../../store/slices/productSlice';
 
 export default function ProductCard({ productObj, location = '', onClick }) {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   return (
     <div className='relative w-[250px] flex flex-col gap-2 mx-auto'>
       <div
@@ -24,7 +30,7 @@ export default function ProductCard({ productObj, location = '', onClick }) {
           {(+productObj?.price).toLocaleString()} Baht
           {location?.pathname === '/admin/admin-product-mgt-page' && (
             <div className='flex gap-2'>
-              <Button color='white' bg='darkGray'>
+              <Button onClick={() => { localStorage.setItem('productId', productObj.id); navigate("/admin/admin-product-edit-form"); }} color='white' bg='darkGray'>
                 Edit
               </Button>
               <Button color='white' bg='red'>

@@ -61,10 +61,12 @@ export const createProduct = createAsyncThunk("product/createProduct", async (pa
     try {
         await productApi.addProduct(payload);
         // console.log(data.getAllSeries)
+        toast.success("create product success");
         return fulfillWithValue("success");
     } catch (error) {
-        console.log(error);
-        return rejectWithValue("fail");
+        console.log(error.response.data.message)
+        toast.error(error.response.data.message);
+        return rejectWithValue(error.response.data.message);
     }
 });
 
@@ -72,13 +74,19 @@ const productSlice = createSlice({
     name: "product",
     initialState,
     reducers: {
+        // ============ New Product =================
         onChangeNewProduct: (state, action) => {
             // console.log(action.payload.value);
             state.newProduct = { ...state.newProduct, [action.payload.name]: action.payload.value }
         },
         resetNewProductInput: (state, action) => {
             state.newProduct = { ...initialProduct }
-        }
+        },
+        // ============ Edit Product =================
+        onChangeProduct: (state, action) => {
+            // console.log(action.payload.value);
+            state.product = { ...state.product, [action.payload.name]: action.payload.value }
+        },
     },
     extraReducers: (builder) => {
         // ====== Fetch All Products ======
@@ -133,4 +141,4 @@ const productReducer = productSlice.reducer;
 export default productReducer;
 
 const allActionCreator = productSlice.actions;
-export const { onChangeNewProduct, resetNewProductInput } = allActionCreator;
+export const { onChangeNewProduct, resetNewProductInput, onChangeProduct } = allActionCreator;

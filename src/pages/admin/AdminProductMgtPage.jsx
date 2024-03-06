@@ -23,7 +23,7 @@ export default function AdminProductMgtPage() {
   }, [])
   return (
     <div className='flex flex-col gap-8'>
-      <Button onClick={() => navigate("/admin/admin-product-form")} color="white" bg="red">ADD PRODUCT</Button>
+      <Button onClick={() => navigate("/admin/admin-product-add-form")} color="white" bg="red">ADD PRODUCT</Button>
       <div className='flex flex-wrap gap-y-8'>
         {products.map((el, index) => <ProductCard key={el.id} productObj={el} location={location} />)}
       </div>

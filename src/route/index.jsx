@@ -36,6 +36,7 @@ import SettingAccountPage from '../pages/customer/auth/SettingAccountPage';
 import NewAddressPage from '../pages/customer/auth/NewAddressPage';
 import AdminAdminMgtPage from '../pages/admin/AdminAdminMgtPage';
 import EditAddressPage from '../pages/customer/auth/EditAddressPage';
+import ProductManageAdd from '../layouts/components/ProductManageAdd';
 import ProductManageEdit from '../layouts/components/ProductManageEdit';
 
 const router = createBrowserRouter([
@@ -117,7 +118,8 @@ const router = createBrowserRouter([
         element: <AdminCustomerMgtPage />,
       },
       { path: '/admin/admin-admin-mgt-page', element: <AdminAdminMgtPage /> },
-      { path: '/admin/admin-product-form', element: <ProductManageEdit /> },
+      { path: '/admin/admin-product-add-form', element: <ProductManageAdd /> },
+      { path: '/admin/admin-product-edit-form', element: <ProductManageEdit /> },
     ],
   },
 ]);
