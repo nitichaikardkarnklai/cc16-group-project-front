@@ -13,6 +13,7 @@ export default function UserContextProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [address, setAddress] = useState([]);
   const [editAddress, setEditAddress] = useState({});
+  const [subscribe, setSubscribe] = useState({});
   const [onFetch, setOnFetch] = useState(false); // toggle btw T and F
 
   useEffect(() => {
@@ -49,8 +50,18 @@ export default function UserContextProvider({ children }) {
       (async () => {
         try {
           const data = await customerApi.getUserAddress();
-          console.log(data.data.allAddress);
           setAddress(data.data.allAddress);
+        } catch (err) {
+          toast.error(err.response?.data.message);
+        } finally {
+          setLoading(false);
+        }
+      })();
+    } else if (location.pathname === '/my-account-setting') {
+      (async () => {
+        try {
+          const data = await customerApi.getSubscribe();
+          setSubscribe(data.data.subscribe.isSubscribe);
         } catch (err) {
           toast.error(err.response?.data.message);
         } finally {
@@ -130,7 +141,7 @@ export default function UserContextProvider({ children }) {
     try {
       await customerApi.deleteUserAddress(id);
     } catch (err) {
-      console.log(err);
+      toast.error(err.response?.data.message);
     } finally {
       setOnFetch((c) => !c);
     }
@@ -140,7 +151,17 @@ export default function UserContextProvider({ children }) {
     try {
       await customerApi.editUserAddress(id, data);
     } catch (err) {
-      console.log(err);
+      toast.error(err.response?.data.message);
+    } finally {
+      setOnFetch((c) => !c);
+    }
+  };
+
+  const updateUserSubscribe = async (data) => {
+    try {
+      await customerApi.userSubscribe(data);
+    } catch (err) {
+      toast.error(err.response?.data.message);
     } finally {
       setOnFetch((c) => !c);
     }
@@ -165,6 +186,8 @@ export default function UserContextProvider({ children }) {
         setEditAddress,
         editAddress,
         editUserAddress,
+        updateUserSubscribe,
+        subscribe,
       }}
     >
       {children}
