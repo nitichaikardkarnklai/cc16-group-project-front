@@ -8,7 +8,7 @@ const store = configureStore({
         group: groupReducer,
         series: seriesReducer,
         products: productReducer
-    }
+    },
 })
 
 export default store

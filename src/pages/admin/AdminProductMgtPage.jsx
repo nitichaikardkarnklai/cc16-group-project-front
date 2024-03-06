@@ -8,11 +8,13 @@ import { fetchSeries } from '../../store/slices/seriesSlice';
 import { fetchGroups } from '../../store/slices/groupSlice';
 import Button from '../../components/Button';
 import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export default function AdminProductMgtPage() {
   const { products } = useSelector(store => store.products);
   const dispatch = useDispatch();
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(fetchAllProduct());
@@ -21,7 +23,7 @@ export default function AdminProductMgtPage() {
   }, [])
   return (
     <div className='flex flex-col gap-8'>
-      <Button color="white" bg="red">ADD PRODUCT</Button>
+      <Button onClick={() => navigate("/admin/admin-product-form")} color="white" bg="red">ADD PRODUCT</Button>
       <div className='flex flex-wrap gap-y-8'>
         {products.map((el, index) => <ProductCard key={el.id} productObj={el} location={location} />)}
       </div>

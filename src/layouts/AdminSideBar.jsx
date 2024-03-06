@@ -19,56 +19,56 @@ const menuList = [
     {
         id: 1,
         name: "Home",
-        link: "/admin",
+        link: ["/admin"],
         component: <HomeIcon />,
         adminRole: ["ADMIN", "SUPERADMIN"]
     },
     {
         id: 2,
         name: "Chat",
-        link: "/admin/admin-chat-page",
+        link: ["/admin/admin-chat-page"],
         component: <ChatIcon />,
         adminRole: ["ADMIN", "SUPERADMIN"]
     },
     {
         id: 3,
         name: "Category Management",
-        link: "/admin/admin-category-mgt-page",
+        link: ["/admin/admin-category-mgt-page"],
         component: <CatagoriesIcon />,
         adminRole: ["ADMIN", "SUPERADMIN"]
     },
     {
         id: 4,
         name: "Product Management",
-        link: "/admin/admin-product-mgt-page",
+        link: ["/admin/admin-product-mgt-page", "/admin/admin-product-form"],
         component: <ProductIcon />,
         adminRole: ["ADMIN", "SUPERADMIN"]
     },
     {
         id: 5,
         name: "Trend Management",
-        link: "/admin/admin-trend-mgt-page",
+        link: ["/admin/admin-trend-mgt-page"],
         component: <TrendIcon />,
         adminRole: ["ADMIN", "SUPERADMIN"]
     },
     {
         id: 6,
         name: "Transaction Monitoring",
-        link: "/admin/admin-transaction-monitoring-page",
+        link: ["/admin/admin-transaction-monitoring-page"],
         component: <TransactionIcon />,
         adminRole: ["ADMIN", "SUPERADMIN"]
     },
     {
         id: 7,
         name: "Customer Management",
-        link: "/admin/admin-customer-mgt-page",
+        link: ["/admin/admin-customer-mgt-page"],
         component: <UserLineIcon />,
         adminRole: ["ADMIN", "SUPERADMIN"]
     },
     {
         id: 8,
         name: "Admin Management",
-        link: "/admin/admin-admin-mgt-page",
+        link: ["/admin/admin-admin-mgt-page"],
         component: <UserLineIcon />,
         adminRole: ["SUPERADMIN"]
     },
@@ -84,8 +84,8 @@ export default function AdminSideBar() {
             <div className='flex flex-col'>
                 {menuList.map(el => (
                     el.adminRole.includes(authUser.role) ?
-                        <Link key={el.id} to={el.link} >
-                            {location.pathname === el.link ?
+                        <Link key={el.id} to={el.link[0]} >
+                            {el.link.includes(location.pathname) ?
                                 <Button textPosition="start" bg="gray" width="full" color="red"><>{cloneElement(el.component, { color: "#D2001E" })}</> {el.name}</Button>
                                 :
                                 <Button textPosition="start" bg="gray" width="full">{el.component} {el.name}</Button>
