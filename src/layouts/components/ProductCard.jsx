@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '../../components/Button';
+
 
 export default function ProductCard({ productObj, location = "" }) {
 

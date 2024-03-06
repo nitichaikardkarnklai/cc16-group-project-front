@@ -3,22 +3,22 @@ import * as productApi from "../../api/product"
 import { toast } from "react-toastify";
 
 const initialProduct = {
-    id: null,
-    serieId: null,
-    groupId: null,
-    productName: null,
-    createdAt: null,
-    launchDate: null,
-    price: null,
-    stockQuantity: null,
+    id: "",
+    serieId: "",
+    groupId: "",
+    productName: "",
+    createdAt: "",
+    launchDate: "",
+    price: "",
+    stockQuantity: "",
     isNew: false,
     isHot: false,
     isSoldOut: false,
     isActive: true,
-    brand: null,
-    size: null,
-    material: null,
-    customDetail: null
+    brand: "",
+    size: "",
+    material: "",
+    customDetail: "",
 };
 
 const initialState = {
@@ -34,6 +34,7 @@ export const fetchAllProduct = createAsyncThunk("product/fetchAllProduct", async
     try {
         const { data } = await productApi.fetchAllProduct();
         // console.log(data.getAllSeries)
+        // console.log(data.resultAllProduct)
         return fulfillWithValue(data.resultAllProduct);
     } catch (error) {
         console.log(error);
@@ -41,11 +42,24 @@ export const fetchAllProduct = createAsyncThunk("product/fetchAllProduct", async
     }
 });
 
+
+console.log(fetchAllProduct)
+
 const productSlice = createSlice({
     name: "product",
     initialState,
     reducers: {
 
+        onChangeProductInput: (state, action) => {
+            // console.log(action.payload)
+            state.newProduct = { ...state.newProduct, [action.payload.name]: action.payload.value }
+        },
+        onChangeProductInputArr: (state, action) => {
+            state.newProduct = { ...state.newProduct, [action.payload.name]: action.payload.value }
+        },
+        onchangeIsAddProduct: (state, action) => {
+            state.isAddProduct = !state.isAddProduct
+        }
     },
     extraReducers: (builder) => {
         // ====== Fetch All Products ======
@@ -67,8 +81,9 @@ const productSlice = createSlice({
     }
 })
 
+
 const productReducer = productSlice.reducer;
 export default productReducer;
 
-const allActionCreator = productSlice.actions;
-export const { } = allActionCreator;
+const allActionCreators = productSlice.actions;
+export const { onChangeProductInput, onChangeProductInputArr, onchangeIsAddProduct } = allActionCreators;

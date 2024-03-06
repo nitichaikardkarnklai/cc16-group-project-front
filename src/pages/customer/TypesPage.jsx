@@ -10,8 +10,6 @@ export default function TypesPage() {
     const { products } = useSelector(store => store.product) || {}
     const dispatch = useDispatch();
     const [filter, setFilter] = useState({})
-    const [page, setPage] = useState(1)
-    const [search, setSearch] = useState("")
     const [sort, setSort] = useState("")
     const [category, setCategory] = useState("")
     const [types, setTypes] = useState([])
@@ -22,13 +20,12 @@ export default function TypesPage() {
 
     useEffect(() => {
         dispatch(fetchAllProduct({
-            page,
-            search,
+
             sort,
             category,
             types
         }))
-    }, [page, search, sort, category, types])
+    }, [sort, category, types])
 
 
 
