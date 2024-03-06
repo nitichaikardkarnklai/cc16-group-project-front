@@ -9,23 +9,37 @@ export default function ProductsContainer({ title = 'TITLE' }) {
   return (
     <div className='flex flex-col justify-center items-center'>
       <h1 className='text-5xl p-12 font-semibold'>{title}</h1>
-      <div className='w-full flex justify-end text-right px-10 pr-56'>
+      <div className='w-full flex justify-end text-right pr-20'>
         <div className=' flex gap-5'>
           <div>
             <div className="drawer drawer-end">
               <input id="my-drawer-1" type="checkbox" className="drawer-toggle" />
               <div className="drawer-content">
                 <label htmlFor="my-drawer-1" className="drawer-button ">
-                  <p className='text-xl underline'> Sort </p>
+                  <p className='text-xl underline'> Sort By </p>
                 </label>
               </div>
               <div className="drawer-side">
                 <label htmlFor="my-drawer-1" aria-label="close sidebar" className="drawer-overlay"></label>
                 <ul className="menu p-4 pt-20 w-80 min-h-full bg-base-200 text-base-content">
-                  {/* Sidebar content here */}
-                  <li ><a>sort Item 1</a></li>
-                  <li><a>Sidebar Item 2</a></li>
-                  <FilterProduct />
+                  <div className="flex flex-col justify-start text-left items-start">
+                    <h2 className="text-2xl pt-3">Sort By</h2>
+                    <div className="divider"></div>
+                    <div className="form-control">
+                      <label className="cursor-pointer">
+                        <input type="radio" name="radio-1" className="radio" checked />
+                        <span className="label-text text-xl px-3"> Latest arrival </span>
+                      </label>
+                      <label className="cursor-pointer">
+                        <input type="radio" name="radio-1" className="radio" />
+                        <span className="label-text text-xl px-3"> Best selling</span>
+                      </label>
+                      <label className="cursor-pointer">
+                        <input type="radio" name="radio-1" className="radio" />
+                        <span className="label-text text-xl px-3">Price: low to high </span>
+                      </label>
+                    </div>
+                  </div>
                 </ul>
               </div>
             </div>
@@ -34,18 +48,21 @@ export default function ProductsContainer({ title = 'TITLE' }) {
             <div className="drawer drawer-end">
               <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
               <div className="drawer-content">
-                {/* Page content here */}
-                <label htmlFor="my-drawer-2" className="drawer-button"><p className='text-xl underline'>
-                  Filter
-                </p>
+                <label htmlFor="my-drawer-2" className="drawer-button">
+                  <p className='text-xl underline'>
+                    Filter
+                  </p>
                 </label>
               </div>
               <div className="drawer-side">
                 <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
-                <ul className="menu p-4 pt-20 w-80 h-[80vh] bg-base-200 text-base-content">
-                  {/* Sidebar content here */}
-                  <li ><a>filter Item 1</a></li>
-                  <li><a>Sidebar Item 2</a></li>
+                <ul className="menu p-4 pt-20 w-80 min-h-full bg-base-200 text-base-content">
+                  <div className="flex flex-col justify-start text-left items-start">
+                    <h2 className="text-2xl pt-3">Filter</h2>
+                    <div className="divider"></div>
+                  </div>
+
+                  <FilterProduct />
                 </ul>
               </div>
             </div>
