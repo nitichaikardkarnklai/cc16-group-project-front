@@ -3,39 +3,22 @@ import ProductCard from './ProductCard';
 import { useSelector, useDispatch } from 'react-redux';
 import FilterProduct from './FilterProduct';
 import { fetchAllProduct } from '../../store/slices/productSlice';
-import { fetchGroups } from '../../store/slices/groupSlice';
-import { fetchSeries } from '../../store/slices/seriesSlice';
 
 
-export default function ProductsContainer({ title = 'TITLE' }) {
+
+export default function ProductsContainer({ title = 'TITLE', ProductCards = ProductCard, filter = {}, ...props }) {
+
   const dispatch = useDispatch();
   const { products } = useSelector(
     store =>
       store.products) || { products: [], };
-  const { groups } = useSelector(store => store.group) || {};
-  const { series } = useSelector(store => store.series) || {};
-  const [filter, setFilter] = useState({})
 
-
-  useEffect(() => {
-    dispatch(fetchAllProduct(
-      { ...filter, group: 'MEGA' }
-    ));
-    dispatch(fetchGroups({ ...filter, group: ' ' }));
-    dispatch(fetchSeries());
-  }, [dispatch]);
-
-  useEffect(() => {
-    setFilter({ ...filter, group: 'mega' })
-  }, [groups]);
-
-
-
-  console.log(filter)
-  console.log("product", products)
-  console.log(series)
-  console.log(groups)
-
+  // Filter products based on the provided filter object
+  const filteredProducts = products.filter(product => {
+    // Implement your filtering logic here based on the filter object
+    // For example, check if product.groupId matches filter.groupId
+    return product.groupId === filter.groupId;
+  });
   return (
     <div className='flex flex-col justify-center items-center'>
       <h1 className='text-5xl p-12 font-semibold'>{title}</h1>
@@ -101,7 +84,7 @@ export default function ProductsContainer({ title = 'TITLE' }) {
       <div className="flex flex-col py-10">
 
         <div className='grid grid-cols-4 gap-8 w-[1235px] mx-auto'>
-          {products?.map((el, index) => <ProductCard key={el.id} productObj={el} />)}
+          {filteredProducts.map((el, index) => <ProductCard key={el.id} productObj={el} />)}
         </div>
       </div>
     </div >

@@ -7,57 +7,29 @@ import { fetchAllProduct } from '../../store/slices/productSlice'
 
 export default function TypesPage() {
 
-    const { products } = useSelector(store => store.product) || {}
     const dispatch = useDispatch();
-    const [filter, setFilter] = useState({})
-    const [sort, setSort] = useState("")
-    const [category, setCategory] = useState("")
-    const [types, setTypes] = useState([])
-    const [type, setType] = useState({})
-    const [isLoading, setIsLoading] = useState(false)
-    const [isError, setIsError] = useState(false)
-    const [typesList, setTypesList] = useState([])
+    const { products } = useSelector(
+        store =>
+            store.products) || { products: [], };
+
+    console.log(products)
 
     useEffect(() => {
-        dispatch(fetchAllProduct({
+        dispatch(fetchAllProduct());
+    }, [dispatch]);
 
-            sort,
-            category,
-            types
-        }))
-    }, [sort, category, types])
-
-
+    const filter = {
+        groupId: 4,
+        // Add other filter criteria if needed
+    };
 
     return (
         <div className=' hero '>
             <div className=' m-auto  text-center  '>
-                <ProductsContainer title="Types"
-                    types={typesList}
-                    type={type}
-                    typesList={typesList}
-                    setTypesList={setTypesList}
-                    setTypes={setTypes}
-                    setCategory={setCategory}
-                    setSort={setSort}
+                <ProductsContainer
+                    title="Types"
+                    filter={filter}
                 />
-                <div className="carousel-item">
-                    {typesList.map((type, index) => (
-                        <div key={index} className="card w-96 bg-base-100 shadow-xl">
-                            <figure className="px-10 pt-10">
-                                <img src="https://placeimg.com/400/225/arch" alt="Shoes" className="rounded-xl" />
-                            </figure>
-                            <div className="card-body items-center text-center">
-                                <h2 className="card-title">{type.name}</h2>
-                                <p>{type.description}</p>
-                                <div className="card-actions">
-                                    <button className="btn btn-primary">Buy Now</button>
-                                </div>
-                            </div>
-                        </div>
-                    ))
-                    }
-                </div>
             </div>
         </div>
     )

@@ -43,7 +43,7 @@ export const fetchAllProduct = createAsyncThunk("product/fetchAllProduct", async
 });
 
 
-console.log(fetchAllProduct)
+// console.log(fetchAllProduct)
 
 const productSlice = createSlice({
     name: "product",

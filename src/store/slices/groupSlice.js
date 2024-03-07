@@ -22,7 +22,7 @@ export const fetchGroups = createAsyncThunk("group/fetchGroups", async (payload,
         return rejectWithValue(error.response.statusText);
     }
 });
-console.log(fetchGroups)
+// console.log(fetchGroups)
 
 export const addGroup = createAsyncThunk("group/addGroup", async (payload, { rejectWithValue, fulfillWithValue }) => {
     try {
