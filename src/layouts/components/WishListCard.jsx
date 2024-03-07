@@ -17,7 +17,7 @@ export default function WishListCard({ data, onRemove }) {
         </div>
         <div className='flex justify-between'>
           <div className='text-redHero text-xl font-semibold'>
-            {data.products.price} BTH
+            {data.products.price} THB
           </div>
           <div
             onClick={(c) => onRemove(+data.id)}

@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import * as productApi from '../../api/product';
+import * as cartApi from '../../api/cart';
 import { fetchProductById } from '../../store/slices/productSlice';
 import {
   addWishlist,
@@ -12,6 +13,13 @@ import {
 } from '../../store/slices/wishlistSlice';
 import HeartIcon from '../../assets/icon/HeartIcon';
 import Spinner from '../../components/Spinner';
+import { toast } from 'react-toastify';
+
+const initialCartItem = {
+  productId: null,
+  quantity: null,
+  price: null,
+};
 
 export default function ProductPage() {
   const dispatch = useDispatch();
@@ -20,9 +28,10 @@ export default function ProductPage() {
   const [selectedImage, setSelectedImage] = useState('');
   const [isWishlist, setIsWishlist] = useState(false);
   const [wishlistId, setWishlistId] = useState('');
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(1);
   const [product, setProduct] = useState({});
   const [loading, setLoading] = useState(false);
+  const [newCartItem, setNewCartItem] = useState(initialCartItem);
 
   const productId = +localStorage.getItem('productId');
 
@@ -42,15 +51,19 @@ export default function ProductPage() {
     })();
   }, []);
 
+  //
   useEffect(() => {
     isInWishlist();
-  }, [wishlistItems]);
+    setNewCartItem({
+      productId: productId,
+      quantity: count,
+      price: count * product.price,
+    });
+  }, [wishlistItems, count]);
 
   const handleImageClick = (image) => {
     setSelectedImage(image);
   };
-
-  //find wishlist ID
 
   // check is item is in wishlist
   const isInWishlist = () => {
@@ -65,16 +78,29 @@ export default function ProductPage() {
     } else setIsWishlist(false);
   };
 
+  //counter function increment
   const increment = () => {
     if (count < 99) {
       setCount(count + 1);
     } else return count;
   };
 
+  //counter function decrement
   const decrement = () => {
-    if (count > 0) {
+    if (count > 1) {
       setCount(count - 1);
     } else return count;
+  };
+
+  //add to cart function
+  const onAddTOCart = async () => {
+    try {
+      await cartApi.upsertIntoCart(newCartItem);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      toast.success('Add to cart Success');
+    }
   };
 
   if (loading) {
@@ -192,7 +218,12 @@ export default function ProductPage() {
                 <div className='mt-3 flex select-none flex-wrap items-center gap-1'></div>
 
                 <div className='mt-10 flex flex-col items-center justify-start gap-4 space-y-4 border-t border-b py-4 sm:flex-row sm:space-y-0'>
-                  <Button bg='red' type='submit' color='white'>
+                  <Button
+                    onClick={onAddTOCart}
+                    bg='red'
+                    type='submit'
+                    color='white'
+                  >
                     ADD TO CART
                   </Button>
                   <Button bg='black' type='submit' color='white'>

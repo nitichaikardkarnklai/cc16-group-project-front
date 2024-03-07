@@ -3,6 +3,7 @@ import groupReducer from './groupSlice';
 import seriesReducer from './seriesSlice';
 import productReducer from './productSlice';
 import wishlistReducer from './wishlistSlice';
+import cartReducer from './cartSlice';
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     series: seriesReducer,
     products: productReducer,
     wishlists: wishlistReducer,
+    cart: cartReducer,
   },
 });
 
