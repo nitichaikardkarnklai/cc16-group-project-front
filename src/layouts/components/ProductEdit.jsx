@@ -7,8 +7,20 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import TextArea from '../../components/TextArea';
 
+const initialProduct = {
+    serieId: "",
+    groupId: "",
+    productName: "",
+    launchDate: "",
+    price: 1000,
+    stockQuantity: 10,
+    brand: "",
+    size: "",
+    material: "",
+    customDetail: ""
+};
 
-export default function ProductEdit({ productObj, handleOnChange }) {
+export default function ProductEdit({ productObj = initialProduct, handleOnChange, confirmWord = "SUBMIT" }) {
     const dispatch = useDispatch();
     const { series } = useSelector(store => store.series);
     const { groups } = useSelector(store => store.group);
@@ -21,7 +33,7 @@ export default function ProductEdit({ productObj, handleOnChange }) {
                     <div className='flex items-center gap-2'>
                         <div className='w-28'>Name: </div>
                         <Input
-                            value={productObj.productName}
+                            value={productObj?.productName}
                             onChange={(e) => dispatch(handleOnChange({ name: e.target.name, value: e.target.value }))}
                             name="productName"
                             placeholder="Enter Product Name"
@@ -31,8 +43,8 @@ export default function ProductEdit({ productObj, handleOnChange }) {
                         <div className='w-28'>Price: </div>
                         <Input
                             type="number"
-                            value={productObj.price}
-                            onChange={(e) => dispatch(handleOnChange({ name: e.target.name, value: e.target.value }))}
+                            value={productObj?.price}
+                            onChange={(e) => dispatch(handleOnChange({ name: e.target.name, value: +e.target.value }))}
                             name="price"
                         />
                     </div>
@@ -40,8 +52,8 @@ export default function ProductEdit({ productObj, handleOnChange }) {
                         <div className='w-28'>Series: </div>
                         <select
                             className="select border-gray-300 w-full"
-                            onChange={(e) => dispatch(handleOnChange({ name: e.target.name, value: e.target.value }))}
-                            value={productObj.serieId}
+                            onChange={(e) => dispatch(handleOnChange({ name: e.target.name, value: +e.target.value }))}
+                            value={productObj?.serieId}
                             name="serieId"
                         >
                             <option disabled value="">Product Series</option>
@@ -52,8 +64,8 @@ export default function ProductEdit({ productObj, handleOnChange }) {
                         <div className='w-28'>Group: </div>
                         <select
                             className="select border-gray-300 w-full"
-                            onChange={(e) => dispatch(handleOnChange({ name: e.target.name, value: e.target.value }))}
-                            value={productObj.groupId}
+                            onChange={(e) => dispatch(handleOnChange({ name: e.target.name, value: +e.target.value }))}
+                            value={productObj?.groupId}
                             name="groupId"
                         >
                             <option disabled value="">Product Groups</option>
@@ -65,7 +77,7 @@ export default function ProductEdit({ productObj, handleOnChange }) {
                         <Input
                             type="date"
                             onChange={(e) => dispatch(handleOnChange({ name: e.target.name, value: e.target.value }))}
-                            value={productObj.launchDate}
+                            value={productObj?.launchDate?.slice(0, 10)}
                             name="launchDate"
                         />
                     </div>
@@ -73,8 +85,8 @@ export default function ProductEdit({ productObj, handleOnChange }) {
                         <div className='w-28'>Quantity: </div>
                         <Input
                             type="number"
-                            onChange={(e) => dispatch(handleOnChange({ name: e.target.name, value: e.target.value }))}
-                            value={productObj.stockQuantity}
+                            onChange={(e) => dispatch(handleOnChange({ name: e.target.name, value: +e.target.value }))}
+                            value={productObj?.stockQuantity}
                             name="stockQuantity"
                         />
                     </div>
@@ -83,7 +95,7 @@ export default function ProductEdit({ productObj, handleOnChange }) {
                         <Input
                             placeholder="Enter Product Brand"
                             onChange={(e) => dispatch(handleOnChange({ name: e.target.name, value: e.target.value }))}
-                            value={productObj.brand}
+                            value={productObj?.brand}
                             name="brand"
                         />
                     </div>
@@ -92,7 +104,7 @@ export default function ProductEdit({ productObj, handleOnChange }) {
                         <Input
                             placeholder="Enter Product Size"
                             onChange={(e) => dispatch(handleOnChange({ name: e.target.name, value: e.target.value }))}
-                            value={productObj.size}
+                            value={productObj?.size}
                             name="size"
                         />
                     </div>
@@ -101,7 +113,7 @@ export default function ProductEdit({ productObj, handleOnChange }) {
                         <Input
                             placeholder="Enter Product Material"
                             onChange={(e) => dispatch(handleOnChange({ name: e.target.name, value: e.target.value }))}
-                            value={productObj.material}
+                            value={productObj?.material}
                             name="material"
                         />
                     </div>
@@ -110,13 +122,13 @@ export default function ProductEdit({ productObj, handleOnChange }) {
                         <TextArea
                             placeholder="Enter Description"
                             onChange={(e) => dispatch(handleOnChange({ name: e.target.name, value: e.target.value }))}
-                            value={productObj.customDetail}
+                            value={productObj?.customDetail}
                             name="customDetail"
                         ></TextArea>
                     </div>
                 </div>
                 <div className="form-control">
-                    <Button bg="red" color="white" onClick={() => { }}>SUBMIT</Button>
+                    <Button bg="red" color="white" onClick={() => { }}>{confirmWord}</Button>
                 </div>
             </div>
         </div>

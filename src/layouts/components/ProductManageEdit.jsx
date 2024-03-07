@@ -15,14 +15,15 @@ import ProductEdit from './ProductEdit';
 import { toast } from 'react-toastify';
 import Spinner from '../../components/Spinner';
 import { validateAddProduct } from '../../features/product/validations/validate-product';
-
+import Button from '../../components/Button';
+import * as apiProduct from "../../api/product"
 
 export default function ProductManageEdit() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { series } = useSelector(store => store.series);
-    const { groups } = useSelector(store => store.group);
     const { loading, product } = useSelector(store => store.products);
+    const [loadingUpdateProduct, setLoadingUpdateProduct] = useState(false);
+    const [onFetch, setOnfetch] = useState(false);
     const coverProductEl = useRef(null);
     const poster1El = useRef(null);
     const poster2El = useRef(null);
@@ -39,65 +40,75 @@ export default function ProductManageEdit() {
         poster5: null,
         imageProduct: []
     });
+    const productId = +localStorage.getItem('productId');
 
     useEffect(() => {
         dispatch(fetchAllProduct());
         dispatch(fetchGroups());
         dispatch(fetchSeries());
 
-        const productId = +localStorage.getItem('productId');
         dispatch(fetchProductById(productId));
-    }, [])
+        // setImages(c => { return { ...c, coverProduct: product.productCover?.[0]?.cover } })
+    }, [images, onFetch])
 
-    const handleSubmitFormAddProduct = async e => {
+    const handleSubmitFormEditProduct = async e => {
         e.preventDefault();
-        console.log("submit");
-        try {
-            const validationError = validateAddProduct(product);
-            // console.log(validationError);
-            if (!images.coverProduct) { return toast.error("cover image is required"); }
-
-            const formData = new FormData();
-            Object.keys(product).forEach(key => {
-                formData.append(key, product[key]);
-            })
-            Object.keys(images).forEach(key => {
-                if (key !== "imageProduct") {
-                    if (images[key]) {
-                        formData.append(key, images[key]);
-                    }
-                } else {
-                    images[key].forEach(file => {
-                        if (file) {
-                            formData.append(key, file);
-                        }
-                    })
+        if (confirm("Are you sure to update this product details?")) {
+            try {
+                setLoadingUpdateProduct(true);
+                const { id,
+                    createdAt,
+                    isNew,
+                    isHot,
+                    isSoldOut,
+                    isActive,
+                    productSeries,
+                    productGroup,
+                    productCover,
+                    productImages,
+                    productPosters,
+                    ...tempProduct } = product;
+                const validationError = validateAddProduct(tempProduct);
+                tempProduct.launchDate = new Date(tempProduct.launchDate);
+                console.log(tempProduct);
+                await apiProduct.updateProductDetails(tempProduct, product.id);
+                toast.success("update product details success");
+            } catch (err) {
+                // console.log(err.details)
+                if (err.details[0]) {
+                    toast.error(err?.details[0]?.message);
+                } else if (err.response) {
+                    toast.error(err.response?.data.message);
                 }
-            })
-            Object.keys(product).forEach(key => {
-                console.log(key, formData.getAll(key));
-            })
-            console.log("coverProduct", formData.getAll("coverProduct"));
-            console.log("imageProduct", formData.getAll("imageProduct"));
-            console.log("poster1", formData.getAll("poster1"));
-
-            await dispatch(createProduct(formData));
-            toast.success("create product success")
-        } catch (err) {
-            console.log(err.details)
-            if (err.details[0]) {
-                toast.error(err?.details[0]?.message);
-            } else if (err.response) {
-                toast.error(err.response?.data.message);
+                else {
+                    toast.error(err);
+                }
+            } finally {
+                setLoadingUpdateProduct(false);
+                setOnfetch(c => !c);
             }
-            else {
-                toast.error(err);
-            }
-        } finally {
         }
     }
 
-    if (loading) {
+    const onChangeAndUpdateImage = async (e, imageKey) => {
+        if (confirm("Are you sure to update this image?")) {
+            try {
+                setLoadingUpdateProduct(true);
+                const formData = new FormData();
+                formData.append(imageKey, e.target.files[0])
+                await apiProduct.updateCoverImage(formData, product.productCover?.[0]?.id)
+                toast.success("cover product is successfully changed")
+            } catch (error) {
+                console.log(error.response.data);
+                toast.error(error.response?.data.message);
+            } finally {
+                setLoadingUpdateProduct(false);
+                setOnfetch(c => !c);
+            }
+        }
+    }
+
+    if (loading || loadingUpdateProduct) {
         return (
             <div>
                 <div>IN-PROCESS ...</div>
@@ -107,10 +118,10 @@ export default function ProductManageEdit() {
     }
 
     return (
-        <form className='flex gap-4' onSubmit={(e) => handleSubmitFormAddProduct(e)}>
+        <form className='flex gap-4' onSubmit={(e) => handleSubmitFormEditProduct(e)}>
             <button type="button" className="flex items-start" onClick={() => { localStorage.removeItem('productId'); navigate(-1); }}><BackIcon /></button>
             <div className="hero h-full ">
-                <div className="flex">
+                <div className="flex gap-8">
                     <div className="w-full lg:w-1/2">
                         <div className="lg:flex lg:justify-start gap-1 mb-4">
                             <div className="lg:order-2 flex flex-col justify-center w-[40rem]">
@@ -118,26 +129,15 @@ export default function ProductManageEdit() {
                                     type="file"
                                     className="hidden"
                                     ref={coverProductEl}
-                                    onChange={e => {
-                                        if (e.target.files[0]) {
-                                            setImages(c => { return { ...c, coverProduct: e.target.files[0] } })
-                                        }
-                                    }}
+                                    onChange={e => onChangeAndUpdateImage(e, "image")}
                                 />
-                                {images.coverProduct ?
+                                {product.productCover?.[0]?.cover ?
                                     <div
                                         className="relative flex justify-center"
                                         onClick={() => { coverProductEl.current.click() }}
                                         role="button"
                                     >
-                                        <img src={URL.createObjectURL(images.coverProduct)} alt="coverProduct" />
-                                        <button className="absolute top-2 right-2 font-black text-gray-400 h-6 w-6"
-                                            onClick={e => {
-                                                e.stopPropagation();
-                                                setImages(c => { return { ...c, coverProduct: null } });
-                                                coverProductEl.current.value = "";
-                                            }}
-                                        >&#10005;</button>
+                                        <img src={product.productCover?.[0]?.cover} alt="coverProduct" />
                                     </div>
                                     :
                                     <button
@@ -149,7 +149,7 @@ export default function ProductManageEdit() {
                             </div>
                             <div className="w-1/4">
                                 <div className="flex flex-row items-start lg:flex-col">
-                                    <div>MAX 4</div>
+                                    <div>(MAX 4)</div>
                                     <input
                                         type="file"
                                         multiple
@@ -368,7 +368,17 @@ export default function ProductManageEdit() {
                                 </button>}
                         </div>
                     </div>
-                    <ProductEdit productObj={product} handleOnChange={onChangeProduct} />
+                    <div>
+                        <div className="collapse bg-base-200">
+                            <input type="checkbox" />
+                            <div className="collapse-title text-xl font-medium px-10">
+                                Click Here to <span className='text-redHero'>Edit</span> Product Details
+                            </div>
+                            <div className="collapse-content">
+                                <ProductEdit productObj={product} handleOnChange={onChangeProduct} confirmWord="SAVE" />
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </form>

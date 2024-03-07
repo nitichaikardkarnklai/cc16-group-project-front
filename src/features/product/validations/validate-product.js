@@ -21,11 +21,11 @@ const addProductSchema = Joi.object({
         "any.required": "launch date is required",
         "date.base": "launch date is required"
     }),
-    price: Joi.number().required().messages({
+    price: Joi.number().positive().required().messages({
         "string.empty": "price is required",
         "any.required": "price is required"
     }),
-    stockQuantity: Joi.number().required().messages({
+    stockQuantity: Joi.number().positive().required().messages({
         "string.empty": "quantity is required",
         "any.required": "quantity is required"
     }),

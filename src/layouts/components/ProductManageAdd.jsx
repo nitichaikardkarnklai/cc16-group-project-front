@@ -20,8 +20,6 @@ import { validateAddProduct } from '../../features/product/validations/validate-
 export default function ProductManageAdd() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { series } = useSelector(store => store.series);
-    const { groups } = useSelector(store => store.group);
     const { newProduct, loading } = useSelector(store => store.products);
     const coverProductEl = useRef(null);
     const poster1El = useRef(null);
@@ -87,7 +85,6 @@ export default function ProductManageAdd() {
             } else {
                 toast.error(err);
             }
-        } finally {
         }
     }
 
@@ -143,7 +140,7 @@ export default function ProductManageAdd() {
                             </div>
                             <div className="w-1/4">
                                 <div className="flex flex-row items-start lg:flex-col">
-                                    <div>MAX 4</div>
+                                    <div>(MAX 4)</div>
                                     <input
                                         type="file"
                                         multiple

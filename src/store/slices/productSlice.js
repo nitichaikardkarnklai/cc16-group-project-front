@@ -119,10 +119,10 @@ const productSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
             });
-        // ====== Fetch Product ======
+        // ====== Fetch Product by Id ======
         builder
             .addCase(fetchProductById.pending, (state, action) => {
-                state.product = {};
+                // state.product = {};
                 state.loading = true;
             })
             .addCase(fetchProductById.fulfilled, (state, action) => {
