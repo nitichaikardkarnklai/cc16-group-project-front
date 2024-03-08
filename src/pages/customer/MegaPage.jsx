@@ -1,37 +1,34 @@
-import React, { useEffect, useState } from 'react';
-import ProductsContainer from '../../layouts/components/ProductsContainer';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import ProductCard from '../../layouts/components/ProductCard';
+import { useParams } from 'react-router-dom';
 import { fetchAllProduct } from '../../store/slices/productSlice';
+import ProductsContainer from '../../layouts/components/ProductsContainer';
 
-export default function MegaPage() {
+const MegaPage = () => {
   const dispatch = useDispatch();
-  const { products } = useSelector(
-    store =>
-      store.products) || { products: [], };
-
-  console.log(products)
-  const [selectedGroupId, setSelectedGroupId] = useState(null);
+  const { megaId } = useParams();
+  const { products } = useSelector(store => store.products) || { products: [] };
 
   useEffect(() => {
     dispatch(fetchAllProduct());
   }, [dispatch]);
 
-  const filter = {
-    groupId: 1,
-  }
-  // Add other filter criteria if needed
+  // กำหนด groupId จาก megaId
+  const groupId = parseInt(megaId);
 
+  // กำหนด filter โดยใช้ groupId
+  const filter = {
+    groupId: groupId,
+    // Add other filter criteria if needed
+  };
 
   return (
     <div className='hero'>
       <div className='m-auto text-center'>
-        {/* Pass the filter object to ProductsContainer */}
-        <ProductsContainer
-          title="Mega"
-          filter={filter}
-        />
+        <ProductsContainer title="Mega" filter={filter} />
       </div>
     </div>
-  )
-}
+  );
+};
+
+export default MegaPage;

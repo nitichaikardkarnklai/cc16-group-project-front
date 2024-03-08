@@ -17,6 +17,10 @@ export default function LandingPage() {
     dispatch(fetchSeries());
   }, [])
 
+  const newProducts = products.filter(product => product.isNew);
+  const topSellingProducts = products.filter(product => product.isHot);
+
+
   return (
     <div>
       <div className=""></div>
@@ -61,26 +65,8 @@ export default function LandingPage() {
           <div className="hero ">
             <div className="  carousel w-3/4 m-auto   py-5">
               <div className="carousel h-2/4 gap-4 carousel-end  rounded-box">
-                {/* <div className="carousel-item">
-                  <ProductCard />
-                </div>
                 <div className="carousel-item">
-                  <ProductCard />
-                </div>
-                <div className="carousel-item">
-                  <ProductCard />
-                </div>
-                <div className="carousel-item">
-                  <ProductCard />
-                </div>
-                <div className="carousel-item">
-                  <ProductCard />
-                </div>
-                <div className="carousel-item">
-                  <ProductCard />
-                </div> */}
-                <div className="carousel-item">
-                  {products.map((el, index) => <ProductCard key={el.id} productObj={el} />)}
+                  {newProducts.map((el, index) => <ProductCard key={el.id} productObj={el} />)}
                 </div>
               </div>
 
@@ -101,7 +87,7 @@ export default function LandingPage() {
             <div className="  carousel w-3/4 m-auto   py-5">
               <div className="carousel h-2/4 gap-4 carousel-end  rounded-box">
                 <div className="carousel-item">
-                  {products.map((el, index) => <ProductCard key={el.id} productObj={el} />)}
+                  {topSellingProducts.map((el, index) => <ProductCard key={el.id} productObj={el} />)}
                 </div>
 
 
@@ -140,7 +126,7 @@ export default function LandingPage() {
                   <ProductCard />
                 </div> */}
                 <div className="carousel-item">
-                  {products.map((el, index) => <ProductCard key={el.id} productObj={el} />)}
+                  {topSellingProducts.map((el, index) => <ProductCard key={el.id} productObj={el} />)}
                 </div>
 
 

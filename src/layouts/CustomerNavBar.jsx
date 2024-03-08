@@ -251,10 +251,11 @@ export default function CustomerNavBar() {
       </div>
       <div className='absolute w-full bg-white z-50'>
         {open.feature && <FeatureMenuList />}
-        {open.series && <SeriesMenulist link={'/series'} />}
-        {open.mega && <Menulist link={'/mega'} />}
-        {open.types && <Menulist link={'/types'} />}
-        {open.accessories && <Menulist link={'/accessories'} />}
+        {open.series && <SeriesMenulist link={'/series'} subPages={['Dimoo', "Hirono", 'Skull Panda', 'Cry Baby', 'The Monsters', 'Pucky', 'Sweet Bean', 'Hacipupu',
+          'Azura', 'Disney', 'Harry Potter']} />}
+        {open.mega && <Menulist link={'/mega'} subPages={['Mega 100 %', 'Mega 400 %', 'Mega 1000 %']} />}
+        {open.types && <Menulist link={'/types'} subPages={['Collaborations', 'Figure', 'Action Figure']} />}
+        {open.accessories && <Menulist link={'/accessories'} subPages={['Phone  Accessories', 'Plush Toys', 'Bags']} />}
       </div>
     </div>
   );

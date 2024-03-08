@@ -1,36 +1,37 @@
-import React, { useEffect, useState } from 'react'
-import ProductsContainer from '../../layouts/components/ProductsContainer'
-import { useSelector } from 'react-redux'
-import { useDispatch } from 'react-redux'
-import { fetchAllProduct } from '../../store/slices/productSlice'
 
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { fetchAllProduct } from '../../store/slices/productSlice';
+import ProductsContainer from '../../layouts/components/ProductsContainer';
 
-export default function TypesPage() {
-
+const TypesPage = () => {
     const dispatch = useDispatch();
-    const { products } = useSelector(
-        store =>
-            store.products) || { products: [], };
-
-    console.log(products)
+    const { typesId } = useParams(); // รับ megaId จาก URL
+    const { products } = useSelector(store => store.products) || { products: [] };
 
     useEffect(() => {
         dispatch(fetchAllProduct());
     }, [dispatch]);
 
+    // กำหนด groupId จาก megaId
+    const groupId = parseInt(typesId) + 3;
+
+    // กำหนด filter โดยใช้ groupId
     const filter = {
-        groupId: 4,
+        groupId: groupId,
         // Add other filter criteria if needed
     };
 
+
+
     return (
-        <div className=' hero '>
-            <div className=' m-auto  text-center  '>
-                <ProductsContainer
-                    title="Types"
-                    filter={filter}
-                />
+        <div className='hero'>
+            <div className='m-auto text-center'>
+                <ProductsContainer title="Types" filter={filter} />
             </div>
         </div>
-    )
-}
+    );
+};
+
+export default TypesPage;

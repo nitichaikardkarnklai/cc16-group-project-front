@@ -13,12 +13,17 @@ export default function ProductsContainer({ title = 'TITLE', ProductCards = Prod
     store =>
       store.products) || { products: [], };
 
-  // Filter products based on the provided filter object
   const filteredProducts = products.filter(product => {
-    // Implement your filtering logic here based on the filter object
-    // For example, check if product.groupId matches filter.groupId
-    return product.groupId === filter.groupId;
+    return (
+      (!filter.groupId || product.groupId === filter.groupId) &&
+      (!filter.serieId || product.serieId === filter.serieId) &&
+      (!filter.isHot || product.isHot) &&
+      (!filter.isNew || product.isNew)
+
+    );
   });
+
+
   return (
     <div className='flex flex-col justify-center items-center'>
       <h1 className='text-5xl p-12 font-semibold'>{title}</h1>

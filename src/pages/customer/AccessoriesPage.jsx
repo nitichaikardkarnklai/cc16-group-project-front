@@ -1,35 +1,37 @@
-import React, { useEffect, useState } from 'react';
-import ProductsContainer from '../../layouts/components/ProductsContainer';
+
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import ProductCard from '../../layouts/components/ProductCard';
+import { useParams } from 'react-router-dom';
 import { fetchAllProduct } from '../../store/slices/productSlice';
+import ProductsContainer from '../../layouts/components/ProductsContainer';
 
-export default function MegaPage() {
+const AccessoriesPage = () => {
   const dispatch = useDispatch();
-  const { products } = useSelector(
-    store =>
-      store.products) || { products: [], };
-
-  console.log(products)
+  const { accId } = useParams(); // รับ megaId จาก URL
+  const { products } = useSelector(store => store.products) || { products: [] };
 
   useEffect(() => {
     dispatch(fetchAllProduct());
   }, [dispatch]);
 
+  // กำหนด groupId จาก megaId
+  const groupId = parseInt(accId) + 6;
+
+  // กำหนด filter โดยใช้ groupId
   const filter = {
-    groupId: 7,
+    groupId: groupId,
     // Add other filter criteria if needed
   };
+
+
 
   return (
     <div className='hero'>
       <div className='m-auto text-center'>
-        {/* Pass the filter object to ProductsContainer */}
-        <ProductsContainer
-          title="Accessories"
-          filter={filter}
-        />
+        <ProductsContainer title="Accessories" filter={filter} />
       </div>
     </div>
-  )
-}
+  );
+};
+
+export default AccessoriesPage;

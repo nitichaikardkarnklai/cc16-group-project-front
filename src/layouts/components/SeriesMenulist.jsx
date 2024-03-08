@@ -1,29 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import SeriesCard from './SeriesCard';
 import { Link } from 'react-router-dom';
 
-export default function SeriesMenulist({ link }) {
+export default function SeriesMenulist({ link, subPages }) {
+
+  const [selectedFilter, setSelectedFilter] = useState(null);
+
+  const onFilterChange = (filterValue) => {
+    setSelectedFilter(filterValue);
+  };
+
+
+
   return (
     <div className='flex p-8 w-full shadow-md'>
       <div className='grid gap-4 grid-cols-4 mx-auto'>
-        <Link to={link}>
-          <SeriesCard />
-        </Link>
-        <Link to={link}>
-          <SeriesCard />
-        </Link>
-        <Link to={link}>
-          <SeriesCard />
-        </Link>
-        <Link to={link}>
-          <SeriesCard />
-        </Link>
-        <Link to={link}>
-          <SeriesCard />
-        </Link>
-        <Link to={link}>
-          <SeriesCard />
-        </Link>
+
+        {subPages.map((page, index) => (
+          <Link key={index} to={`${link}/${index + 1}`}>
+            <button onClick={() => onFilterChange(index + 1)}>
+              <SeriesCard value={`${page}`} selected={selectedFilter === index + 1} />
+            </button>
+          </Link>
+        ))}
+
       </div>
     </div>
   );

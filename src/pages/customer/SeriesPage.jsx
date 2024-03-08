@@ -1,25 +1,37 @@
-import React, { useEffect, useState } from 'react';
-import ProductsContainer from '../../layouts/components/ProductsContainer';
-import ProductCard from '../../layouts/components/ProductCard';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { fetchAllProduct } from '../../store/slices/productSlice';
+import ProductsContainer from '../../layouts/components/ProductsContainer';
 
-export default function SeriesPage() {
-  const { products } = useSelector(store => store.product) || {}
+const SeriesPage = () => {
   const dispatch = useDispatch();
-  const [filter, setFilter] = useState({})
-  const [page, setPage] = useState(1)
+  const { seriesId } = useParams();
+  const { products } = useSelector(store => store.products) || { products: [] };
+
+  useEffect(() => {
+    dispatch(fetchAllProduct());
+  }, [dispatch]);
+
+  const
+    serieId = parseInt(seriesId);
+
+  const filter = {
+    serieId: serieId,
+  };
+
+  console.log("seriesId: ", seriesId)
+  console.log("serieId: ", serieId)
+  console.log("products: ", products)
 
   return (
 
     <div className=' hero '>
       <div className=' m-auto  text-center  '>
-        <ProductsContainer title={"Series"}
-          productCard={ProductCard}
-          productType={'series'}
-        />
+        <ProductsContainer title="Series" filter={filter} />
       </div>
     </div>
   );
 }
+
+export default SeriesPage
