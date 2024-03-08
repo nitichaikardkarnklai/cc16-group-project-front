@@ -139,7 +139,7 @@ export default function ProductManageAdd() {
                                     </button>}
                             </div>
                             <div className="w-1/4">
-                                <div className="flex flex-row items-start lg:flex-col">
+                                <div className="flex flex-row items-start lg:flex-col overflow-hidden">
                                     <div>(MAX 4)</div>
                                     <input
                                         type="file"
@@ -169,12 +169,12 @@ export default function ProductManageAdd() {
                                         return (
                                             <div
                                                 key={index}
-                                                className="relative flex aspect-square mb-3 h-20 overflow-hidden"
+                                                className="relative aspect-square mb-3 h-20 overflow-hidden"
                                                 onClick={() => { imageProductEl.current.click() }}
                                                 role="button"
                                             >
-                                                <img key={index} className="h-full w-full" src={URL.createObjectURL(el)} alt="imageProduct" />
-                                                <button className="absolute top-2 right-2 font-black text-gray-400 h-6 w-6"
+                                                <img key={index} className="object-cover h-full w-full" src={URL.createObjectURL(el)} alt="imageProduct" />
+                                                <button type="button" className="absolute top-2 right-2 font-black text-gray-400 h-6 w-6"
                                                     onClick={e => {
                                                         e.stopPropagation();
                                                         setImages(c => {

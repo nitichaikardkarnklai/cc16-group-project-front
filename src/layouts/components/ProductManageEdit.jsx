@@ -48,8 +48,7 @@ export default function ProductManageEdit() {
         dispatch(fetchSeries());
 
         dispatch(fetchProductById(productId));
-        // setImages(c => { return { ...c, coverProduct: product.productCover?.[0]?.cover } })
-    }, [images, onFetch])
+    }, [onFetch])
 
     const handleSubmitFormEditProduct = async e => {
         e.preventDefault();
@@ -90,14 +89,54 @@ export default function ProductManageEdit() {
         }
     }
 
-    const onChangeAndUpdateImage = async (e, imageKey) => {
+    const onChangeAndUpdateImage = async (e, imageKey = "item", imageType, imageId = "") => {
         if (confirm("Are you sure to update this image?")) {
             try {
                 setLoadingUpdateProduct(true);
                 const formData = new FormData();
                 formData.append(imageKey, e.target.files[0])
-                await apiProduct.updateCoverImage(formData, product.productCover?.[0]?.id)
-                toast.success("cover product is successfully changed")
+                if (imageType === "coverProduct") {
+                    await apiProduct.updateCoverImage(formData, product.productCover?.[0]?.id)
+                } else if (imageType === "imageProductEdit") {
+                    await apiProduct.updateProductImage(formData, imageId)
+                } else if (imageType === "imageProductAdd") {
+                    await apiProduct.addProductImage(formData, product.id);
+                } else { // "posterX"
+                    await apiProduct.updatePosterImage(formData, product.productPosters?.[0]?.id, imageType) // posterX
+                }
+                toast.success("image is successfully changed")
+            } catch (error) {
+                console.log(error.response.data);
+                toast.error(error.response?.data.message);
+            } finally {
+                setLoadingUpdateProduct(false);
+                setOnfetch(c => !c);
+            }
+        }
+    }
+
+    const onDeletePosterImage = async (posterId, posterX) => {
+        if (confirm("Are you sure to delete this image?")) {
+            try {
+                setLoadingUpdateProduct(true);
+                await apiProduct.deletePosterImage(posterId, posterX);
+                toast.success("image is successfully deleted")
+            } catch (error) {
+                console.log(error.response.data);
+                toast.error(error.response?.data.message);
+            } finally {
+                setLoadingUpdateProduct(false);
+                setOnfetch(c => !c);
+            }
+        }
+    }
+
+    const onDeleteProductImage = async (imageId) => {
+        if (confirm("Are you sure to delete this image?")) {
+            try {
+                setLoadingUpdateProduct(true);
+                await apiProduct.deleteProductImage(imageId);
+                toast.success("image is successfully deleted")
             } catch (error) {
                 console.log(error.response.data);
                 toast.error(error.response?.data.message);
@@ -125,11 +164,12 @@ export default function ProductManageEdit() {
                     <div className="w-full lg:w-1/2">
                         <div className="lg:flex lg:justify-start gap-1 mb-4">
                             <div className="lg:order-2 flex flex-col justify-center w-[40rem]">
+                                {/* ================= Cover Image ===================== */}
                                 <input
                                     type="file"
                                     className="hidden"
                                     ref={coverProductEl}
-                                    onChange={e => onChangeAndUpdateImage(e, "image")}
+                                    onChange={e => onChangeAndUpdateImage(e, "image", "coverProduct")}
                                 />
                                 {product.productCover?.[0]?.cover ?
                                     <div
@@ -147,56 +187,57 @@ export default function ProductManageEdit() {
                                         <DummyImageLarge />
                                     </button>}
                             </div>
+                            {/* ================= Product Image ===================== */}
                             <div className="w-1/4">
                                 <div className="flex flex-row items-start lg:flex-col">
                                     <div>(MAX 4)</div>
+                                    {product.productImages?.map((el, index) => {
+                                        return (
+                                            <div key={el.id}>
+                                                <input
+                                                    type="file"
+                                                    multiple
+                                                    className="hidden"
+                                                    ref={imageProductEl}
+                                                    onChange={e => {
+                                                        onChangeAndUpdateImage(e, "image", "imageProductEdit", el.id)
+                                                    }}
+                                                />
+                                                <div
+                                                    key={index}
+                                                    className="relative flex aspect-square mb-3 h-20 overflow-hidden"
+                                                    onClick={() => { imageProductEl.current.click() }}
+                                                    role="button"
+                                                >
+                                                    <img className="object-cover h-full w-full" src={el.images} alt="imageProduct" />
+                                                    <button className="absolute top-2 right-2 font-black text-gray-400 h-6 w-6"
+                                                        onClick={e => {
+                                                            e.stopPropagation();
+                                                            onDeleteProductImage(el.id);
+                                                            imageProductEl.current.value = "";
+                                                        }}
+                                                    >&#10005;</button>
+                                                </div>
+                                            </div>
+                                        )
+                                    })}
                                     <input
                                         type="file"
                                         multiple
                                         className="hidden"
                                         ref={imageProductEl}
                                         onChange={e => {
-                                            if (e.target.files[0]) {
-                                                // console.log([...e.target.files]);
-                                                if (e.target.files.length > 4) {
-                                                    toast.error("the maximum images are 4")
-                                                } else {
-                                                    setImages(c => { return { ...c, imageProduct: [...e.target.files] } })
-                                                }
-                                            }
+                                            onChangeAndUpdateImage(e, "image", "imageProductAdd",)
                                         }}
                                     />
-                                    <button
+                                    {product.productImages?.length >= 4 || <button
                                         type="button"
                                         className="flex-0 aspect-square mb-3 h-20 overflow-hidden text-center"
                                         onClick={() => imageProductEl.current.click()}
                                     >
                                         {/* <img className="h-full w-full object-cover" src={"#"} alt="#" /> */}
                                         <DummyImageSmall />
-                                    </button>
-                                    {images.imageProduct.map((el, index) => {
-                                        return (
-                                            <div
-                                                key={index}
-                                                className="relative flex aspect-square mb-3 h-20 overflow-hidden"
-                                                onClick={() => { imageProductEl.current.click() }}
-                                                role="button"
-                                            >
-                                                <img key={index} className="h-full w-full" src={URL.createObjectURL(el)} alt="imageProduct" />
-                                                <button className="absolute top-2 right-2 font-black text-gray-400 h-6 w-6"
-                                                    onClick={e => {
-                                                        e.stopPropagation();
-                                                        setImages(c => {
-                                                            const imageProductTemp = [...c.imageProduct];
-                                                            imageProductTemp.splice(index, 1)
-                                                            return { ...c, imageProduct: imageProductTemp }
-                                                        });
-                                                        imageProductEl.current.value = "";
-                                                    }}
-                                                >&#10005;</button>
-                                            </div>
-                                        )
-                                    })}
+                                    </button>}
                                 </div>
                             </div>
                         </div>
@@ -206,23 +247,19 @@ export default function ProductManageEdit() {
                                 type="file"
                                 className="hidden"
                                 ref={poster1El}
-                                onChange={e => {
-                                    if (e.target.files[0]) {
-                                        setImages(c => { return { ...c, poster1: e.target.files[0] } })
-                                    }
-                                }}
+                                onChange={e => onChangeAndUpdateImage(e, "image", "poster1")}
                             />
-                            {images.poster1 ?
+                            {product.productPosters?.[0]?.posters1 ?
                                 <div
                                     className="relative flex justify-center"
                                     onClick={() => { poster1El.current.click() }}
                                     role="button"
                                 >
-                                    <img src={URL.createObjectURL(images.poster1)} alt="poster1" />
+                                    <img src={product.productPosters?.[0]?.posters1} alt="poster1" />
                                     <button type="button" className="absolute top-2 right-2 font-black text-gray-400 h-6 w-6"
                                         onClick={e => {
                                             e.stopPropagation();
-                                            setImages(c => { return { ...c, poster1: null } });
+                                            onDeletePosterImage(product.productPosters?.[0]?.id, "poster1");
                                             poster1El.current.value = "";
                                         }}
                                     >&#10005;</button>
@@ -239,23 +276,19 @@ export default function ProductManageEdit() {
                                 type="file"
                                 className="hidden"
                                 ref={poster2El}
-                                onChange={e => {
-                                    if (e.target.files[0]) {
-                                        setImages(c => { return { ...c, poster2: e.target.files[0] } })
-                                    }
-                                }}
+                                onChange={e => onChangeAndUpdateImage(e, "image", "poster2")}
                             />
-                            {images.poster2 ?
+                            {product.productPosters?.[0]?.posters2 ?
                                 <div
                                     className="relative flex justify-center"
                                     onClick={() => { poster2El.current.click() }}
                                     role="button"
                                 >
-                                    <img src={URL.createObjectURL(images.poster2)} alt="poster2" />
+                                    <img src={product.productPosters?.[0]?.posters2} alt="poster2" />
                                     <button type="button" className="absolute top-2 right-2 font-black text-gray-400 h-6 w-6"
                                         onClick={e => {
                                             e.stopPropagation();
-                                            setImages(c => { return { ...c, poster2: null } });
+                                            onDeletePosterImage(product.productPosters?.[0]?.id, "poster2");
                                             poster2El.current.value = "";
                                         }}
                                     >&#10005;</button>
@@ -272,23 +305,19 @@ export default function ProductManageEdit() {
                                 type="file"
                                 className="hidden"
                                 ref={poster3El}
-                                onChange={e => {
-                                    if (e.target.files[0]) {
-                                        setImages(c => { return { ...c, poster3: e.target.files[0] } })
-                                    }
-                                }}
+                                onChange={e => onChangeAndUpdateImage(e, "image", "poster3")}
                             />
-                            {images.poster3 ?
+                            {product.productPosters?.[0]?.posters3 ?
                                 <div
                                     className="relative flex justify-center"
                                     onClick={() => { poster3El.current.click() }}
                                     role="button"
                                 >
-                                    <img src={URL.createObjectURL(images.poster3)} alt="poster3" />
+                                    <img src={product.productPosters?.[0]?.posters3} alt="poster3" />
                                     <button type="button" className="absolute top-2 right-2 font-black text-gray-400 h-6 w-6"
                                         onClick={e => {
                                             e.stopPropagation();
-                                            setImages(c => { return { ...c, poster3: null } });
+                                            onDeletePosterImage(product.productPosters?.[0]?.id, "poster3");
                                             poster3El.current.value = "";
                                         }}
                                     >&#10005;</button>
@@ -305,23 +334,19 @@ export default function ProductManageEdit() {
                                 type="file"
                                 className="hidden"
                                 ref={poster4El}
-                                onChange={e => {
-                                    if (e.target.files[0]) {
-                                        setImages(c => { return { ...c, poster4: e.target.files[0] } })
-                                    }
-                                }}
+                                onChange={e => onChangeAndUpdateImage(e, "image", "poster4")}
                             />
-                            {images.poster4 ?
+                            {product.productPosters?.[0]?.posters4 ?
                                 <div
                                     className="relative flex justify-center"
                                     onClick={() => { poster4El.current.click() }}
                                     role="button"
                                 >
-                                    <img src={URL.createObjectURL(images.poster4)} alt="poster4" />
+                                    <img src={product.productPosters?.[0]?.posters4} alt="poster4" />
                                     <button type="button" className="absolute top-2 right-2 font-black text-gray-400 h-6 w-6"
                                         onClick={e => {
                                             e.stopPropagation();
-                                            setImages(c => { return { ...c, poster4: null } });
+                                            onDeletePosterImage(product.productPosters?.[0]?.id, "poster4");
                                             poster4El.current.value = "";
                                         }}
                                     >&#10005;</button>
@@ -338,23 +363,19 @@ export default function ProductManageEdit() {
                                 type="file"
                                 className="hidden"
                                 ref={poster5El}
-                                onChange={e => {
-                                    if (e.target.files[0]) {
-                                        setImages(c => { return { ...c, poster5: e.target.files[0] } })
-                                    }
-                                }}
+                                onChange={e => onChangeAndUpdateImage(e, "image", "poster5")}
                             />
-                            {images.poster5 ?
+                            {product.productPosters?.[0]?.posters5 ?
                                 <div
                                     className="relative flex justify-center"
                                     onClick={() => { poster5El.current.click() }}
                                     role="button"
                                 >
-                                    <img src={URL.createObjectURL(images.poster5)} alt="poster4" />
+                                    <img src={product.productPosters?.[0]?.posters5} alt="poster5" />
                                     <button type="button" className="absolute top-2 right-2 font-black text-gray-400 h-6 w-6"
                                         onClick={e => {
                                             e.stopPropagation();
-                                            setImages(c => { return { ...c, poster5: null } });
+                                            onDeletePosterImage(product.productPosters?.[0]?.id, "poster5");
                                             poster5El.current.value = "";
                                         }}
                                     >&#10005;</button>

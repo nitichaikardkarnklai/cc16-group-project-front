@@ -9,7 +9,7 @@ export default function GroupsRowForm({ onChange, onSubmit, setIsAddGroups, onCa
     // console.log("group: ", group?.group, ", categories: ", group?.categories);
     return (
         <div className='flex items-center px-4 py-2 gap-2'>
-            <form onSubmit={(e) => onSubmit(e, group)} className='flex justify-between w-full'>
+            <form onSubmit={(e) => onSubmit(e, group)} className='flex justify-between items-center w-full mb-0'>
                 <div className='flex'>
                     <div className='w-16'></div>
                     <div className='w-48 flex'>

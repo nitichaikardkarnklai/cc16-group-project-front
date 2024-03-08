@@ -33,7 +33,7 @@ export default function ProductEdit({ productObj = initialProduct, handleOnChang
                     <div className='flex items-center gap-2'>
                         <div className='w-28'>Name: </div>
                         <Input
-                            value={productObj?.productName}
+                            value={productObj?.productName || ""}
                             onChange={(e) => dispatch(handleOnChange({ name: e.target.name, value: e.target.value }))}
                             name="productName"
                             placeholder="Enter Product Name"
@@ -43,7 +43,7 @@ export default function ProductEdit({ productObj = initialProduct, handleOnChang
                         <div className='w-28'>Price: </div>
                         <Input
                             type="number"
-                            value={productObj?.price}
+                            value={productObj?.price || ""}
                             onChange={(e) => dispatch(handleOnChange({ name: e.target.name, value: +e.target.value }))}
                             name="price"
                         />
@@ -53,7 +53,7 @@ export default function ProductEdit({ productObj = initialProduct, handleOnChang
                         <select
                             className="select border-gray-300 w-full"
                             onChange={(e) => dispatch(handleOnChange({ name: e.target.name, value: +e.target.value }))}
-                            value={productObj?.serieId}
+                            value={productObj?.serieId || ""}
                             name="serieId"
                         >
                             <option disabled value="">Product Series</option>
@@ -65,7 +65,7 @@ export default function ProductEdit({ productObj = initialProduct, handleOnChang
                         <select
                             className="select border-gray-300 w-full"
                             onChange={(e) => dispatch(handleOnChange({ name: e.target.name, value: +e.target.value }))}
-                            value={productObj?.groupId}
+                            value={productObj?.groupId || ""}
                             name="groupId"
                         >
                             <option disabled value="">Product Groups</option>
@@ -77,7 +77,7 @@ export default function ProductEdit({ productObj = initialProduct, handleOnChang
                         <Input
                             type="date"
                             onChange={(e) => dispatch(handleOnChange({ name: e.target.name, value: e.target.value }))}
-                            value={productObj?.launchDate?.slice(0, 10)}
+                            value={productObj?.launchDate?.slice(0, 10) || ""}
                             name="launchDate"
                         />
                     </div>
@@ -86,7 +86,7 @@ export default function ProductEdit({ productObj = initialProduct, handleOnChang
                         <Input
                             type="number"
                             onChange={(e) => dispatch(handleOnChange({ name: e.target.name, value: +e.target.value }))}
-                            value={productObj?.stockQuantity}
+                            value={productObj?.stockQuantity || ""}
                             name="stockQuantity"
                         />
                     </div>
@@ -95,7 +95,7 @@ export default function ProductEdit({ productObj = initialProduct, handleOnChang
                         <Input
                             placeholder="Enter Product Brand"
                             onChange={(e) => dispatch(handleOnChange({ name: e.target.name, value: e.target.value }))}
-                            value={productObj?.brand}
+                            value={productObj?.brand || ""}
                             name="brand"
                         />
                     </div>
@@ -104,7 +104,7 @@ export default function ProductEdit({ productObj = initialProduct, handleOnChang
                         <Input
                             placeholder="Enter Product Size"
                             onChange={(e) => dispatch(handleOnChange({ name: e.target.name, value: e.target.value }))}
-                            value={productObj?.size}
+                            value={productObj?.size || ""}
                             name="size"
                         />
                     </div>
@@ -113,7 +113,7 @@ export default function ProductEdit({ productObj = initialProduct, handleOnChang
                         <Input
                             placeholder="Enter Product Material"
                             onChange={(e) => dispatch(handleOnChange({ name: e.target.name, value: e.target.value }))}
-                            value={productObj?.material}
+                            value={productObj?.material || ""}
                             name="material"
                         />
                     </div>
@@ -122,7 +122,7 @@ export default function ProductEdit({ productObj = initialProduct, handleOnChang
                         <TextArea
                             placeholder="Enter Description"
                             onChange={(e) => dispatch(handleOnChange({ name: e.target.name, value: e.target.value }))}
-                            value={productObj?.customDetail}
+                            value={productObj?.customDetail || ""}
                             name="customDetail"
                         ></TextArea>
                     </div>

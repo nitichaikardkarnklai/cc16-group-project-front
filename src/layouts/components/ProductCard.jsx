@@ -3,16 +3,32 @@ import Button from '../../components/Button';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { fetchProductById } from '../../store/slices/productSlice';
+import { fetchAllProduct, fetchProductById } from '../../store/slices/productSlice';
+import * as apiProduct from "../../api/product";
+import { toast } from "react-toastify"
 
-export default function ProductCard({ productObj, location = '', onClick }) {
+export default function ProductCard({ productObj, location = '', onClick = () => { } }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const handleDeleteProduct = async () => {
+    if (confirm("Are you sure to delete this product?")) {
+      try {
+        await apiProduct.deleteProduct(productObj.id);
+        toast.success("product is successfully deleted");
+      } catch (error) {
+        console.log(error.response.data);
+        toast.error(error.response?.data.message);
+      } finally {
+        dispatch(fetchAllProduct());
+      }
+    }
+  }
 
   return (
     <div className='relative w-[250px] flex flex-col gap-2 mx-auto'>
       <div
-        onClick={(c) => onClick(productObj)}
+        onClick={(c) => location === "/admin/admin-product-edit-form" || onClick(productObj)}
         className='overflow-hidden border-none w-[250px] h-[320px] bg-grayBg100 flex justify-center items-center'
       >
         {productObj?.productCover ? (
@@ -33,7 +49,7 @@ export default function ProductCard({ productObj, location = '', onClick }) {
               <Button onClick={() => { localStorage.setItem('productId', productObj.id); navigate("/admin/admin-product-edit-form"); }} color='white' bg='darkGray'>
                 Edit
               </Button>
-              <Button color='white' bg='red'>
+              <Button onClick={() => handleDeleteProduct()} color='white' bg='red'>
                 DELETE
               </Button>
             </div>
