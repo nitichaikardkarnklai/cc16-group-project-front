@@ -1,7 +1,6 @@
 import React from 'react';
 import WishListCard from '../../../layouts/components/WishListCard';
 import {
-  addWishlist,
   removeWishlist,
   fetchWishlist,
 } from '../../../store/slices/wishlistSlice';
@@ -22,7 +21,7 @@ export default function WishlistPage() {
       try {
         setLoading(true);
         dispatch(fetchWishlist());
-        console.log(wishlistItems);
+        // console.log(wishlistItems);
       } catch (err) {
         console.log(err);
       } finally {

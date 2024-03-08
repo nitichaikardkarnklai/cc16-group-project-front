@@ -1,12 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import * as cartApi from '../../api/cart';
 
-const initialCartItem = {
-  productId: null,
-  quantity: null,
-  price: null,
-};
-
 const initialState = {
   itemsInCart: [],
   loading: false,
@@ -14,15 +8,15 @@ const initialState = {
 };
 
 // ====== fetch cart ======
-const fetchCart = createAsyncThunk(
+export const fetchCart = createAsyncThunk(
   'cart/fetchCart',
   async (payload, { rejectWithValue, fulfillWithValue }) => {
     try {
       const { data } = await cartApi.seeItemInCart();
-      fulfillWithValue(data.cart);
+      return fulfillWithValue(data.cart);
     } catch (err) {
       console.log(err);
-      return rejectWithValue(error.response.statusText);
+      return rejectWithValue(err.response.statusText);
     }
   }
 );
