@@ -6,6 +6,7 @@ import { fetchSeries } from '../../store/slices/seriesSlice';
 import { fetchGroups } from '../../store/slices/groupSlice';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { Carousel } from "@material-tailwind/react";
 
 export default function LandingPage() {
   const dispatch = useDispatch();
@@ -26,65 +27,29 @@ export default function LandingPage() {
     <div>
       <div className=''></div>
       <div>
-        <div className='hero '>
-          <div className='carousel w-3/4 m-auto py-10    '>
-            <div id='slide1' className='carousel-item relative w-full'>
-              <img
-                src='https://prod-global-static.oss-us-east-1.aliyuncs.com/globalAdmin/1709176171572.jpg?x-oss-process=image/format,webp'
-                className='w-full'
-              />
-              <div className='absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2'>
-                <a href='#slide4' className='btn btn-circle'>
-                  ❮
-                </a>
-                <a href='#slide2' className='btn btn-circle'>
-                  ❯
-                </a>
-              </div>
-            </div>
-            <div id='slide2' className='carousel-item relative w-full'>
-              <img
-                src='https://prod-global-static.oss-us-east-1.aliyuncs.com/globalAdmin/1709176750218.jpg?x-oss-process=image/format,webp'
-                className='w-full'
-              />
-              <div className='absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2'>
-                <a href='#slide1' className='btn btn-circle'>
-                  ❮
-                </a>
-                <a href='#slide3' className='btn btn-circle'>
-                  ❯
-                </a>
-              </div>
-            </div>
-            <div id='slide3' className='carousel-item relative w-full'>
-              <img
-                src='https://prod-global-static.oss-us-east-1.aliyuncs.com/globalAdmin/1709177133802.jpg?x-oss-process=image/format,webp'
-                className='w-full'
-              />
-              <div className='absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2'>
-                <a href='#slide2' className='btn btn-circle'>
-                  ❮
-                </a>
-                <a href='#slide4' className='btn btn-circle'>
-                  ❯
-                </a>
-              </div>
-            </div>
-            <div id='slide4' className='carousel-item relative w-full'>
-              <img
-                src='https://prod-global-static.oss-us-east-1.aliyuncs.com/globalAdmin/1709176918193.jpg?x-oss-process=image/format,webp'
-                className='w-full'
-              />
-              <div className='absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2'>
-                <a href='#slide3' className='btn btn-circle'>
-                  ❮
-                </a>
-                <a href='#slide1' className='btn btn-circle'>
-                  ❯
-                </a>
-              </div>
-            </div>
-          </div>
+        <div className='hero mb-8'>
+          <Carousel className="">
+            <img
+              src="https://prod-global-static.oss-us-east-1.aliyuncs.com/globalAdmin/1709176171572.jpg?x-oss-process=image/format,webp"
+              alt="image 1"
+              className="h-full w-full object-cover"
+            />
+            <img
+              src="https://prod-global-static.oss-us-east-1.aliyuncs.com/globalAdmin/1709176750218.jpg?x-oss-process=image/format,webp"
+              alt="image 2"
+              className="h-full w-full object-cover"
+            />
+            <img
+              src="https://prod-global-static.oss-us-east-1.aliyuncs.com/globalAdmin/1709177133802.jpg?x-oss-process=image/format,webp"
+              alt="image 3"
+              className="h-full w-full object-cover"
+            />
+            <img
+              src="https://prod-global-static.oss-us-east-1.aliyuncs.com/globalAdmin/1709176918193.jpg?x-oss-process=image/format,webp"
+              alt="image 4"
+              className="h-full w-full object-cover"
+            />
+          </Carousel>
         </div>
 
         <div className='w-3/4 m-auto '>
