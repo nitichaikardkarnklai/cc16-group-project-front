@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import ProductCard from '../../layouts/components/ProductCard';
 import { useSelector } from 'react-redux';
 import { fetchAllProduct } from '../../store/slices/productSlice';
@@ -17,8 +18,8 @@ export default function LandingPage() {
     dispatch(fetchSeries());
   }, [])
 
-  const newProducts = products.filter(product => product.isNew);
-  const topSellingProducts = products.filter(product => product.isHot);
+  const newProducts = products.filter(product => product.isNew).slice(0, 6); // แสดงสินค้าไม่เกิน 6 รายการ
+  const topSellingProducts = products.filter(product => product.isHot).slice(0, 6); // แสดงสินค้าไม่เกิน 6 รายการ
 
 
   return (
@@ -63,14 +64,21 @@ export default function LandingPage() {
         </div>
         <div className='flex flex-col justify-center items-center ' >
           <div className="hero ">
-            <div className="  carousel w-3/4 m-auto   py-5">
-              <div className="carousel h-2/4 gap-4 carousel-end  rounded-box">
+            <div className="carousel w-3/4 m-auto py-5">
+              <div className="carousel h-2/4 gap-4 carousel-end rounded-box relative">
                 <div className="carousel-item">
                   {newProducts.map((el, index) => <ProductCard key={el.id} productObj={el} />)}
                 </div>
+                {newProducts.length > 6 && (
+                  <div className="absolute flex justify-between items-center w-full bottom-2">
+                    <a href="#previous-slide" className="btn btn-circle bg-gray-400">&lt;</a>
+                    <Link to="/new-arrivals" className="btn btn-circle bg-gray-400">🢐</Link>
+                    <a href="#next-slide" className="btn btn-circle bg-gray-400">&gt;</a>
+                  </div>
+                )}
               </div>
-
             </div>
+
 
             <div>
             </div>
@@ -84,17 +92,21 @@ export default function LandingPage() {
 
           <div className="hero ">
 
-            <div className="  carousel w-3/4 m-auto   py-5">
-              <div className="carousel h-2/4 gap-4 carousel-end  rounded-box">
+            <div className="carousel w-3/4 m-auto py-5">
+              <div className="carousel h-2/4 gap-4 carousel-end rounded-box">
                 <div className="carousel-item">
                   {topSellingProducts.map((el, index) => <ProductCard key={el.id} productObj={el} />)}
                 </div>
-
-
-
+                {topSellingProducts.length > 6 && (
+                  <div className="absolute flex justify-between items-center w-full bottom-2">
+                    <a href="#previous-slide" className="btn btn-circle bg-gray-400">&lt;</a>
+                    <Link to="/top-selling" className="btn btn-circle bg-gray-400">🢐</Link>
+                    <a href="#next-slide" className="btn btn-circle bg-gray-400">&gt;</a>
+                  </div>
+                )}
               </div>
-
             </div>
+
 
             <div>
             </div>
@@ -105,35 +117,21 @@ export default function LandingPage() {
 
           <div className="hero ">
 
-            <div className="  carousel w-3/4 m-auto   py-5">
-              <div className="carousel h-2/4 gap-4 carousel-end  rounded-box">
-                {/* <div className="carousel-item">
-                  <ProductCard />
-                </div>
-                <div className="carousel-item">
-                  <ProductCard />
-                </div>
-                <div className="carousel-item">
-                  <ProductCard />
-                </div>
-                <div className="carousel-item">
-                  <ProductCard />
-                </div>
-                <div className="carousel-item">
-                  <ProductCard />
-                </div>
-                <div className="carousel-item">
-                  <ProductCard />
-                </div> */}
+            <div className="carousel w-3/4 m-auto py-5">
+              <div className="carousel h-2/4 gap-4 carousel-end rounded-box">
                 <div className="carousel-item">
                   {topSellingProducts.map((el, index) => <ProductCard key={el.id} productObj={el} />)}
                 </div>
-
-
-
+                {topSellingProducts.length > 6 && (
+                  <div className="absolute flex justify-between items-center w-full bottom-2">
+                    <a href="#previous-slide" className="btn btn-circle bg-gray-400">&lt;</a>
+                    <Link to="/top-selling" className="btn btn-circle bg-gray-400">🢐</Link>
+                    <a href="#next-slide" className="btn btn-circle bg-gray-400">&gt;</a>
+                  </div>
+                )}
               </div>
-
             </div>
+
 
             <div>
             </div>
