@@ -64,14 +64,14 @@ export default function CartPage() {
   return (
     <div className='container mx-auto w-9/12 py-10 min-h-screen'>
       <h1 className='text-4xl font-bold '> My Cart </h1>
-      <div className='flex flex-col w-full lg:flex-row py-10'>
+      <div className='flex flex-col w-full lg:flex-row py-10 gap-8'>
         <div className='flex-grow card'>
           <div className='flex py-2  '>
             <input type='checkbox' defaultChecked className='checkbox' />
             <h4 className='text-mx font-bold px-2'> Select All</h4>
           </div>
-          <div className='w-[710px]'>
-            {itemsInCart.length != 0 ? (
+          <div className=''>
+            {/* {itemsInCart.length != 0 ? (
               itemsInCart?.map((el, index) => {
                 console.log(el.quantity);
                 return (
@@ -85,7 +85,17 @@ export default function CartPage() {
               })
             ) : (
               <div>Your cart is empty</div>
-            )}
+            )} */}
+            {itemsInCart?.map((el, index) => {
+              return (
+                <CartCard
+                  key={index}
+                  data={el}
+                  onUpdate={handleUpdateCart}
+                  onRemove={handleRemove}
+                />
+              );
+            })}
           </div>
         </div>
         <CartPayment data={transaction} />

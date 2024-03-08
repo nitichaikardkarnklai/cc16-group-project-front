@@ -55,7 +55,7 @@ const cartSlice = createSlice({
     //====== fetch cart ======
     builder
       .addCase(fetchCart.pending, (state, action) => {
-        state.itemsInCart = [];
+        // state.itemsInCart = [];
         state.loading = true;
       })
       .addCase(fetchCart.fulfilled, (state, action) => {
@@ -84,4 +84,4 @@ const cartReducer = cartSlice.reducer;
 export default cartReducer;
 
 const allActionCreator = cartSlice.actions;
-export const {} = allActionCreator;
+export const { } = allActionCreator;
