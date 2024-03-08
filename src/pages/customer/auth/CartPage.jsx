@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import CartCard from '../../../layouts/components/CartCard';
 import CartPayment from './CartPayment';
-import { fetchCart } from '../../../store/slices/cartSlice';
+import { fetchCart, upsertItemIntoCart } from '../../../store/slices/cartSlice';
 import * as cartApi from '../../../api/cart';
 import { useState } from 'react';
 import Spinner from '../../../components/Spinner';
@@ -70,20 +70,23 @@ export default function CartPage() {
             <input type='checkbox' defaultChecked className='checkbox' />
             <h4 className='text-mx font-bold px-2'> Select All</h4>
           </div>
-          {itemsInCart.length != 0 ? (
-            itemsInCart?.map((el, index) => {
-              return (
-                <CartCard
-                  key={index}
-                  data={el}
-                  onUpdate={handleUpdateCart}
-                  onRemove={handleRemove}
-                />
-              );
-            })
-          ) : (
-            <div>Your cart is empty</div>
-          )}
+          <div className='w-[710px]'>
+            {itemsInCart.length != 0 ? (
+              itemsInCart?.map((el, index) => {
+                console.log(el.quantity);
+                return (
+                  <CartCard
+                    key={index}
+                    data={el}
+                    onUpdate={handleUpdateCart}
+                    onRemove={handleRemove}
+                  />
+                );
+              })
+            ) : (
+              <div>Your cart is empty</div>
+            )}
+          </div>
         </div>
         <CartPayment data={transaction} />
       </div>

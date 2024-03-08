@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import MinusIcon from '../../assets/icon/MinusIcon';
 import PlusIcon from '../../assets/icon/PlusIcon';
-import * as cartApi from '../../api/cart';
 
 const initialCartItem = {
   productId: null,
@@ -22,13 +21,14 @@ export default function CartCard({ data, onRemove, onUpdate }) {
       quantity: data.quantity,
       price: data.price,
     });
-  }, [data]);
+  }, [data.quantity]);
 
   //counter function increment and update database
   const increment = () => {
     if (count < 99) {
       setCount((prevCount) => {
         const newCount = prevCount + 1;
+        console.log(newCount);
         setCartItem((prevItem) => ({ ...prevItem, quantity: newCount }));
         onUpdate({ ...cartItem, quantity: newCount });
         return newCount;

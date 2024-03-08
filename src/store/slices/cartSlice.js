@@ -21,31 +21,31 @@ export const fetchCart = createAsyncThunk(
   }
 );
 
-// //====== upsert item into cart ======
-// const upsertItemIntoCart = createAsyncThunk(
-//   'cart/addItem',
-//   async (payload, { rejectWithValue, fulfillWithValue }) => {
-//     try {
-//       await cartApi.upsertIntoCart(payload);
-//     } catch (err) {
-//       console.log(err);
-//       return rejectWithValue(error.response.statusText);
-//     }
-//   }
-// );
+//====== upsert item into cart ======
+export const upsertItemIntoCart = createAsyncThunk(
+  'cart/addItem',
+  async (payload, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      await cartApi.upsertIntoCart(payload);
+    } catch (err) {
+      console.log(err);
+      return rejectWithValue(error.response.statusText);
+    }
+  }
+);
 
-// //====== remove item from cart ======
-// const removeItemFromCart = createAsyncThunk(
-//   'cart/removeItem',
-//   async (payload, { rejectWithValue, fulfillWithValue }) => {
-//     try {
-//       await cartApi.removeFromCart(payload);
-//     } catch (err) {
-//       console.log(err);
-//       return rejectWithValue(error.response.statusText);
-//     }
-//   }
-// );
+//====== remove item from cart ======
+export const removeItemFromCart = createAsyncThunk(
+  'cart/removeItem',
+  async (payload, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      await cartApi.removeFromCart(payload);
+    } catch (err) {
+      console.log(err);
+      return rejectWithValue(error.response.statusText);
+    }
+  }
+);
 
 const cartSlice = createSlice({
   name: 'cart',
@@ -63,6 +63,17 @@ const cartSlice = createSlice({
         state.loading = false;
       })
       .addCase(fetchCart.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
+    builder
+      .addCase(upsertItemIntoCart.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(upsertItemIntoCart.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(upsertItemIntoCart.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });
