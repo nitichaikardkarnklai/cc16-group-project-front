@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import FilterProduct from './FilterProduct';
 import { fetchAllProduct } from '../../store/slices/productSlice';
 
-export default function ProductsContainer({ title = 'TITLE', ProductCards = ProductCard, filter = {}, ...props }) {
+export default function ProductsContainer({ title = 'TITLE', ProductCards = ProductCard, filter = {}, onSortChange, ...props }) {
   const dispatch = useDispatch();
   const { products } = useSelector(store => store.products) || { products: [] };
 
@@ -28,6 +28,8 @@ export default function ProductsContainer({ title = 'TITLE', ProductCards = Prod
       sortedProducts.sort((a, b) => a.price - b.price);
     }
     setSelectedProducts(sortedProducts);
+    // Send sorted products to MegaPage
+    onSortChange(sortedProducts);
   };
 
   const filteredProducts = selectedProducts.filter(product => {
@@ -78,7 +80,7 @@ export default function ProductsContainer({ title = 'TITLE', ProductCards = Prod
             </div>
           </div>
           <div>
-            <div className="drawer drawer-end " style={{ zIndex: 9999 }}>
+            <div className="drawer drawer-end " >
               <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
               <div className="drawer-content">
                 <label htmlFor="my-drawer-2" className="drawer-button">
@@ -87,7 +89,7 @@ export default function ProductsContainer({ title = 'TITLE', ProductCards = Prod
                   </p>
                 </label>
               </div>
-              <div className="drawer-side">
+              <div className="drawer-side" style={{ zIndex: 999 }}>
                 <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
                 <ul className="menu p-4 pt-20 w-80 min-h-full bg-base-200 text-base-content">
                   <div className="flex flex-col justify-start text-left items-start">

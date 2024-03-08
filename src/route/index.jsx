@@ -45,13 +45,35 @@ const router = createBrowserRouter([
       { path: '/', element: <LandingPage /> },
       { path: '/launch-calendar', element: <LaunchCalendarPage /> },
       { path: '/new-arrivals', element: <NewArrivalsPage /> },
-      { path: '/accessories/:accId', element: <AccessoriesPage /> },
-      { path: '/mega/:megaId', element: <MegaPage /> },
+      {
+        path: '/accessories',
+        element: <AccessoriesPage />,
+        children: [
+          { path: '', element: <AccessoriesPage /> },
+          { path: ':accId', element: <AccessoriesPage /> },
+        ]
+      },
+      {
+        path: '/mega',
+        element: <MegaPage />,
+        children: [
+          { path: '', element: <MegaPage /> },
+          { path: ':megaId', element: <MegaPage /> },
+        ]
+      }
+      ,
       { path: '/product', element: <ProductPage /> },
       { path: '/series/:seriesId', element: <SeriesPage /> },
       { path: '/top-selling', element: <TopSellingPage /> },
       { path: '/login', element: <LoginPage /> },
-      { path: '/types/:typesId', element: <TypesPage /> },
+      {
+        path: '/types',
+        element: <TypesPage />,
+        children: [
+          { path: ':typesId', element: <TypesPage /> },
+          { path: '', element: <TypesPage /> },
+        ]
+      },
       {
         path: '/',
         element: (
