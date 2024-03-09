@@ -7,16 +7,18 @@ import { fetchAllProduct } from '../../store/slices/productSlice';
 export default function ProductsContainer({ title = 'TITLE', ProductCards = ProductCard, filter = {}, onSortChange, ...props }) {
   const dispatch = useDispatch();
   const { products } = useSelector(store => store.products) || { products: [] };
+  const [selectedFilters, setSelectedFilters] = useState({});
+  const [selectedProducts, setSelectedProducts] = useState(products);
 
   useEffect(() => {
     dispatch(fetchAllProduct());
   }, [dispatch]);
 
-  const [selectedProducts, setSelectedProducts] = useState(products);
-
   useEffect(() => {
     setSelectedProducts(products);
   }, [products]);
+
+
 
   const applySortBy = (criteria) => {
     let sortedProducts = [...products];
@@ -32,6 +34,9 @@ export default function ProductsContainer({ title = 'TITLE', ProductCards = Prod
     onSortChange(sortedProducts);
   };
 
+  const handleFilterChange = (filters) => {
+    setSelectedFilters(filters);
+  };
   const filteredProducts = selectedProducts.filter(product => {
     return (
       (!filter.groupId || product.groupId === filter.groupId) &&
@@ -40,6 +45,7 @@ export default function ProductsContainer({ title = 'TITLE', ProductCards = Prod
       (!filter.isNew || product.isNew)
     );
   });
+
 
   return (
     <div className='flex flex-col justify-center items-center'>
@@ -96,7 +102,7 @@ export default function ProductsContainer({ title = 'TITLE', ProductCards = Prod
                     <h2 className="text-2xl pt-3">Filter</h2>
                     <div className="divider"></div>
                   </div>
-                  <FilterProduct />
+                  <FilterProduct onFilterChange={handleFilterChange} />
                 </ul>
               </div>
             </div>

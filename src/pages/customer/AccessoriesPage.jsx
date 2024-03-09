@@ -11,6 +11,7 @@ const AccessoriesPage = () => {
   const { products } = useSelector(store => store.products) || { products: [] };
 
   const [sortedProducts, setSortedProducts] = useState([]);
+  const [accCategories, setAccCategories] = useState([]);
 
   const handleSortChange = (sortedProducts) => {
     setSortedProducts(sortedProducts);
@@ -22,7 +23,7 @@ const AccessoriesPage = () => {
   }, [dispatch]);
 
   // กำหนด groupId จาก megaId
-  const groupId = parseInt(accId) + 6;
+  const groupId = parseInt(accId);
 
   // กำหนด filter โดยใช้ groupId
   const filter = {
@@ -30,12 +31,32 @@ const AccessoriesPage = () => {
     // Add other filter criteria if needed
   };
 
+  const handleFilterChange = (filters) => {
+    // Apply the filters to the products
+    const filteredProducts = products.filter(product => product.groupId === filters.groupId);
+    setSortedProducts(filteredProducts);
+  };
+
+  useEffect(() => {
+    const filteredProducts = products.filter(product => product.groupId === filter.groupId);
+    setSortedProducts(filteredProducts);
+
+    const uniqueCategories = [...new Set(filteredProducts.map(product => product.productGroup.categories))];
+    setAccCategories(uniqueCategories);
+  }, [groupId, products]);
+
+  console.log(products)
 
 
   return (
     <div className='hero'>
       <div className='m-auto text-center'>
-        <ProductsContainer title="Accessories" filter={filter} ProductCards={ProductCard} onSortChange={handleSortChange} />
+        <ProductsContainer
+          title={accCategories.length > 0 ? accCategories.join(', ') : 'All Products'}
+          filter={filter}
+          ProductCards={ProductCard}
+          onSortChange={handleSortChange}
+        />
       </div>
       {sortedProducts.map(product => (
         <div key={product.id}>{product.name}</div>
