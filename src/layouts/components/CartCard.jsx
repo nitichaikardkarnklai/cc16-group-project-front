@@ -10,9 +10,16 @@ const initialCartItem = {
   price: null,
 };
 
-export default function CartCard({ data, onRemove, onUpdate }) {
+export default function CartCard({
+  data,
+  onRemove,
+  onUpdate,
+  addCheck,
+  removeCheck,
+}) {
   const [cartItem, setCartItem] = useState(initialCartItem);
   const [count, setCount] = useState(0);
+  const [checked, setChecked] = useState(true);
 
   useEffect(() => {
     setCount(data.quantity);
@@ -48,10 +55,25 @@ export default function CartCard({ data, onRemove, onUpdate }) {
     } else return onRemove(data.id);
   };
 
+  // check if check add item into state
+  const handleOnChange = (e) => {
+    setChecked((c) => !c);
+    if (e.target.checked) {
+      addCheck(data.id, count, data.price);
+    } else {
+      removeCheck(data.id);
+    }
+  };
+
   console.log('cartItem', cartItem);
   return (
     <div className='flex py-2 border-b'>
-      <input type='checkbox' defaultChecked className='checkbox ' />
+      {/* <input
+        type='checkbox'
+        onChange={handleOnChange}
+        checked={checked}
+        className='checkbox '
+      /> */}
       <div className='flex px-6 flex-shrink-0'>
         <img
           src={data?.products.productCover?.[0]?.cover}
@@ -63,7 +85,9 @@ export default function CartCard({ data, onRemove, onUpdate }) {
         <div>
           <h4 className='text-2xl font-bold'>{data?.products?.productName}</h4>
           <p className='text-mx '> Brand</p>
-          <h4 className='text-lg font-bold text-red-600'>{data?.price} THB</h4>
+          <h4 className='text-lg font-bold text-red-600'>
+            {(+data?.price).toLocaleString()} THB
+          </h4>
         </div>
         <div className='flex justify-between items-center w-full'>
           <div className='relative flex items-center justify-center w-[8rem]'>

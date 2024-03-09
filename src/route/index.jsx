@@ -36,6 +36,7 @@ import SettingAccountPage from '../pages/customer/auth/SettingAccountPage';
 import NewAddressPage from '../pages/customer/auth/NewAddressPage';
 import AdminAdminMgtPage from '../pages/admin/AdminAdminMgtPage';
 import EditAddressPage from '../pages/customer/auth/EditAddressPage';
+import PaymentResult from '../pages/customer/PaymentResult';
 
 const router = createBrowserRouter([
   {
@@ -74,6 +75,7 @@ const router = createBrowserRouter([
           { path: '/transaction-page', element: <TransactionPage /> },
           { path: '/wishlist-page', element: <WishlistPage /> },
           { path: '/my-account-setting', element: <SettingAccountPage /> },
+          { path: '/payment-result', element: <PaymentResult /> },
         ],
       },
     ],

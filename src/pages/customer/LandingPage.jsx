@@ -18,8 +18,7 @@ export default function LandingPage() {
   }, []);
 
   const handleOnClick = (e) => {
-    console.log(e.id);
-    localStorage.setItem('productId', e.id);
+    
   };
 
   return (
@@ -117,7 +116,6 @@ export default function LandingPage() {
                     <ProductCard
                       key={el.id}
                       productObj={el}
-                      onClick={handleOnClick}
                     />
                   ))}
                 </div>

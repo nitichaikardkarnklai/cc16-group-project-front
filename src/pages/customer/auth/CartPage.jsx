@@ -4,12 +4,23 @@ import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import CartCard from '../../../layouts/components/CartCard';
 import CartPayment from './CartPayment';
-import { fetchCart, upsertItemIntoCart } from '../../../store/slices/cartSlice';
+import { fetchCart, fetchReward } from '../../../store/slices/cartSlice';
 import * as cartApi from '../../../api/cart';
+import * as transactionApi from '../../../api/transaction';
 import { useState } from 'react';
 import Spinner from '../../../components/Spinner';
+import Modal from '../../../components/Modal';
+import Button from '../../../components/Button';
 
 const initialTransaction = {
+  subTotal: 0,
+  totalAmount: 0,
+  discount: 0,
+  reward: 0,
+  cartItemId: [],
+};
+
+const destinationTransaction = {
   totalAmount: 0,
   discount: 0,
   reward: 0,
@@ -19,9 +30,13 @@ const initialTransaction = {
 export default function CartPage() {
   const [onfetch, setOnfetch] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [totalSum, setTotalSum] = useState(0);
+  const [checkCart, setCheckCart] = useState([]);
   const [transaction, setTransaction] = useState(initialTransaction);
-  const { itemsInCart } = useSelector((store) => store.cart);
+  const [finalTransaction, setFinalTransaction] = useState(
+    destinationTransaction
+  );
+  const { itemsInCart, reward } = useSelector((store) => store.cart);
+  const [discount, setDiscount] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -29,6 +44,7 @@ export default function CartPage() {
       try {
         setLoading(true);
         dispatch(fetchCart());
+        dispatch(fetchReward());
       } catch (err) {
         console.log(err);
       } finally {
@@ -38,8 +54,15 @@ export default function CartPage() {
   }, [onfetch]);
 
   useEffect(() => {
-    setTransaction((prev) => ({ ...prev, totalAmount: sumPrice() }));
-  }, [itemsInCart]);
+    setTransaction((prev) => ({
+      ...prev,
+      subTotal: subTotal(),
+      totalAmount: sumPrice(),
+      discount: sumDiscount(),
+      cartItemId: putItemIdIntoCart(),
+      reward: reward,
+    }));
+  }, [itemsInCart, discount]);
 
   //remove item from cart
   const handleRemove = async (id) => {
@@ -53,9 +76,81 @@ export default function CartPage() {
     setOnfetch((c) => !c);
   };
 
+  const putItemIdIntoCart = () => {
+    return itemsInCart.map((el) => {
+      return el.id;
+    });
+  };
+
+  const subTotal = () => {
+    return itemsInCart.reduce((acc, crr) => acc + crr.quantity * +crr.price, 0);
+  };
+
+  const sumDiscount = () => {
+    return reward / 100;
+  };
+
   //sum total price
   const sumPrice = () => {
-    return itemsInCart.reduce((acc, crr) => acc + crr.quantity * +crr.price, 0);
+    if (!discount) {
+      return itemsInCart.reduce(
+        (acc, crr) => acc + crr.quantity * +crr.price,
+        0
+      );
+    } else {
+      const total = itemsInCart.reduce(
+        (acc, crr) => acc + crr.quantity * +crr.price,
+        0
+      );
+
+      return total - sumDiscount();
+    }
+  };
+
+  //check add items function
+  const addCheck = (id, count, price) => {
+    setCheckCart((prev) => [...prev, { id: id, count: count, price: price }]);
+  };
+
+  //check remove items function
+  const removeCheck = (id) => {
+    const toBeRemove = checkCart.find((item) => item.id === id);
+    if (toBeRemove) {
+      checkCart.splice(checkCart.indexOf(toBeRemove), 1);
+      setCheckCart([...checkCart]);
+    }
+  };
+
+  const toggleDiscount = () => {
+    setDiscount((c) => !c);
+  };
+
+  const onSubmitted = () => {
+    console.log('submitted');
+    if (!discount) {
+      setFinalTransaction(destinationTransaction);
+      setFinalTransaction((prev) => ({
+        ...prev,
+        totalAmount: transaction.subTotal,
+        cartItemId: transaction.cartItemId,
+      }));
+      document.getElementById('check-out-modal').showModal();
+    } else {
+      setFinalTransaction(destinationTransaction);
+      setFinalTransaction((prev) => ({
+        ...prev,
+        totalAmount: transaction.totalAmount,
+        discount: transaction.discount,
+        reward: transaction.reward,
+        cartItemId: transaction.cartItemId,
+      }));
+      document.getElementById('check-out-modal').showModal();
+    }
+  };
+
+  const onCheckout = async () => {
+    const response = await transactionApi.createTransaction(finalTransaction);
+    window.location.href = response.data.url;
   };
 
   if (loading) {
@@ -66,12 +161,12 @@ export default function CartPage() {
       <h1 className='text-4xl font-bold '> My Cart </h1>
       <div className='flex flex-col w-full lg:flex-row py-10 gap-8'>
         <div className='flex-grow card'>
-          <div className='flex py-2  '>
+          {/* <div className='flex py-2  '>
             <input type='checkbox' defaultChecked className='checkbox' />
             <h4 className='text-mx font-bold px-2'> Select All</h4>
-          </div>
+          </div> */}
           <div className=''>
-            {/* {itemsInCart.length != 0 ? (
+            {itemsInCart.length != 0 ? (
               itemsInCart?.map((el, index) => {
                 console.log(el.quantity);
                 return (
@@ -80,13 +175,15 @@ export default function CartPage() {
                     data={el}
                     onUpdate={handleUpdateCart}
                     onRemove={handleRemove}
+                    addCheck={addCheck}
+                    removeCheck={removeCheck}
                   />
                 );
               })
             ) : (
               <div>Your cart is empty</div>
-            )} */}
-            {itemsInCart?.map((el, index) => {
+            )}
+            {/* {itemsInCart?.map((el, index) => {
               return (
                 <CartCard
                   key={index}
@@ -95,11 +192,23 @@ export default function CartPage() {
                   onRemove={handleRemove}
                 />
               );
-            })}
+            })} */}
           </div>
         </div>
-        <CartPayment data={transaction} />
+        <CartPayment
+          data={transaction}
+          onCheck={toggleDiscount}
+          onSubmit={onSubmitted}
+        />
       </div>
+      <Modal id={'check-out-modal'}>
+        <div className='flex flex-col gap-4'>
+          <p>Do you want to checkout?</p>
+          <Button onClick={onCheckout} bg={'red'} color={'white'}>
+            Yes, Checkout
+          </Button>
+        </div>
+      </Modal>
     </div>
   );
 }

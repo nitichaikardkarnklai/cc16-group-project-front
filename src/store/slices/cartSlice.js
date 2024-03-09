@@ -1,8 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import * as cartApi from '../../api/cart';
+import * as userApi from '../../api/user';
 
 const initialState = {
   itemsInCart: [],
+  reward: null,
   loading: false,
   error: '',
 };
@@ -14,6 +16,19 @@ export const fetchCart = createAsyncThunk(
     try {
       const { data } = await cartApi.seeItemInCart();
       return fulfillWithValue(data.cart);
+    } catch (err) {
+      console.log(err);
+      return rejectWithValue(err.response.statusText);
+    }
+  }
+);
+
+export const fetchReward = createAsyncThunk(
+  'cart/fetchReward',
+  async (payload, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await userApi.getReward();
+      return fulfillWithValue(data.reward.point);
     } catch (err) {
       console.log(err);
       return rejectWithValue(err.response.statusText);
@@ -67,6 +82,18 @@ const cartSlice = createSlice({
         state.error = action.payload;
       });
     builder
+      .addCase(fetchReward.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(fetchReward.fulfilled, (state, action) => {
+        state.reward = action.payload;
+        state.loading = false;
+      })
+      .addCase(fetchReward.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
+    builder
       .addCase(upsertItemIntoCart.pending, (state, action) => {
         state.loading = true;
       })
@@ -84,4 +111,4 @@ const cartReducer = cartSlice.reducer;
 export default cartReducer;
 
 const allActionCreator = cartSlice.actions;
-export const { } = allActionCreator;
+export const {} = allActionCreator;

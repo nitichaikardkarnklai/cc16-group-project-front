@@ -1,14 +1,14 @@
 import React from 'react';
 import Button from '../../../components/Button';
 
-export default function CartPayment({ data }) {
+export default function CartPayment({ data, onCheck, onSubmit }) {
   console.log('payment', data);
   return (
     <div className='flex-grow card place-items-center'>
       <div className='flex flex-col bg-base-200 w-3/4 p-10'>
         <div className='flex justify-between font-semibold'>
           <h3> Subtotal</h3>
-          <h3> {data.totalAmount} THB</h3>
+          <h3> {data.subTotal.toLocaleString()} THB</h3>
         </div>
 
         <div className='divider divider-vertical'></div>
@@ -19,14 +19,16 @@ export default function CartPayment({ data }) {
           </div>
           <div className='flex w-full justify-between'>
             <h4 className='text-mx font-bold'> Discount with points</h4>
-            <input type='checkbox' className='toggle' onChange={() => {}} />
+            <input type='checkbox' className='toggle' onChange={onCheck} />
           </div>
-          <h5 className='text-xs font-bold'> 10 points : 1 THB </h5>
+          <h5 className='text-xs font-bold'> 100 points : 1 THB </h5>
         </div>
         <br />
-        <h2 className='text-2xl font-bold'>Total</h2>
+        <h2 className='text-2xl font-bold'>
+          Total {data.totalAmount.toLocaleString()} THB
+        </h2>
         <br />
-        <Button bg='red' type='submit'>
+        <Button onClick={onSubmit} bg='red' type='submit'>
           <h3 className='text-xl font-bold text-white'>Checkout</h3>
         </Button>
       </div>
