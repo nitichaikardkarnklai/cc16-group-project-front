@@ -23,7 +23,7 @@ export default function PaymentResult() {
           your payment is success, please check your email.
         </div>
         <div className='text-5xl font-medium'>
-          Thank you for your Supporting!
+          Thank You for Your Supporting!
         </div>
       </div>
       <Link to='/'>
