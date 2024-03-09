@@ -4,6 +4,7 @@ export default function HeartIcon({
   size = '20px',
   stroke = '#3F3F46',
   fill = 'none',
+  onClick,
 }) {
   return (
     <svg
@@ -11,6 +12,7 @@ export default function HeartIcon({
       height={size}
       viewBox='0 0 20 18'
       fill={fill}
+      onClick={onClick}
       xmlns='http://www.w3.org/2000/svg'
     >
       <path

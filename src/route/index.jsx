@@ -38,6 +38,7 @@ import AdminAdminMgtPage from '../pages/admin/AdminAdminMgtPage';
 import EditAddressPage from '../pages/customer/auth/EditAddressPage';
 import ProductManageAdd from '../layouts/components/ProductManageAdd';
 import ProductManageEdit from '../layouts/components/ProductManageEdit';
+import PaymentResult from '../pages/customer/PaymentResult';
 
 const router = createBrowserRouter([
   {
@@ -98,6 +99,7 @@ const router = createBrowserRouter([
           { path: '/transaction-page', element: <TransactionPage /> },
           { path: '/wishlist-page', element: <WishlistPage /> },
           { path: '/my-account-setting', element: <SettingAccountPage /> },
+          { path: '/payment-result', element: <PaymentResult /> },
         ],
       },
     ],

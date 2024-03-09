@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Button from '../../components/Button';
 import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { fetchAllProduct, fetchProductById } from '../../store/slices/productSlice';
 import * as apiProduct from "../../api/product";
@@ -9,6 +10,7 @@ import { toast } from "react-toastify"
 export default function ProductCard({ productObj, location = '', onClick = () => { } }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const locate = useLocation();
 
   const handleDeleteProduct = async () => {
     if (confirm("Are you sure to delete this product?")) {
@@ -24,8 +26,19 @@ export default function ProductCard({ productObj, location = '', onClick = () =>
     }
   }
 
+  const handleOnclick = async (e) => {
+    if (locate.pathname != '/admin/admin-product-mgt-page') {
+      // console.log(e.id);
+      await localStorage.setItem('productId', e.id);
+      navigate('/product');
+    }
+  };
+
   return (
-    <div className='relative w-[250px] flex flex-col gap-2 mx-auto'>
+    <div
+      onClick={(c) => handleOnclick(productObj)}
+      className='relative w-[250px] flex flex-col gap-2 mx-auto'
+    >
       <div
         onClick={(c) => location === "/admin/admin-product-edit-form" || onClick(productObj)}
         className='overflow-hidden border-none w-[250px] h-[320px] bg-grayBg100 flex justify-center items-center'

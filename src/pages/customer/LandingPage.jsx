@@ -38,8 +38,7 @@ export default function LandingPage() {
   }, []);
 
   const handleOnClick = (e) => {
-    console.log(e.id);
-    localStorage.setItem('productId', e.id);
+
   };
 
   const newProducts = products.filter(product => product.isNew).slice(0, 8); // แสดงสินค้าไม่เกิน 6 รายการ

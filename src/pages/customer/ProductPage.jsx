@@ -3,41 +3,114 @@ import Button from '../../components/Button';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
+import * as productApi from '../../api/product';
+import * as cartApi from '../../api/cart';
 import { fetchProductById } from '../../store/slices/productSlice';
+import {
+  addWishlist,
+  removeWishlist,
+  fetchWishlist,
+} from '../../store/slices/wishlistSlice';
 import HeartIcon from '../../assets/icon/HeartIcon';
+import Spinner from '../../components/Spinner';
+import { toast } from 'react-toastify';
+
+const initialCartItem = {
+  productId: null,
+  quantity: null,
+  price: null,
+};
 
 export default function ProductPage() {
   const dispatch = useDispatch();
-  const { product } = useSelector((store) => store.products);
+  // const { product } = useSelector((store) => store.products);
+  const { wishlistItems } = useSelector((store) => store.wishlists);
   const [selectedImage, setSelectedImage] = useState('');
   const [isWishlist, setIsWishlist] = useState(false);
-  const [count, setCount] = useState(0);
+  const [wishlistId, setWishlistId] = useState('');
+  const [count, setCount] = useState(1);
+  const [product, setProduct] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [newCartItem, setNewCartItem] = useState(initialCartItem);
+
   const productId = +localStorage.getItem('productId');
 
   useEffect(() => {
-    dispatch(fetchProductById(productId));
+    (async () => {
+      try {
+        setLoading(true);
+        const data = await productApi.fetchProductById(productId);
+        setProduct(data.data.resultProductById);
+        dispatch(fetchWishlist());
+      } catch (error) {
+        setLoading(false);
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    })();
   }, []);
+
+  //
+  useEffect(() => {
+    isInWishlist();
+    setNewCartItem({
+      productId: productId,
+      quantity: count,
+      price: product.price,
+    });
+  }, [wishlistItems, count]);
 
   const handleImageClick = (image) => {
     setSelectedImage(image);
   };
 
+  // check is item is in wishlist
+  const isInWishlist = () => {
+    const foundWishlist = wishlistItems.filter(
+      (el) => el.productId === productId
+    );
+    console.log('wishlist', wishlistItems);
+    console.log('found', foundWishlist);
+    if (foundWishlist && foundWishlist.length != 0) {
+      setIsWishlist(true);
+      setWishlistId(foundWishlist?.[0]?.id);
+    } else setIsWishlist(false);
+  };
+
+  //counter function increment
   const increment = () => {
     if (count < 99) {
       setCount(count + 1);
     } else return count;
   };
 
+  //counter function decrement
   const decrement = () => {
-    if (count > 0) {
+    if (count > 1) {
       setCount(count - 1);
     } else return count;
   };
 
+  //add to cart function
+  const onAddTOCart = async () => {
+    try {
+      await cartApi.upsertIntoCart(newCartItem);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      toast.success('Add to cart Success');
+    }
+  };
+
+  if (loading) {
+    return <Spinner />;
+  }
+
   return (
     <div className='hero '>
       <div className=' m-auto w-3/4  '>
-        <section className='py-12 sm:py-16'>
+        <section className='pt-12 sm:pt-16'>
           <div className='container mx-auto px-4'>
             <div className='lg:col-gap-12 xl:col-gap-16 mt-8 grid grid-cols-1 gap-12 lg:mt-12 lg:grid-cols-5 lg:gap-16'>
               <div className='lg:col-span-3 lg:row-end-1'>
@@ -94,21 +167,34 @@ export default function ProductPage() {
               <div className='lg:col-span-2 lg:row-span-2 lg:row-end-2'>
                 <h1 className='flex justify-start items-center gap-4 sm: text-2xl font-bold text-gray-900 sm:text-3xl'>
                   {product?.productName}{' '}
-                  <div
-                    onClick={() => setIsWishlist(!isWishlist)}
-                    className='btn bg-transparent border-none shadow-none hover:bg-transparent'
-                  >
+                  <div className='btn bg-transparent border-none shadow-none hover:bg-transparent'>
                     {isWishlist ? (
-                      <HeartIcon size='32px' fill='red' stroke='none' />
+                      <HeartIcon
+                        onClick={() => {
+                          setIsWishlist(!isWishlist);
+                          console.log('remove from wishlist');
+                          dispatch(removeWishlist(wishlistId));
+                        }}
+                        size='32px'
+                        fill='red'
+                        stroke='none'
+                      />
                     ) : (
-                      <HeartIcon size='32px' />
+                      <HeartIcon
+                        onClick={() => {
+                          setIsWishlist(!isWishlist);
+                          console.log('add to wishlist');
+                          dispatch(addWishlist(productId));
+                        }}
+                        size='32px'
+                      />
                     )}
                   </div>
                 </h1>
 
                 <div className='mt-5 flex items-center'></div>
                 <div className='flex items-end'>
-                  <h1 className='text-2xl font-bold text-red-500'>
+                  <h1 className='text-2xl font-semibold text-red-500'>
                     {product.price} BTH
                   </h1>
                 </div>
@@ -132,7 +218,12 @@ export default function ProductPage() {
                 <div className='mt-3 flex select-none flex-wrap items-center gap-1'></div>
 
                 <div className='mt-10 flex flex-col items-center justify-start gap-4 space-y-4 border-t border-b py-4 sm:flex-row sm:space-y-0'>
-                  <Button bg='red' type='submit' color='white'>
+                  <Button
+                    onClick={onAddTOCart}
+                    bg='red'
+                    type='submit'
+                    color='white'
+                  >
                     ADD TO CART
                   </Button>
                   <Button bg='black' type='submit' color='white'>
@@ -170,6 +261,14 @@ export default function ProductPage() {
             </div>
           </div>
         </section>
+        {/* ======POSTER====== */}
+        <div className='flex flex-col w-[835px] mx-auto justify-center items-center'>
+          <img src={product?.productPosters?.[0].posters1} alt='' />
+          <img src={product?.productPosters?.[0].posters2} alt='' />
+          <img src={product?.productPosters?.[0].posters3} alt='' />
+          <img src={product?.productPosters?.[0].posters4} alt='' />
+          <img src={product?.productPosters?.[0].posters5} alt='' />
+        </div>
       </div>
     </div>
   );
