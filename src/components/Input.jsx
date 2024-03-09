@@ -9,7 +9,7 @@ export default function Input({
     value,
     onChange,
     name,
-    errorMessage
+    errorMessage,
 }) {
     const extendedClasses = errorMessage
         ? 'border-red-500 focus:ring-red-300'

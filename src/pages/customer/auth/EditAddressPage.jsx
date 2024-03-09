@@ -71,14 +71,14 @@ export default function EditAddressPage() {
   };
 
   return (
-    <div>
-      <div className='relative px-8 py-24'>
-        <div
-          onClick={() => navigate('/my-address-page')}
-          className='absolute left-24 top-12 btn bg-transparent border-none shadow-none'
-        >
-          <BackIcon />
-        </div>
+    <div className='relative w-full min-h-screen'>
+      <div
+        onClick={() => navigate('/my-address-page')}
+        className='absolute left-24 top-12 btn bg-transparent border-none shadow-none'
+      >
+        <BackIcon />
+      </div>
+      <div className='px-8 py-24'>
         <div className='mx-auto max-w-2xl text-center'>
           <h2 className='text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl'>
             EDIT ADDRESS

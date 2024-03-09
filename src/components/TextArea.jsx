@@ -1,3 +1,4 @@
+import React from "react";
 const defaultClasses = `w-full focus:outline-none px-3 py-1.5 border rounded-md focus:ring-2`;
 export default function TextArea({
     type = "text",

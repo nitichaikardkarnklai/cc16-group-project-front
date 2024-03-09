@@ -1,14 +1,29 @@
 import React from 'react';
+import { useState } from 'react';
 
-export default function SearchBar({ placeholder = 'search' }) {
+export default function SearchBar({ placeholder = 'Search', onClick }) {
+  const [input, setInput] = useState("");
+
+  const handleChangeInput = (e) => {
+    setInput(e.target.value);
+  }
+
   return (
     <label className='input input-bordered h-[42px] flex items-center gap-2 rounded-full'>
-      <input type='text' className='grow' placeholder={placeholder} />
+      <input
+        type='text'
+        className='grow'
+        placeholder={placeholder}
+        onChange={handleChangeInput}
+        value={input}
+      />
       <svg
         xmlns='http://www.w3.org/2000/svg'
         viewBox='0 0 16 16'
         fill='currentColor'
+        onClick={() => onClick(input)}
         className='w-4 h-4 opacity-70'
+        role="button"
       >
         <path
           fillRule='evenodd'
