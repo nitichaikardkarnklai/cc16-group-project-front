@@ -10,12 +10,16 @@ import { useDispatch } from 'react-redux';
 import { Carousel } from "@material-tailwind/react";
 import * as landingApi from "../../api/landingPageImage";
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 export default function LandingPage() {
   const dispatch = useDispatch();
   const { products } = useSelector((store) => store.products);
   const [landing, setLanding] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     dispatch(fetchAllProduct());
@@ -45,6 +49,10 @@ export default function LandingPage() {
   const topSellingProducts = products.filter(product => product.isHot).slice(0, 8); // แสดงสินค้าไม่เกิน 6 รายการ
   const topSellingProducts2 = products.filter(product => product.isHot).slice(9, 16); // แสดงสินค้าไม่เกิน 6 รายการ
 
+  const handleOnclickLanding = (e, productId) => {
+    localStorage.setItem('productId', productId);
+    navigate('/product');
+  };
 
   return (
     <div>
@@ -52,26 +60,18 @@ export default function LandingPage() {
       <div>
         <div className='hero mb-8'>
           <Carousel className="">
-            <img
-              src="https://prod-global-static.oss-us-east-1.aliyuncs.com/globalAdmin/1709176171572.jpg?x-oss-process=image/format,webp"
-              alt="image 1"
-              className="h-full w-full object-cover"
-            />
-            <img
-              src="https://prod-global-static.oss-us-east-1.aliyuncs.com/globalAdmin/1709176750218.jpg?x-oss-process=image/format,webp"
-              alt="image 2"
-              className="h-full w-full object-cover"
-            />
-            <img
-              src="https://prod-global-static.oss-us-east-1.aliyuncs.com/globalAdmin/1709177133802.jpg?x-oss-process=image/format,webp"
-              alt="image 3"
-              className="h-full w-full object-cover"
-            />
-            <img
-              src="https://prod-global-static.oss-us-east-1.aliyuncs.com/globalAdmin/1709176918193.jpg?x-oss-process=image/format,webp"
-              alt="image 4"
-              className="h-full w-full object-cover"
-            />
+            {landing.map((el, index) => {
+              console.log(el.image);
+              return (
+                <button key={el.id} onClick={(e) => handleOnclickLanding(e, el.products.id)}>
+                  <img
+                    src={el.image}
+                    alt="landingImage"
+                    className="h-full w-full object-cover"
+                  />
+                </button>
+              )
+            })}
           </Carousel>
         </div>
 
@@ -91,8 +91,6 @@ export default function LandingPage() {
 
               </div>
             </div>
-
-
             <div>
             </div>
           </div>
@@ -102,9 +100,7 @@ export default function LandingPage() {
           <h1 className='text-2xl  font-semibold text-red-600'>Tops Selling</h1>
         </div>
         <div className='flex flex-col justify-center items-center ' >
-
           <div className="hero ">
-
             <div className="carousel w-3/4 m-auto py-5">
               <div className="carousel h-2/4 gap-4 carousel-end rounded-box">
                 <div className="carousel-item gap-4">
@@ -115,17 +111,12 @@ export default function LandingPage() {
                 </div>
               </div>
             </div>
-
-
             <div>
             </div>
           </div>
         </div>
-
         <div className='flex flex-col justify-center items-center ' >
-
           <div className="hero ">
-
             <div className="carousel w-3/4 m-auto py-5">
               <div className="carousel h-2/4 gap-4 carousel-end rounded-box">
                 <div className="carousel-item gap-4">
@@ -136,8 +127,6 @@ export default function LandingPage() {
                 </div>
               </div>
             </div>
-
-
             <div>
             </div>
           </div>

@@ -29,7 +29,7 @@ export default function ProductCard({ productObj, location = '', onClick = () =>
   const handleOnclick = async (e) => {
     // console.log(locate.pathname);
     if (locate.pathname !== '/admin/admin-product-mgt-page' && locate.pathname !== '/admin/admin-trend-mgt-page') {
-      // console.log(e.id);å
+      // console.log(e.id);
       await localStorage.setItem('productId', e.id);
       navigate('/product');
     }

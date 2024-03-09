@@ -93,7 +93,7 @@ export default function CustomerNavBar() {
 
 
   const isGroupsEmpty = !groups || groups.length === 0;
-  console.log(isGroupsEmpty);
+  // console.log(isGroupsEmpty);
 
 
 
