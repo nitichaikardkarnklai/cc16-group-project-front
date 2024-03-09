@@ -6,17 +6,20 @@ import { useEffect } from 'react';
 import { fetchAllProduct } from '../../store/slices/productSlice';
 import ProductCard from '../../layouts/components/ProductCard';
 import { useState } from 'react';
-import * as apiProduct from "../../api/product"
+import * as productApi from "../../api/product"
 import { toast } from 'react-toastify';
 import Spinner from '../../components/Spinner';
 import { useRef } from 'react';
-// import { dataRippleLight } from "@material-tailwind/react";
+import * as landingApi from "../../api/landingPageImage";
 
 export default function AdminTrendMgtPage() {
   const [productArr, setProductArr] = useState([]);
   const [initProducts, setInitProduct] = useState([]);
   const [loading, setLoading] = useState(true);
   const [input, setInput] = useState({ imageFile: null, product: null });
+  const [landing, setLanding] = useState([]);
+  const [error, setError] = useState(false);
+  const [onFetch, setOnfetch] = useState(false);
 
   const landingImageEl = useRef(null);
 
@@ -24,17 +27,56 @@ export default function AdminTrendMgtPage() {
     setLoading(true);
     (async () => {
       try {
-        const { data } = await apiProduct.fetchAllProduct();
+        // FETCH ALL PRODUCT
+        const { data } = await productApi.fetchAllProduct();
         const products = data.resultAllProduct;
         setProductArr(products);
-        setInitProduct(products)
+        setInitProduct(products);
+
+        // FETCH REMAINING LANDING PAGE IMAGE
+        const { data: landingImage } = await landingApi.fetchLanding();
+        setLanding(landingImage.resultLanding);
+        console.log(landingImage.resultLanding);
+
       } catch (error) {
-        // toast.error(res)
+        toast.error(error.response?.data?.message)
       } finally {
         setLoading(false);
       }
     })()
-  }, []);
+  }, [onFetch]);
+
+  const handleAddLandingImage = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      if (!input.imageFile || !input.product) return setError(true)
+      const formData = new FormData();
+      formData.append("image", input.imageFile);
+      await landingApi.createLanding(formData, input.product.id);
+    } catch (error) {
+      toast.error(error.response?.data?.message)
+    } finally {
+      setOnfetch(c => !c);
+      // setLoading(c => { setOnfetch(c => !c); return false });
+      setLoading(false);
+    }
+  }
+
+  const handleDeleteLandingImage = async (e, landingId) => {
+    e.preventDefault();
+    if (confirm("Are you sure to delete this landing image?")) {
+      setLoading(true);
+      try {
+        await landingApi.deleteLanding(landingId);
+      } catch (error) {
+        toast.error(error.response?.data?.message)
+      } finally {
+        setOnfetch(c => !c);
+        setLoading(false);
+      }
+    }
+  }
 
   const searchProductByName = (searchText) => {
     // console.log(searchText);
@@ -46,15 +88,16 @@ export default function AdminTrendMgtPage() {
   if (loading) return <Spinner />
 
   return (
-    <div className='flex flex-col gap-4'>
+    <div className='flex flex-col gap-8'>
       <div className='font-semibold'>Landing Page Management</div>
       <Button color="white" bg="red" onClick={() => document.getElementById('my_modal_2').showModal()}>Add Landing Page Image</Button>
-      {/* Modal For Add Landing Page Image */}
+      {/* =========== Modal For Add Landing Page Image =========== */}
       <dialog id="my_modal_2" className="modal">
         <div className="modal-box max-w-4xl p-10">
           <div className='flex flex-col gap-4'>
             <div className='flex flex-col gap-4'>
-              <Button color="white" bg="red">CREATE LANDING IMAGE</Button>
+              {error && <div className='text-redHero'>you does'n t select landing image or linked product yet</div>}
+              <Button color="white" bg="red" onClick={(e) => handleAddLandingImage(e)}>CREATE LANDING IMAGE</Button>
               <input
                 type="file"
                 className="hidden"
@@ -72,7 +115,7 @@ export default function AdminTrendMgtPage() {
                   role="button"
                 >
                   <img src={URL.createObjectURL(input.imageFile)} alt="landingImage" />
-                  <button type="button" className="btn absolute top-0 right-4 font-black text-redHero"
+                  <button type="button" className="btn absolute top-4 right-4 font-black text-redHero"
                     onClick={e => {
                       e.stopPropagation();
                       setInput(c => { return { ...c, imageFile: null } });
@@ -103,7 +146,6 @@ export default function AdminTrendMgtPage() {
                     onClick={() => setInput(c => { return { ...c, product: el } })}
                   >
                     <ProductCard
-                      // key={el.id}
                       productObj={el}
                     />
                   </button>
@@ -116,7 +158,24 @@ export default function AdminTrendMgtPage() {
           <button>close</button>
         </form>
       </dialog>
-
-    </div>
+      {/* =========== CURRENTLY LANDING PAGE IMAGE =========== */}
+      {landing?.map((el, index) => (
+        <div
+          key={el.id}
+          className="relative flex justify-between bg-red-100 rounded-xl p-8 gap-4"
+        >
+          <img src={el.image} alt="landingImage" className='w-[70%]' />
+          <ProductCard productObj={el.Products} />
+          <button type="button" className="absolute top-4 right-4 font-black text-gray-400"
+            onClick={e => {
+              e.stopPropagation();
+              handleDeleteLandingImage(e, el.id);
+            }}
+          >&#10005;</button>
+        </div >
+      ))
+      }
+    </div >
   );
 }
+
