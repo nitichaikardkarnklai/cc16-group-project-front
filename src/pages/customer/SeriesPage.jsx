@@ -11,7 +11,7 @@ const SeriesPage = () => {
   const { products } = useSelector(store => store.products) || { products: [] };
 
   const [sortedProducts, setSortedProducts] = useState([]);
-
+  const [seriesName, setSeriesName] = useState([]);
   const handleSortChange = (sortedProducts) => {
     setSortedProducts(sortedProducts);
   };
@@ -21,22 +21,35 @@ const SeriesPage = () => {
     dispatch(fetchAllProduct());
   }, [dispatch]);
 
-  const
-    serieId = parseInt(seriesId);
+  const serieId = parseInt(seriesId);
 
   const filter = {
     serieId: serieId,
   };
 
-  console.log("seriesId: ", seriesId)
-  console.log("serieId: ", serieId)
-  console.log("products: ", products)
+  const handleFilterChange = (filters) => {
+    const filteredProducts = products.filter(product => product.serieId === filters.serieId);
+    setSortedProducts(filteredProducts);
+  }
+
+  useEffect(() => {
+    const filteredProducts = products.filter(product => product.serieId === serieId);
+    setSortedProducts(filteredProducts);
+
+    // Extract unique series names filtered by serieId
+    const uniqueSeries = [...new Set(filteredProducts.map(product => product.productSeries.series))];
+    setSeriesName(uniqueSeries);
+  }, [serieId, products]);
 
   return (
-
-    <div className=' hero '>
-      <div className=' m-auto  text-center  '>
-        <ProductsContainer title="Series" filter={filter} ProductCards={ProductCard} onSortChange={handleSortChange} />
+    <div className='hero'>
+      <div className='m-auto text-center'>
+        <ProductsContainer
+          title={seriesName.length > 0 ? seriesName.join(", ") : 'Series'}
+          filter={filter}
+          ProductCards={ProductCard}
+          onSortChange={handleSortChange}
+        />
       </div>
       {sortedProducts.map(product => (
         <div key={product.id}>{product.name}</div>
@@ -45,4 +58,4 @@ const SeriesPage = () => {
   );
 }
 
-export default SeriesPage
+export default SeriesPage;

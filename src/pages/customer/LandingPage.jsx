@@ -18,8 +18,9 @@ export default function LandingPage() {
     dispatch(fetchSeries());
   }, [])
 
-  const newProducts = products.filter(product => product.isNew).slice(0, 6); // แสดงสินค้าไม่เกิน 6 รายการ
-  const topSellingProducts = products.filter(product => product.isHot).slice(0, 6); // แสดงสินค้าไม่เกิน 6 รายการ
+  const newProducts = products.filter(product => product.isNew).slice(0, 8); // แสดงสินค้าไม่เกิน 6 รายการ
+  const topSellingProducts = products.filter(product => product.isHot).slice(0, 8); // แสดงสินค้าไม่เกิน 6 รายการ
+  const topSellingProducts2 = products.filter(product => product.isHot).slice(9, 16); // แสดงสินค้าไม่เกิน 6 รายการ
 
 
   return (
@@ -66,16 +67,13 @@ export default function LandingPage() {
           <div className="hero ">
             <div className="carousel w-3/4 m-auto py-5">
               <div className="carousel h-2/4 gap-4 carousel-end rounded-box relative">
-                <div className="carousel-item">
+                <div className="carousel-item gap-4">
                   {newProducts.map((el, index) => <ProductCard key={el.id} productObj={el} />)}
-                </div>
-                {newProducts.length > 6 && (
-                  <div className="absolute flex justify-between items-center w-full bottom-2">
-                    <a href="#previous-slide" className="btn btn-circle bg-gray-400">&lt;</a>
-                    <Link to="/new-arrivals" className="btn btn-circle bg-gray-400">🢐</Link>
-                    <a href="#next-slide" className="btn btn-circle bg-gray-400">&gt;</a>
+                  <div className="flex align-middle items-center">
+                    <Link to="/new-arrivals" className="btn btn-circle bg-gray-100">&gt;</Link>
                   </div>
-                )}
+                </div>
+
               </div>
             </div>
 
@@ -94,16 +92,12 @@ export default function LandingPage() {
 
             <div className="carousel w-3/4 m-auto py-5">
               <div className="carousel h-2/4 gap-4 carousel-end rounded-box">
-                <div className="carousel-item">
+                <div className="carousel-item gap-4">
                   {topSellingProducts.map((el, index) => <ProductCard key={el.id} productObj={el} />)}
-                </div>
-                {topSellingProducts.length > 6 && (
-                  <div className="absolute flex justify-between items-center w-full bottom-2">
-                    <a href="#previous-slide" className="btn btn-circle bg-gray-400">&lt;</a>
-                    <Link to="/top-selling" className="btn btn-circle bg-gray-400">🢐</Link>
-                    <a href="#next-slide" className="btn btn-circle bg-gray-400">&gt;</a>
+                  <div className="flex align-middle items-center">
+                    <Link to="/top-selling" className="btn btn-circle bg-gray-100">&gt;</Link>
                   </div>
-                )}
+                </div>
               </div>
             </div>
 
@@ -119,16 +113,12 @@ export default function LandingPage() {
 
             <div className="carousel w-3/4 m-auto py-5">
               <div className="carousel h-2/4 gap-4 carousel-end rounded-box">
-                <div className="carousel-item">
-                  {topSellingProducts.map((el, index) => <ProductCard key={el.id} productObj={el} />)}
-                </div>
-                {topSellingProducts.length > 6 && (
-                  <div className="absolute flex justify-between items-center w-full bottom-2">
-                    <a href="#previous-slide" className="btn btn-circle bg-gray-400">&lt;</a>
-                    <Link to="/top-selling" className="btn btn-circle bg-gray-400">🢐</Link>
-                    <a href="#next-slide" className="btn btn-circle bg-gray-400">&gt;</a>
+                <div className="carousel-item gap-4">
+                  {topSellingProducts2.map((el, index) => <ProductCard key={el.id} productObj={el} />)}
+                  <div className="flex align-middle items-center">
+                    <Link to="/top-selling" className="btn btn-circle bg-gray-100">&gt;</Link>
                   </div>
-                )}
+                </div>
               </div>
             </div>
 
