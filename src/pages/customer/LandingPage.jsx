@@ -7,15 +7,33 @@ import { fetchGroups } from '../../store/slices/groupSlice';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Carousel } from "@material-tailwind/react";
+import * as landingApi from "../../api/landingPageImage";
+import { useState } from 'react';
 
 export default function LandingPage() {
   const dispatch = useDispatch();
   const { products } = useSelector((store) => store.products);
+  const [landing, setLanding] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     dispatch(fetchAllProduct());
     dispatch(fetchGroups());
     dispatch(fetchSeries());
+
+    setLoading(true);
+    (async () => {
+      try {
+        // FETCH REMAINING LANDING PAGE IMAGE
+        const { data: landingImage } = await landingApi.fetchLanding();
+        setLanding(landingImage.resultLanding);
+
+      } catch (error) {
+        toast.error(error.response?.data?.message)
+      } finally {
+        setLoading(false);
+      }
+    })()
   }, []);
 
   const handleOnClick = (e) => {
