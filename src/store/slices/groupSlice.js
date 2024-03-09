@@ -15,14 +15,14 @@ const initialState = {
 export const fetchGroups = createAsyncThunk("group/fetchGroups", async (payload, { rejectWithValue, fulfillWithValue }) => {
     try {
         const { data } = await groupApi.fetchGroup();
-        // console.log(data.getAllGroup)
+
         return fulfillWithValue(data.getAllGroup);
     } catch (error) {
         console.log(error);
         return rejectWithValue(error.response.statusText);
     }
 });
-// console.log(fetchGroups)
+
 
 export const addGroup = createAsyncThunk("group/addGroup", async (payload, { rejectWithValue, fulfillWithValue }) => {
     try {

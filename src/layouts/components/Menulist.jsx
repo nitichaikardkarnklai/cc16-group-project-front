@@ -15,9 +15,9 @@ export default function Menulist({ link, subPages }) {
     <div className='w-[full] shadow-md flex justify-center p-8 gap-4 bg-white'>
 
       {subPages.map((page, index) => (
-        <Link key={index} to={`${link}/${index + 1}`}>
-          <button onClick={() => onFilterChange(index + 1)}>
-            <MenuCard value={`${page}`} selected={selectedFilter === index + 1} />
+        <Link key={index} to={`${link}/${page.id}`}>
+          <button onClick={() => onFilterChange(page.id)}>
+            <MenuCard value={`${page.name}`} selected={selectedFilter === page.id} />
           </button>
         </Link>
       ))}
@@ -28,7 +28,7 @@ export default function Menulist({ link, subPages }) {
             <AllProductIcon />
           </div>
         </Link>
-        <div className='font-medium'>All Product</div>
+        <div className='font-medium'>All {`${link}`.toUpperCase().slice(1)}</div>
       </div>
     </div>
   );

@@ -26,7 +26,6 @@ const MegaPage = () => {
 
   const filter = {
     groupId: groupId,
-
   };
 
   return (

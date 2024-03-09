@@ -21,13 +21,10 @@ const TypesPage = () => {
         dispatch(fetchAllProduct());
     }, [dispatch]);
 
-    // กำหนด groupId จาก megaId
     const groupId = parseInt(typesId) + 3;
 
-    // กำหนด filter โดยใช้ groupId
     const filter = {
         groupId: groupId,
-        // Add other filter criteria if needed
     };
 
 

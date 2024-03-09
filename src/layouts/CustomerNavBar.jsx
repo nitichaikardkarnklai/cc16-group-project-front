@@ -13,6 +13,9 @@ import FeatureMenuList from './components/FeatureMenuList';
 import { Link } from 'react-router-dom';
 import useAuth from '../hooks/use-auth';
 import UserIcon from '../assets/icon/UserIcon';
+import { fetchGroups } from '../store/slices/groupSlice';
+import { fetchSeries } from '../store/slices/seriesSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 const openState = {
   feature: false,
@@ -27,10 +30,14 @@ const defaultClass =
 
 export default function CustomerNavBar() {
   const [open, setOpen] = useState(openState);
-
   const { pathname } = useLocation();
   const { authUser } = useAuth();
-
+  const dispatch = useDispatch();
+  const { groups } = useSelector((store) => store.group) || { groups: [] };
+  const { series } = useSelector((store) => store.series) || { series: [] };
+  const [subPages, setSubPages] = useState([]);
+  const [groupSubPages, setGroupSubPages] = useState([]);
+  const [seriesSubPages, setSeriesSubPages] = useState([]);
   const navRef = useRef(null);
 
   useEffect(() => {
@@ -40,19 +47,53 @@ export default function CustomerNavBar() {
         setOpen(openState);
       }
     };
-
-    // Add event listener on document
     document.addEventListener('click', handleClickOutside);
-
-    // Cleanup function to remove listener on unmount
     return () => document.removeEventListener('click', handleClickOutside);
   }, [open, navRef.current]);
+
+
+  useEffect(() => {
+    const fetchGroupsData = async () => {
+      try {
+        await dispatch(fetchGroups());
+      } catch (error) {
+        console.error('Error fetching groups:', error);
+      }
+    };
+    fetchGroupsData();
+  }, []);
+
+  useEffect(() => {
+    if (groups.length > 0) {
+      setGroupSubPages(groups.map((group) => ({ id: group.id, name: group.categories })));
+    }
+  }, [groups]);
+
+  useEffect(() => {
+    const fetchSeriesData = async () => {
+      try {
+        await dispatch(fetchSeries());
+      } catch (error) {
+        console.error('Error fetching series:', error);
+      }
+    };
+    fetchSeriesData();
+  }, []);
+
+  useEffect(() => {
+    if (series.length > 0) {
+      setSeriesSubPages(series.map((series) => ({ id: series.id, name: series.series })));
+    }
+  }, [series]);
 
   useEffect(() => {
     // console.log(pathname);
     setOpen(openState);
-
   }, [pathname]);
+
+
+  const isGroupsEmpty = !groups || groups.length === 0;
+  console.log(isGroupsEmpty);
 
 
 
@@ -170,92 +211,94 @@ export default function CustomerNavBar() {
   };
 
   return (
-    <div className='sticky top-0 z-50' ref={navRef}>
-      <div className='flex w-full h-[5rem] bg-white justify-between items-center px-8 border-b-2 border-gray-400'>
-        <div className='flex gap-6  items-center font-semibold'>
-          <Link to='/'>
-            <div className='btn bg-transparent border-none shadow-none hover:bg-transparent'>
-              <ToyMartLogo />
-            </div>
-          </Link>
-          <div
-            onClick={onClickFeature}
-            style={{ color: isFeaturePage() }}
-            className={`${defaultClass}`}
-          >
-            New & Featured
-          </div>
-          <div
-            onClick={onClickSeries}
-            style={{ color: isSeriesPage() }}
-            className={`${defaultClass}`}
-          >
-            SERIES
-          </div>
-          <div
-            onClick={onClickMega}
-            style={{ color: isMegaPage() }}
-            className={`${defaultClass}`}
-          >
-            MEGA
-          </div>
-          <div
-            onClick={onClickTypes}
-            style={{ color: isTypes() }}
-            className={`${defaultClass}`}
-          >
-            TYPES
-          </div>
-          <div
-            onClick={onClickAccessories}
-            style={{ color: isAccessories() }}
-            className={`${defaultClass}`}
-          >
-            ACCESSORIES
-          </div>
-        </div>
-        <div className='flex gap-4  items-center font-semibold'>
-          <div className='w-[226px] h-[42px] border-r pr-4'>
-            <SearchBar />
-          </div>
-          <div className='flex items-center gap-4'>
-            <Link to='/my-account-page'>
-              {authUser ? (
-                <div className='flex  justify-center items-center gap-1'>
-                  <div className='w-[24px] h-[24px] bg-gray-400 rounded-full'></div>
-                  <div style={{ color: isMyAccount() }}>My Account</div>
-                </div>
-              ) : (
-                <div className='flex  justify-center items-center gap-1'>
-                  <UserIcon />
-                  <div>Login / Register</div>
-                </div>
-              )}
+    <div>
+      <div className='sticky top-0 z-50' ref={navRef}>
+        <div className='flex w-full h-[5rem] bg-white justify-between items-center px-8 border-b-2 border-gray-400'>
+          <div className='flex gap-6  items-center font-semibold'>
+            <Link to='/'>
+              <div className='btn bg-transparent border-none shadow-none hover:bg-transparent'>
+                <ToyMartLogo />
+              </div>
             </Link>
-            <div>
-              <HeadPhoneIcon />
+            <div
+              onClick={onClickFeature}
+              style={{ color: isFeaturePage() }}
+              className={`${defaultClass}`}
+            >
+              New & Featured
             </div>
-            <Link to='/wishlist-page'>
+            <div
+              onClick={onClickSeries}
+              style={{ color: isSeriesPage() }}
+              className={`${defaultClass}`}
+            >
+              SERIES
+            </div>
+            <div
+              onClick={onClickMega}
+              style={{ color: isMegaPage() }}
+              className={`${defaultClass}`}
+            >
+              MEGA
+            </div>
+            <div
+              onClick={onClickTypes}
+              style={{ color: isTypes() }}
+              className={`${defaultClass}`}
+            >
+              TYPES
+            </div>
+            <div
+              onClick={onClickAccessories}
+              style={{ color: isAccessories() }}
+              className={`${defaultClass}`}
+            >
+              ACCESSORIES
+            </div>
+          </div>
+          <div className='flex gap-4  items-center font-semibold'>
+            <div className='w-[226px] h-[42px] border-r pr-4'>
+              <SearchBar />
+            </div>
+            <div className='flex items-center gap-4'>
+              <Link to='/my-account-page'>
+                {authUser ? (
+                  <div className='flex  justify-center items-center gap-1'>
+                    <div className='w-[24px] h-[24px] bg-gray-400 rounded-full'></div>
+                    <div style={{ color: isMyAccount() }}>My Account</div>
+                  </div>
+                ) : (
+                  <div className='flex  justify-center items-center gap-1'>
+                    <UserIcon />
+                    <div>Login / Register</div>
+                  </div>
+                )}
+              </Link>
               <div>
-                <HeartIcon />
+                <HeadPhoneIcon />
               </div>
-            </Link>
-            <Link to='/cart-page'>
-              <div className='w-[77px] h-[34px] rounded-3xl border border-gray-400 flex justify-center items-center'>
-                <ShoppingBagIcon />
-                <div>1</div>
-              </div>
-            </Link>
+              <Link to='/wishlist-page'>
+                <div>
+                  <HeartIcon />
+                </div>
+              </Link>
+              <Link to='/cart-page'>
+                <div className='w-[77px] h-[34px] rounded-3xl border border-gray-400 flex justify-center items-center'>
+                  <ShoppingBagIcon />
+                  <div>1</div>
+                </div>
+              </Link>
+            </div>
           </div>
         </div>
-      </div>
-      <div className='absolute w-full bg-white z-50'>
-        {open.feature && <FeatureMenuList />}
-        {open.series && <SeriesMenulist link={'/series'} subPages={['Dimoo', "Hirono", 'Skull Panda', 'Cry Baby', 'The Monsters', 'Pucky', 'Sweet Bean', 'Hacipupu',
-          'Azura', 'Disney', 'Harry Potter']} />}
-        {open.mega && <Menulist link={'/mega'} subPages={['Mega 100 %', 'Mega 400 %', 'Mega 1000 %']} />}
-        {open.types && <Menulist link={'/types'} subPages={['Collaborations', 'Figure', 'Action Figure']} />}
-        {open.accessories && <Menulist link={'/accessories'} subPages={['Phone  Accessories', 'Plush Toys', 'Bags']} />}
+        <div className='absolute w-full bg-white z-50'>
+          {open.feature && <FeatureMenuList />}
+
+          {open.series && <SeriesMenulist link={'/series'} subPages={seriesSubPages} />}
+          {open.mega && <Menulist link={'/mega'} subPages={groupSubPages.filter(page => page.id >= 1 && page.id <= 3)} />}
+          {open.types && <Menulist link={'/types'} subPages={groupSubPages.filter(page => page.id >= 4 && page.id <= 6)} />}
+          {open.accessories && <Menulist link={'/accessories'} subPages={groupSubPages.filter(page => page.id >= 7 && page.id <= 9)} />}
+        </div>
       </div>
     </div>
   );
