@@ -41,7 +41,10 @@ const addProductSchema = Joi.object({
         "string.empty": "material is required",
         "any.required": "material is required"
     }),
-    customDetail: Joi.string().trim().allow("")
+    customDetail: Joi.string().required().trim().messages({
+        "string.empty": "description is required",
+        "any.required": "description is required"
+    }),
 });
 
 export const validateAddProduct = input => {

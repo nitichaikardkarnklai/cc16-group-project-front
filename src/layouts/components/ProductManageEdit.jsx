@@ -31,15 +31,8 @@ export default function ProductManageEdit() {
     const poster4El = useRef(null);
     const poster5El = useRef(null);
     const imageProductEl = useRef(null);
-    const [images, setImages] = useState({
-        coverProduct: null,
-        poster1: null,
-        poster2: null,
-        poster3: null,
-        poster4: null,
-        poster5: null,
-        imageProduct: []
-    });
+    const imageProductAddEl = useRef(null);
+
     const productId = +localStorage.getItem('productId');
 
     useEffect(() => {
@@ -89,7 +82,7 @@ export default function ProductManageEdit() {
         }
     }
 
-    const onChangeAndUpdateImage = async (e, imageKey = "item", imageType, imageId = "") => {
+    const onChangeAndUpdateImage = async (e, imageKey = "image", imageType, imageId = "") => {
         if (confirm("Are you sure to update this image?")) {
             try {
                 setLoadingUpdateProduct(true);
@@ -100,11 +93,12 @@ export default function ProductManageEdit() {
                 } else if (imageType === "imageProductEdit") {
                     await apiProduct.updateProductImage(formData, imageId)
                 } else if (imageType === "imageProductAdd") {
+                    console.log("add product image");
                     await apiProduct.addProductImage(formData, product.id);
                 } else { // "posterX"
                     await apiProduct.updatePosterImage(formData, product.productPosters?.[0]?.id, imageType) // posterX
                 }
-                toast.success("image is successfully changed")
+                toast.success("image is successfully changed");
             } catch (error) {
                 console.log(error.response.data);
                 toast.error(error.response?.data.message);
@@ -225,15 +219,15 @@ export default function ProductManageEdit() {
                                         type="file"
                                         multiple
                                         className="hidden"
-                                        ref={imageProductEl}
+                                        ref={imageProductAddEl}
                                         onChange={e => {
-                                            onChangeAndUpdateImage(e, "image", "imageProductAdd",)
+                                            onChangeAndUpdateImage(e, "image", "imageProductAdd")
                                         }}
                                     />
                                     {product.productImages?.length >= 4 || <button
                                         type="button"
                                         className="flex-0 aspect-square mb-3 h-20 overflow-hidden text-center"
-                                        onClick={() => imageProductEl.current.click()}
+                                        onClick={() => imageProductAddEl.current.click()}
                                     >
                                         {/* <img className="h-full w-full object-cover" src={"#"} alt="#" /> */}
                                         <DummyImageSmall />

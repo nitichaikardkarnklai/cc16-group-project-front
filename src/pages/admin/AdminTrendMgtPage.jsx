@@ -165,7 +165,7 @@ export default function AdminTrendMgtPage() {
           className="relative flex justify-between bg-red-100 rounded-xl p-8 gap-4"
         >
           <img src={el.image} alt="landingImage" className='w-[70%]' />
-          <ProductCard productObj={el.Products} />
+          <ProductCard productObj={el.products} />
           <button type="button" className="absolute top-4 right-4 font-black text-gray-400"
             onClick={e => {
               e.stopPropagation();

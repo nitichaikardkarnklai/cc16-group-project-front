@@ -18,7 +18,7 @@ export const updatePosterImage = (formData, productId, posterX) => axios.patch(`
 export const deletePosterImage = (posterId, posterX) => axios.patch(`product/delete_${posterX}/${posterId}`);
 //====================
 // ADD PRODUCT IMAGE
-export const addProductImage = (formData, productId) => axios.post(`product/upload_image/${productId}`, formData);
+export const addProductImage = (formData, productId) => axios.post(`product/add_image/${productId}`, formData);
 // EDIT PRODUCT IMAGE
 export const updateProductImage = (formData, imageId) => axios.patch(`product/update_image/${imageId}`, formData);
 // DELETE PRODUCT IMAGE
