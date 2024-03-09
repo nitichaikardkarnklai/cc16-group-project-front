@@ -18,7 +18,7 @@ export default function ProductsContainer({ title = 'TITLE', ProductCards = Prod
     setSelectedProducts(products);
   }, [products]);
 
-  console.log(products)
+
 
   const applySortBy = (criteria) => {
     let sortedProducts = [...products];

@@ -17,18 +17,20 @@ export default function Menulist({ link, subPages }) {
       {subPages.map((page, index) => (
         <Link key={index} to={`${link}/${page.id}`}>
           <button onClick={() => onFilterChange(page.id)}>
-            <MenuCard value={`${page.name}`} selected={selectedFilter === page.id} />
+            <MenuCard value={`${page.name}`.toUpperCase()} value2={`${link}`.toUpperCase().slice(1)} selected={selectedFilter === page.id} />
           </button>
         </Link>
       ))}
 
       <div className=' flex flex-col justify-center items-center'>
-        <Link to={`${link}`}>
+        <Link to={`${link}`} >
           <div className='w-[120px] h-[120px] flex justify-center items-center'>
             <AllProductIcon />
           </div>
         </Link>
-        <div className='font-medium'>All {`${link}`.toUpperCase().slice(1)}</div>
+        <div className='font-medium'>All Products
+          {/* {`${link}`.toUpperCase().slice(1)} */}
+        </div>
       </div>
     </div>
   );
