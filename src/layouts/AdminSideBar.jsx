@@ -46,7 +46,7 @@ const menuList = [
     },
     {
         id: 5,
-        name: "Trend Management",
+        name: "Landing Image Management",
         link: ["/admin/admin-trend-mgt-page"],
         component: <TrendIcon />,
         adminRole: ["ADMIN", "SUPERADMIN"]

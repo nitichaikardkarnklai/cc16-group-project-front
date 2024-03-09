@@ -24,7 +24,7 @@ export default function UserContextProvider({ children }) {
         try {
           const res = await userApi.getUsers();
           const userArr = res.data.user;
-          console.log(userArr);
+          // console.log(userArr);
 
           setUsers(userArr);
         } catch (err) {
@@ -38,7 +38,7 @@ export default function UserContextProvider({ children }) {
         try {
           const res = await userApi.getAdmins();
           const userArr = res.data.user;
-          console.log(userArr);
+          // console.log(userArr);
 
           setUsers(userArr);
         } catch (err) {
