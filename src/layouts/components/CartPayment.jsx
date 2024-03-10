@@ -1,7 +1,6 @@
 import React from 'react';
 import Button from '../../components/Button';
 import { useSelector } from 'react-redux';
-import { button } from '@material-tailwind/react';
 
 export default function CartPayment({ data, onCheck, onSubmit }) {
   const { itemsInCart } = useSelector((store) => store.cart);

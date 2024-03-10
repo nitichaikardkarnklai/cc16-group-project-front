@@ -136,7 +136,6 @@ export default function CartPage() {
         discount: 0,
         reward: 0,
       }));
-      console.log('final', finalTransaction);
       document.getElementById('check-out-modal').showModal();
     } else {
       setFinalTransaction(destinationTransaction);
@@ -147,7 +146,6 @@ export default function CartPage() {
         reward: transaction.reward,
         cartItemId: transaction.cartItemId,
       }));
-      console.log('final', finalTransaction);
       document.getElementById('check-out-modal').showModal();
     }
   };

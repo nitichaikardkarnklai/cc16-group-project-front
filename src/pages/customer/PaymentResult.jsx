@@ -20,10 +20,9 @@ export default function PaymentResult() {
   const [data, setData] = useState(initialState);
   const params = searchParams.get('success');
 
-  console.log('location', location?.search.split('?')?.[1].split('=')[1]);
-  const paymentStatus = params.split('?')[0];
-  const transactionId = params.split('?')[1].slice(3);
-  const isSuccess = location?.search.split('?')?.[1].split('=')[1];
+  const paymentStatus = params?.split('?')?.[0];
+  const transactionId = params?.split('?')?.[1].slice(3);
+  const isSuccess = location?.search.split('?')?.[1].split('=')?.[1];
   console.log(paymentStatus);
   console.log(transactionId);
 
