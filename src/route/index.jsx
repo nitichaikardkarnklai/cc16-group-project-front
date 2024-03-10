@@ -39,6 +39,7 @@ import EditAddressPage from '../pages/customer/auth/EditAddressPage';
 import ProductManageAdd from '../layouts/components/ProductManageAdd';
 import ProductManageEdit from '../layouts/components/ProductManageEdit';
 import PaymentResult from '../pages/customer/PaymentResult';
+import CustomerChatPage from '../pages/customer/auth/CustomerChatPage';
 
 const router = createBrowserRouter([
   {
@@ -88,6 +89,7 @@ const router = createBrowserRouter([
         ),
         children: [
           { path: '/my-account-page', element: <MyAccountPage /> },
+          { path: '/customer-chat-page/:userId', element: <CustomerChatPage /> },
           { path: '/cart-page', element: <CartPage /> },
           { path: '/manage-account-page', element: <ManageAccountPage /> },
           { path: '/my-account-page', element: <MyAccountPage /> },

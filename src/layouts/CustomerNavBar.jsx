@@ -274,9 +274,11 @@ export default function CustomerNavBar() {
                   </div>
                 )}
               </Link>
-              <div>
-                <HeadPhoneIcon />
-              </div>
+              <Link to={`/customer-chat-page/${authUser?.id}`}>
+                <div>
+                  <HeadPhoneIcon />
+                </div>
+              </Link>
               <Link to='/wishlist-page'>
                 <div>
                   <HeartIcon />

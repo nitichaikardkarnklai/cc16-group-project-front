@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function ChatStart() {
+export default function ChatStart({ textObj, children }) {
     return (
         <div className="chat chat-start">
             <div className="chat-image avatar">
@@ -8,13 +8,13 @@ export default function ChatStart() {
                     <img alt="Tailwind CSS chat bubble component" src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
                 </div>
             </div>
-            <div className="chat-header">
-                Obi-Wan Kenobi
-                <time className="text-xs opacity-50">12:45</time>
+            <div className="chat-header flex gap-2 items-center">
+                <div>{textObj.userName}</div>
+                <time className="text-xs opacity-50">{textObj.time}</time>
             </div>
-            <div className="chat-bubble bg-grayBg300">You were the Chosen One!</div>
+            <div className="chat-bubble bg-grayBg300">{children}</div>
             <div className="chat-footer opacity-50">
-                Delivered
+                {textObj.date}
             </div>
         </div>
     )

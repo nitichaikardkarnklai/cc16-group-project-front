@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function ChatEnd() {
+export default function ChatEnd({ textObj, children }) {
     return (
         <div className="chat chat-end">
             <div className="chat-image avatar">
@@ -8,13 +8,13 @@ export default function ChatEnd() {
                     <img alt="Tailwind CSS chat bubble component" src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
                 </div>
             </div>
-            <div className="chat-header">
-                Anakin
-                <time className="text-xs opacity-50">12:46</time>
+            <div className="chat-header flex gap-2 items-center">
+                <div>{textObj.userName}</div>
+                <time className="text-xs opacity-50">{textObj.time}</time>
             </div>
-            <div className="chat-bubble bg-redHero">I hate you!</div>
+            <div className="chat-bubble bg-redHero">{children}</div>
             <div className="chat-footer opacity-50">
-                Seen at 12:46
+                {textObj.date}
             </div>
         </div>
     )
