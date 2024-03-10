@@ -19,9 +19,11 @@ export default function PaymentResult() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [data, setData] = useState(initialState);
   const params = searchParams.get('success');
-  console.log('a', params);
+
+  console.log('location', location?.search.split('?')?.[1].split('=')[1]);
   const paymentStatus = params.split('?')[0];
   const transactionId = params.split('?')[1].slice(3);
+  const isSuccess = location?.search.split('?')?.[1].split('=')[1];
   console.log(paymentStatus);
   console.log(transactionId);
 
@@ -46,20 +48,39 @@ export default function PaymentResult() {
   console.log(data);
   return (
     <div className='flex flex-col w-full h-screen justify-center items-center gap-8'>
-      <div className='flex flex-col'>
-        <div className='text-2xl'>
-          your payment is success, please check your email.
-        </div>
-        <div className='text-5xl font-medium'>
-          Thank You for Your Supporting!
-        </div>
-      </div>
-      <Link to='/'>
-        <div className='flex justify-center items-center gap-1'>
-          <div className='underline'>Continue shopping</div>
-          <LetGoIcon size='18px' />
-        </div>
-      </Link>
+      {isSuccess === 'true' ? (
+        <>
+          <div className='flex flex-col'>
+            <div className='text-2xl'>
+              your payment is success, please check your email.
+            </div>
+            <div className='text-5xl font-medium'>
+              Thank You for Your Supporting!
+            </div>
+          </div>
+          <Link to='/'>
+            <div className='flex justify-center items-center gap-1'>
+              <div className='underline'>Continue shopping</div>
+              <LetGoIcon size='18px' />
+            </div>
+          </Link>
+        </>
+      ) : (
+        <>
+          <div className='flex flex-col'>
+            <div className='text-2xl'>Sorry, Fail to process payment.</div>
+            <div className='text-5xl font-medium'>
+              Please visiting us again.
+            </div>
+          </div>
+          <Link to='/'>
+            <div className='flex justify-center items-center gap-1'>
+              <div className='underline'>Continue shopping</div>
+              <LetGoIcon size='18px' />
+            </div>
+          </Link>
+        </>
+      )}
     </div>
   );
 }
