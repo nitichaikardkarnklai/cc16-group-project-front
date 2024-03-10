@@ -15,6 +15,7 @@ import useAuth from '../hooks/use-auth';
 import UserIcon from '../assets/icon/UserIcon';
 import { fetchGroups } from '../store/slices/groupSlice';
 import { fetchSeries } from '../store/slices/seriesSlice';
+import { fetchCart } from '../store/slices/cartSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 const openState = {
@@ -35,6 +36,9 @@ export default function CustomerNavBar() {
   const dispatch = useDispatch();
   const { groups } = useSelector((store) => store.group) || { groups: [] };
   const { series } = useSelector((store) => store.series) || { series: [] };
+  const { itemsInCart } = useSelector((store) => store.cart) || {
+    itemsInCart: [],
+  };
   const [subPages, setSubPages] = useState([]);
   const [groupSubPages, setGroupSubPages] = useState([]);
   const [seriesSubPages, setSeriesSubPages] = useState([]);
@@ -59,7 +63,15 @@ export default function CustomerNavBar() {
         console.error('Error fetching groups:', error);
       }
     };
+    const fetchCartData = async () => {
+      try {
+        await dispatch(fetchCart());
+      } catch (err) {
+        console.log('Error fetching cart', err);
+      }
+    };
     fetchGroupsData();
+    fetchCartData();
   }, []);
 
   useEffect(() => {
@@ -285,7 +297,9 @@ export default function CustomerNavBar() {
               <Link to='/cart-page'>
                 <div className='w-[77px] h-[34px] rounded-3xl border border-gray-400 flex justify-center items-center'>
                   <ShoppingBagIcon />
-                  <div>1</div>
+                  <div>
+                    {itemsInCart.length != 0 ? itemsInCart.length : null}
+                  </div>
                 </div>
               </Link>
             </div>
