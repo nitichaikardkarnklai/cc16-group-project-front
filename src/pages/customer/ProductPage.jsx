@@ -14,6 +14,8 @@ import {
 import HeartIcon from '../../assets/icon/HeartIcon';
 import Spinner from '../../components/Spinner';
 import { toast } from 'react-toastify';
+import useAuth from '../../hooks/use-auth';
+import { registry } from 'chart.js';
 
 const initialCartItem = {
   productId: null,
@@ -23,8 +25,9 @@ const initialCartItem = {
 
 export default function ProductPage() {
   const dispatch = useDispatch();
-  // const { product } = useSelector((store) => store.products);
-  const { wishlistItems } = useSelector((store) => store.wishlists);
+  const { wishlistItems, newWishlist } = useSelector(
+    (store) => store.wishlists
+  );
   const [selectedImage, setSelectedImage] = useState('');
   const [isWishlist, setIsWishlist] = useState(false);
   const [wishlistId, setWishlistId] = useState('');
@@ -32,6 +35,7 @@ export default function ProductPage() {
   const [product, setProduct] = useState({});
   const [loading, setLoading] = useState(false);
   const [newCartItem, setNewCartItem] = useState(initialCartItem);
+  const { authUser } = useAuth();
 
   const productId = +localStorage.getItem('productId');
 
@@ -41,7 +45,6 @@ export default function ProductPage() {
         setLoading(true);
         const data = await productApi.fetchProductById(productId);
         setProduct(data.data.resultProductById);
-        dispatch(fetchWishlist());
       } catch (error) {
         setLoading(false);
         console.log(error);
@@ -49,9 +52,9 @@ export default function ProductPage() {
         setLoading(false);
       }
     })();
+    dispatch(fetchWishlist());
   }, []);
 
-  //
   useEffect(() => {
     isInWishlist();
     setNewCartItem({
@@ -59,6 +62,8 @@ export default function ProductPage() {
       quantity: count,
       price: product.price,
     });
+
+    localStorage.setItem('wishlistItems', JSON.stringify(wishlistItems));
   }, [wishlistItems, count]);
 
   const handleImageClick = (image) => {
@@ -67,15 +72,18 @@ export default function ProductPage() {
 
   // check is item is in wishlist
   const isInWishlist = () => {
-    const foundWishlist = wishlistItems.filter(
+    const foundWishlist = wishlistItems.find(
       (el) => el.productId === productId
     );
     console.log('wishlist', wishlistItems);
     console.log('found', foundWishlist);
-    if (foundWishlist && foundWishlist.length != 0) {
+    if (foundWishlist) {
       setIsWishlist(true);
-      setWishlistId(foundWishlist?.[0]?.id);
-    } else setIsWishlist(false);
+      setWishlistId(foundWishlist.id);
+    } else {
+      setIsWishlist(false);
+      setWishlistId(null);
+    }
   };
 
   //counter function increment
@@ -100,6 +108,39 @@ export default function ProductPage() {
       console.log(err);
     } finally {
       toast.success('Add to cart Success');
+    }
+  };
+
+  //add item to wishlist
+  const onAddWishlist = async () => {
+    try {
+      console.log('add to wishlist', productId);
+      const action = await dispatch(addWishlist(productId));
+      console.log('action', action);
+
+      setIsWishlist(true);
+    } catch (err) {
+      console.log(err);
+    } finally {
+    }
+  };
+
+  //remove item from wishlist
+  const onRemoveWishlist = async () => {
+    try {
+      if (!wishlistId) {
+        console.log('remove from wishlist', newWishlist);
+        dispatch(removeWishlist(newWishlist.id));
+        setIsWishlist(false);
+      } else {
+        console.log('remove from wishlist', wishlistId);
+        dispatch(removeWishlist(wishlistId));
+        setIsWishlist(false);
+        setWishlistId(null);
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
     }
   };
 
@@ -167,29 +208,20 @@ export default function ProductPage() {
               <div className='lg:col-span-2 lg:row-span-2 lg:row-end-2'>
                 <h1 className='flex justify-start items-center gap-4 sm: text-2xl font-bold text-gray-900 sm:text-3xl'>
                   {product?.productName}{' '}
-                  <div className='btn bg-transparent border-none shadow-none hover:bg-transparent'>
-                    {isWishlist ? (
-                      <HeartIcon
-                        onClick={() => {
-                          setIsWishlist(!isWishlist);
-                          console.log('remove from wishlist');
-                          dispatch(removeWishlist(wishlistId));
-                        }}
-                        size='32px'
-                        fill='red'
-                        stroke='none'
-                      />
-                    ) : (
-                      <HeartIcon
-                        onClick={() => {
-                          setIsWishlist(!isWishlist);
-                          console.log('add to wishlist');
-                          dispatch(addWishlist(productId));
-                        }}
-                        size='32px'
-                      />
-                    )}
-                  </div>
+                  {authUser?.role === 'USER' ? (
+                    <div className='btn bg-transparent border-none shadow-none hover:bg-transparent'>
+                      {isWishlist ? (
+                        <HeartIcon
+                          onClick={onRemoveWishlist}
+                          size='32px'
+                          fill='red'
+                          stroke='none'
+                        />
+                      ) : (
+                        <HeartIcon onClick={onAddWishlist} size='32px' />
+                      )}
+                    </div>
+                  ) : null}
                 </h1>
 
                 <div className='mt-5 flex items-center'></div>

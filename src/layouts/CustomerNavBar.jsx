@@ -51,7 +51,6 @@ export default function CustomerNavBar() {
     return () => document.removeEventListener('click', handleClickOutside);
   }, [open, navRef.current]);
 
-
   useEffect(() => {
     const fetchGroupsData = async () => {
       try {
@@ -65,7 +64,9 @@ export default function CustomerNavBar() {
 
   useEffect(() => {
     if (groups.length > 0) {
-      setGroupSubPages(groups.map((group) => ({ id: group.id, name: group.categories })));
+      setGroupSubPages(
+        groups.map((group) => ({ id: group.id, name: group.categories }))
+      );
     }
   }, [groups]);
 
@@ -82,7 +83,9 @@ export default function CustomerNavBar() {
 
   useEffect(() => {
     if (series.length > 0) {
-      setSeriesSubPages(series.map((series) => ({ id: series.id, name: series.series })));
+      setSeriesSubPages(
+        series.map((series) => ({ id: series.id, name: series.series }))
+      );
     }
   }, [series]);
 
@@ -91,11 +94,8 @@ export default function CustomerNavBar() {
     setOpen(openState);
   }, [pathname]);
 
-
   const isGroupsEmpty = !groups || groups.length === 0;
-  console.log(isGroupsEmpty);
-
-
+  // console.log(isGroupsEmpty);
 
   const onClickFeature = () => {
     setOpen({
@@ -294,10 +294,33 @@ export default function CustomerNavBar() {
         <div className='absolute w-full bg-white z-50'>
           {open.feature && <FeatureMenuList />}
 
-          {open.series && <SeriesMenulist link={'/series'} subPages={seriesSubPages} />}
-          {open.mega && <Menulist link={'/mega'} subPages={groupSubPages.filter(page => page.id >= 1 && page.id <= 3)} />}
-          {open.types && <Menulist link={'/types'} subPages={groupSubPages.filter(page => page.id >= 4 && page.id <= 6)} />}
-          {open.accessories && <Menulist link={'/accessories'} subPages={groupSubPages.filter(page => page.id >= 7 && page.id <= 9)} />}
+          {open.series && (
+            <SeriesMenulist link={'/series'} subPages={seriesSubPages} />
+          )}
+          {open.mega && (
+            <Menulist
+              link={'/mega'}
+              subPages={groupSubPages.filter(
+                (page) => page.id >= 1 && page.id <= 3
+              )}
+            />
+          )}
+          {open.types && (
+            <Menulist
+              link={'/types'}
+              subPages={groupSubPages.filter(
+                (page) => page.id >= 4 && page.id <= 6
+              )}
+            />
+          )}
+          {open.accessories && (
+            <Menulist
+              link={'/accessories'}
+              subPages={groupSubPages.filter(
+                (page) => page.id >= 7 && page.id <= 9
+              )}
+            />
+          )}
         </div>
       </div>
     </div>
