@@ -10,12 +10,12 @@ import useAuth from '../../hooks/use-auth';
 import * as chatApi from "../../api/chat"
 import ScrollToBottom from "react-scroll-to-bottom"
 import { io } from 'socket.io-client';
-export const socket = io.connect('http://localhost:8080'
+const socket = io.connect('http://localhost:8080'
     , {
         withCredentials: true,
-        // extraHeaders: {
-        //     "my-custom-header": "abcd"
-        // },
+        query: {
+            userId: 6
+        },
         transports: ["websocket"]
     }
 );
@@ -25,6 +25,7 @@ export default function ChatUi() {
     const { authUser } = useAuth();
     const [texts, setTexts] = useState([]);
     const [text, setText] = useState({ userId: "", message: "", time: "" }); // {userId, message}
+    const [user, setUser] = useState({});
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -79,10 +80,18 @@ export default function ChatUi() {
     }, [socket])
 
     return (
-        <div>
-            <div className='flex flex-col justify-between gap-4 min-h-[700px]'>
+        <div className='flex w-full gap-8'>
+            {authUser.role !== "USER" && (
+                <div className='flex flex-col min-w-56 border-2'>
+
+                </div>
+            )}
+            <div className='flex flex-col justify-between gap-4 min-h-[700px] w-full'>
                 <div className='flex flex-col gap-2 relative'>
-                    {authUser.role === "USER" ? <button onClick={() => navigate(-1)}><BackIcon /></button> : ""}
+                    {authUser.role === "USER" ? <button onClick={() => {
+                        socket.disconnect();
+                        navigate(-1);
+                    }}><BackIcon /></button> : <div className='h-[80px]'>{ }</div>}
                     <div className='flex flex-col gap-4 h-[600px] overflow-y-scroll border-2 p-4'>
                         <ScrollToBottom className='break-words overflow-y-scroll'>
                             {texts?.map((el, id) => {
