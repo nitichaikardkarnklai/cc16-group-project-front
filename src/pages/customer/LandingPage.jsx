@@ -56,12 +56,11 @@ export default function LandingPage() {
 
   return (
     <div>
-      <div className=''></div>
       <div>
-        <div className='hero mb-8'>
-          <Carousel className="">
+        <div className='hero mb-8 px-8'>
+          <Carousel>
             {landing.map((el, index) => {
-              console.log(el.image);
+              // console.log(el.image);
               return (
                 <button key={el.id} onClick={(e) => handleOnclickLanding(e, el.products.id)}>
                   <img

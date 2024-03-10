@@ -39,6 +39,7 @@ export default function ProductCard({ productObj, location = '', onClick = () =>
     <div
       onClick={(c) => handleOnclick(productObj)}
       className='relative w-[250px] flex flex-col gap-2 mx-auto'
+      role={locate.pathname === '/admin/admin-product-mgt-page' || locate.pathname === '/admin/admin-trend-mgt-page' ? "" : "button"}
     >
       <div
         onClick={(c) => location === "/admin/admin-product-edit-form" || onClick(productObj)}
