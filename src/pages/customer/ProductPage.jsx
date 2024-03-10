@@ -5,17 +5,16 @@ import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import * as productApi from '../../api/product';
 import * as cartApi from '../../api/cart';
-import { fetchProductById } from '../../store/slices/productSlice';
 import {
   addWishlist,
   removeWishlist,
   fetchWishlist,
 } from '../../store/slices/wishlistSlice';
+import { fetchCart } from '../../store/slices/cartSlice';
 import HeartIcon from '../../assets/icon/HeartIcon';
 import Spinner from '../../components/Spinner';
 import { toast } from 'react-toastify';
 import useAuth from '../../hooks/use-auth';
-import { registry } from 'chart.js';
 
 const initialCartItem = {
   productId: null,
@@ -28,6 +27,7 @@ export default function ProductPage() {
   const { wishlistItems, newWishlist } = useSelector(
     (store) => store.wishlists
   );
+  const { itemsInCart } = useSelector((store) => store.cart);
   const [selectedImage, setSelectedImage] = useState('');
   const [isWishlist, setIsWishlist] = useState(false);
   const [wishlistId, setWishlistId] = useState('');
@@ -43,8 +43,15 @@ export default function ProductPage() {
     (async () => {
       try {
         setLoading(true);
+        dispatch(fetchCart());
+
         const data = await productApi.fetchProductById(productId);
         setProduct(data.data.resultProductById);
+        setNewCartItem({
+          productId: productId,
+          quantity: count,
+          price: data.data.resultProductById.price,
+        });
       } catch (error) {
         setLoading(false);
         console.log(error);
@@ -53,6 +60,7 @@ export default function ProductPage() {
       }
     })();
     dispatch(fetchWishlist());
+    numberInCart();
   }, []);
 
   useEffect(() => {
@@ -62,10 +70,11 @@ export default function ProductPage() {
       quantity: count,
       price: product.price,
     });
-
-    localStorage.setItem('wishlistItems', JSON.stringify(wishlistItems));
   }, [wishlistItems, count]);
 
+  //------------------------------------image zone
+
+  //change image
   const handleImageClick = (image) => {
     setSelectedImage(image);
   };
@@ -88,9 +97,21 @@ export default function ProductPage() {
 
   //------------------------------------cart zone
 
+  //check is item in cart and amount of items in cart
+  const numberInCart = () => {
+    const found = itemsInCart.find((el) => el.productId === productId);
+    if (found) {
+      setCount(found.quantity);
+    } else {
+      setCount(1);
+    }
+  };
+
   //add to cart function
   const onAddTOCart = async () => {
     try {
+      console.log('price', product.price);
+      console.log('newCartItem', newCartItem);
       await cartApi.upsertIntoCart(newCartItem);
     } catch (err) {
       console.log(err);
@@ -106,8 +127,8 @@ export default function ProductPage() {
     const foundWishlist = wishlistItems.find(
       (el) => el.productId === productId
     );
-    console.log('wishlist', wishlistItems);
-    console.log('found', foundWishlist);
+    // console.log('wishlist', wishlistItems);
+    // console.log('found', foundWishlist);
     if (foundWishlist) {
       setIsWishlist(true);
       setWishlistId(foundWishlist.id);

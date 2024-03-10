@@ -107,12 +107,12 @@ export default function CartPage() {
     }
   };
 
-  //check add items function
+  //check to add items function
   const addCheck = (id, count, price) => {
     setCheckCart((prev) => [...prev, { id: id, count: count, price: price }]);
   };
 
-  //check remove items function
+  //check to remove items function
   const removeCheck = (id) => {
     const toBeRemove = checkCart.find((item) => item.id === id);
     if (toBeRemove) {
