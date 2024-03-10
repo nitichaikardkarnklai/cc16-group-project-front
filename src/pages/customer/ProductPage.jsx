@@ -15,6 +15,7 @@ import HeartIcon from '../../assets/icon/HeartIcon';
 import Spinner from '../../components/Spinner';
 import { toast } from 'react-toastify';
 import useAuth from '../../hooks/use-auth';
+import { useNavigate } from 'react-router-dom';
 
 const initialCartItem = {
   productId: null,
@@ -35,7 +36,10 @@ export default function ProductPage() {
   const [product, setProduct] = useState({});
   const [loading, setLoading] = useState(false);
   const [newCartItem, setNewCartItem] = useState(initialCartItem);
+  const [isLaunch, setIsLaunch] = useState(true);
   const { authUser } = useAuth();
+
+  const navigate = useNavigate();
 
   const productId = +localStorage.getItem('productId');
 
@@ -61,10 +65,12 @@ export default function ProductPage() {
     })();
     dispatch(fetchWishlist());
     numberInCart();
+    isItLaunch();
   }, []);
 
   useEffect(() => {
     isInWishlist();
+    isItLaunch();
     setNewCartItem({
       productId: productId,
       quantity: count,
@@ -72,11 +78,19 @@ export default function ProductPage() {
     });
   }, [wishlistItems, count]);
 
+  console.log(product);
+
   //------------------------------------image zone
 
   //change image
   const handleImageClick = (image) => {
     setSelectedImage(image);
+  };
+
+  //------------------------------------time manipulate zone
+
+  const isItLaunch = () => {
+    console.log('launchTime', product);
   };
 
   //------------------------------------counter zone
@@ -276,19 +290,39 @@ export default function ProductPage() {
                 </div>
                 <div className='mt-3 flex select-none flex-wrap items-center gap-1'></div>
 
-                <div className='mt-10 flex flex-col items-center justify-start gap-4 space-y-4 border-t border-b py-4 sm:flex-row sm:space-y-0'>
-                  <Button
-                    onClick={onAddTOCart}
-                    bg='red'
-                    type='submit'
-                    color='white'
-                  >
-                    ADD TO CART
-                  </Button>
-                  <Button bg='black' type='submit' color='white'>
-                    BUY NOW
-                  </Button>
-                </div>
+                {authUser?.role !== 'ADMIN' ? (
+                  <div className='mt-10 flex flex-col items-center justify-start gap-4 space-y-4 border-t border-b py-4 sm:flex-row sm:space-y-0'>
+                    <Button
+                      onClick={() => {
+                        if (authUser?.role === 'USER') {
+                          return onAddTOCart();
+                        } else if (!authUser) {
+                          return navigate('/login');
+                        }
+                      }}
+                      bg='red'
+                      type='submit'
+                      color='white'
+                    >
+                      ADD TO CART
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        if (authUser?.role === 'USER') {
+                          onAddTOCart();
+                          return navigate('/cart-page');
+                        } else if (!authUser) {
+                          return navigate('/login');
+                        }
+                      }}
+                      bg='black'
+                      type='submit'
+                      color='white'
+                    >
+                      BUY NOW
+                    </Button>
+                  </div>
+                ) : null}
                 <div className='collapse collapse-arrow '>
                   <input type='radio' name='my-accordion-2' />
                   <div className='collapse-title text-xl font-medium'>
