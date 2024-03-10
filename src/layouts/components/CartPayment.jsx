@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from '../../../components/Button';
+import Button from '../../components/Button';
 
 export default function CartPayment({ data, onCheck, onSubmit }) {
   console.log('payment', data);

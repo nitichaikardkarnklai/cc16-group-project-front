@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import CartCard from '../../../layouts/components/CartCard';
-import CartPayment from './CartPayment';
+import CartPayment from '../../../layouts/components/CartPayment';
 import { fetchCart, fetchReward } from '../../../store/slices/cartSlice';
 import * as cartApi from '../../../api/cart';
 import * as transactionApi from '../../../api/transaction';

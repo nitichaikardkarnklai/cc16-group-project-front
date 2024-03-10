@@ -70,21 +70,7 @@ export default function ProductPage() {
     setSelectedImage(image);
   };
 
-  // check is item is in wishlist
-  const isInWishlist = () => {
-    const foundWishlist = wishlistItems.find(
-      (el) => el.productId === productId
-    );
-    console.log('wishlist', wishlistItems);
-    console.log('found', foundWishlist);
-    if (foundWishlist) {
-      setIsWishlist(true);
-      setWishlistId(foundWishlist.id);
-    } else {
-      setIsWishlist(false);
-      setWishlistId(null);
-    }
-  };
+  //------------------------------------counter zone
 
   //counter function increment
   const increment = () => {
@@ -100,6 +86,8 @@ export default function ProductPage() {
     } else return count;
   };
 
+  //------------------------------------cart zone
+
   //add to cart function
   const onAddTOCart = async () => {
     try {
@@ -108,6 +96,24 @@ export default function ProductPage() {
       console.log(err);
     } finally {
       toast.success('Add to cart Success');
+    }
+  };
+
+  //------------------------------------wishlist zone
+
+  // check is item is in wishlist
+  const isInWishlist = () => {
+    const foundWishlist = wishlistItems.find(
+      (el) => el.productId === productId
+    );
+    console.log('wishlist', wishlistItems);
+    console.log('found', foundWishlist);
+    if (foundWishlist) {
+      setIsWishlist(true);
+      setWishlistId(foundWishlist.id);
+    } else {
+      setIsWishlist(false);
+      setWishlistId(null);
     }
   };
 
