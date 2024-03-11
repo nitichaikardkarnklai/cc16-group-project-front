@@ -13,6 +13,8 @@ const TypesPage = () => {
 
     const [sortedProducts, setSortedProducts] = useState([]);
     const [typesCategories, setTypesCategories] = useState([]);
+    const [filterOptions, setFilterOptions] = useState({}); // เพิ่ม state เก็บค่าที่เลือกจาก FilterProduct
+    const [filteredProducts, setFilteredProducts] = useState([]);
 
     const handleSortChange = (sortedProducts) => {
         setSortedProducts(sortedProducts);
@@ -26,17 +28,39 @@ const TypesPage = () => {
 
     const filter = {
         groupId: groupId,
+        ...filterOptions,
     };
     const handleFilterChange = (filters) => {
-        // Apply the filters to the products
-        const filteredProducts = products.filter(product => product.groupId === filters.groupId);
+        const filteredList = Object.entries(filters).filter(el => el[1] === true)
+        const filteredProducts = products.filter(product => {
+            return (
+                (!product.groupId || product.groupId === filters.groupId)
+                &&
+                (!filters.series || product.productSeries.series === filters.series)
+            )
+        })
+
+        console.log(filters)
+        console.log(filteredList)
+        const filterProducts2 = filteredProducts.filter(product => {
+            return (
+                filterOptions?.includes(product.productSeries.series)
+            )
+        })
+        setFilteredProducts(filterProducts2);
         setSortedProducts(filteredProducts);
+
+        let filteredListTemp = []
+        for (let i = 0; i < filteredList.length; i++) {
+            filteredListTemp[i] = filteredList[i][0]
+        }
+        setFilterOptions(filteredListTemp);
+
     };
+
 
     useEffect(() => {
         const filteredProducts = products.filter(product => product.groupId === groupId);
-        setSortedProducts(filteredProducts);
-
         const uniqueCategories = [...new Set(filteredProducts.map(product => product.productGroup.categories))];
         setTypesCategories(uniqueCategories);
     }, [groupId, products]);
@@ -51,6 +75,9 @@ const TypesPage = () => {
                     ProductCards={ProductCard}
                     onSortChange={handleSortChange}
                     onFilterChange={handleFilterChange}
+                    products={sortedProducts}
+                    filterOptions={filterOptions}
+                    filterType="series"
                 />
             </div>
             {sortedProducts.map(product => (

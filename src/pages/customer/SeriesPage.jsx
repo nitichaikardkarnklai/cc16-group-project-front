@@ -13,6 +13,7 @@ const SeriesPage = () => {
   const [sortedProducts, setSortedProducts] = useState([]);
   const [seriesName, setSeriesName] = useState([]);
   const [filterOptions, setFilterOptions] = useState({}); // เพิ่ม state เก็บค่าที่เลือกจาก FilterProduct
+  const [filteredProducts, setFilteredProducts] = useState([]);
 
   const handleSortChange = (sortedProducts) => {
     setSortedProducts(sortedProducts);
@@ -31,19 +32,7 @@ const SeriesPage = () => {
 
   const handleFilterChange = (filters) => {
     const filteredList = Object.entries(filters).filter(el => el[1] === true)
-    console.log(filter);
     const filteredProducts = products.filter(product => {
-      // console.log("product", product);
-      console.log("filters", filters);
-      console.log("filteredlist", filteredList);
-
-      // const test = filteredList.length > 0 ? filteredList.reduce((acc, el) => {
-      //   console.log(el[0]);
-      //   for (let i = 0; i < filteredList.length; i++) {
-      //   }
-      // }, []) : ""
-
-
       return (
         (!product.serieId || product.serieId === filters.serieId)
         &&
@@ -51,10 +40,12 @@ const SeriesPage = () => {
       );
     });
 
-    console.log("filters.serieId", filters.serieId)
-
-
-    console.log("Filtered Products", filteredProducts);
+    const filterProducts2 = filteredProducts.filter(product => {
+      return (
+        filterOptions?.includes(product.productGroup.categories)
+      );
+    });
+    setFilteredProducts(filterProducts2);
     setSortedProducts(filteredProducts);
     // setFilterOptions(filters);
     let filteredListTemp = []
@@ -62,7 +53,6 @@ const SeriesPage = () => {
       filteredListTemp[i] = filteredList[i][0]
     }
     setFilterOptions(filteredListTemp);
-
   };
 
 
@@ -70,16 +60,11 @@ const SeriesPage = () => {
     const filteredProducts = products.filter(product => {
       return (
         (!filter.serieId || product.serieId === filter.serieId)
-        // &&
-        // (!filter.group || product.productGroup.categories === filter.group) // ใช้ชื่อกลุ่มสินค้าที่ถูกต้องตาม Prisma schema
       )
     })
-    // console.log(filteredProducts)
     const uniqueSeries = [...new Set(filteredProducts.map(product => product.productSeries.series))];
     setSeriesName(uniqueSeries);
   }, [serieId, products]);
-
-
 
 
   return (
@@ -88,12 +73,12 @@ const SeriesPage = () => {
         <ProductsContainer
           title={seriesName.length > 0 ? seriesName.join(", ") : 'Series'}
           filter={filter}
-          sortedProducts={sortedProducts}
           ProductCards={ProductCard}
           onSortChange={handleSortChange}
-          filterType="group"
           onFilterChange={handleFilterChange}
+          sortedProducts={sortedProducts}
           filterOptions={filterOptions}
+          filterType="group"
         />
       </div>
       {sortedProducts.map(product => (

@@ -5,6 +5,7 @@ import FilterProduct from './FilterProduct';
 import { fetchAllProduct } from '../../store/slices/productSlice';
 
 export default function ProductsContainer({ title = 'TITLE', ProductCards = ProductCard, onFilterChange, filter, onSortChange, filterType, sortedProducts, filterOptions, ...props }) {
+
   const dispatch = useDispatch();
   const { products } = useSelector(store => store.products) || { products: [] };
   const [selectedFilters, setSelectedFilters] = useState({});
@@ -33,7 +34,6 @@ export default function ProductsContainer({ title = 'TITLE', ProductCards = Prod
 
   const handleFilterChange = (filters) => {
     setSelectedFilters(filters);
-    // console.log(filters);
   };
 
   useEffect(() => {
@@ -46,18 +46,15 @@ export default function ProductsContainer({ title = 'TITLE', ProductCards = Prod
       (!filter.groupId || product.groupId === filter.groupId) &&
       (!filter.serieId || product.serieId === filter.serieId) &&
       (!filter.isHot || product.isHot) &&
-      (!filter.isNew || product.isNew)
+      (!filter.isNew || product.isNew) &&
+      // (!filterOptions.length || filterOptions.includes(product.productGroup.categories))
+      // &&
+      (!filterOptions.length || filterOptions.includes(product.productSeries.series))
     );
   });
 
-  const filterProducts2 = filteredProducts.filter(product => {
-    console.log("filterOptions", filterOptions);
-    console.log("product.productGroup.group", product.productGroup);
-    return (
-      filterOptions.includes(product.productGroup.categories)
-    )
-  })
-  console.log("filterProducts2", filterProducts2);
+
+
 
   return (
     <div className='flex flex-col justify-center items-center'>
@@ -113,8 +110,11 @@ export default function ProductsContainer({ title = 'TITLE', ProductCards = Prod
                     <h2 className="text-2xl pt-3">Filter</h2>
                     <div className="divider"></div>
                   </div>
-                  <FilterProduct onFilterChange={handleFilterChange} filterType={filterType} />
-
+                  <FilterProduct
+                    onFilterChange={handleFilterChange}
+                    filterType={filterType}
+                    filterOptions={filterOptions}
+                  />
                 </ul>
               </div>
             </div>
@@ -123,9 +123,9 @@ export default function ProductsContainer({ title = 'TITLE', ProductCards = Prod
       </div>
       <div className="flex flex-col py-10">
         <div className='grid grid-cols-4 gap-8 w-[1235px] mx-auto' style={{ zIndex: 9 }}>
-          {filteredProducts.map((el, index) => <ProductCards key={el.id} productObj={el} />)}
-
-
+          {filteredProducts.map((el, index) =>
+            <ProductCards key={el.id} productObj={el}
+            />)}
         </div>
       </div>
     </div>

@@ -12,6 +12,9 @@ const AccessoriesPage = () => {
 
   const [sortedProducts, setSortedProducts] = useState([]);
   const [accCategories, setAccCategories] = useState([]);
+  const [filterOptions, setFilterOptions] = useState({});
+  const [filteredProducts, setFilteredProducts] = useState([]);
+
 
   const handleSortChange = (sortedProducts) => {
     setSortedProducts(sortedProducts);
@@ -28,21 +31,44 @@ const AccessoriesPage = () => {
   // กำหนด filter โดยใช้ groupId
   const filter = {
     groupId: groupId,
-    // Add other filter criteria if needed
+    ...filterOptions,
   };
+
 
 
 
   const handleFilterChange = (filters) => {
-    // Apply the filters to the products
-    const filteredProducts = products.filter(product => product.groupId === filters.groupId);
+    const filteredList = Object.entries(filters).filter(el => el[1] === true)
+    const filteredProducts = products.filter(product => {
+      return (
+        (!product.groupId || product.groupId === filters.groupId)
+        &&
+        (!filters.series || product.productSeries.series === filters.series)
+      )
+    })
+
+    console.log(filters)
+    console.log(filteredList)
+    const filterProducts2 = filteredProducts.filter(product => {
+      return (
+        filterOptions?.includes(product.productSeries.series)
+      )
+    })
+    setFilteredProducts(filterProducts2);
     setSortedProducts(filteredProducts);
+
+    let filteredListTemp = []
+    for (let i = 0; i < filteredList.length; i++) {
+      filteredListTemp[i] = filteredList[i][0]
+    }
+    setFilterOptions(filteredListTemp);
+
   };
 
-  useEffect(() => {
-    const filteredProducts = products.filter(product => product.groupId === filter.groupId);
-    setSortedProducts(filteredProducts);
 
+
+  useEffect(() => {
+    const filteredProducts = products.filter(product => product.groupId === groupId);
     const uniqueCategories = [...new Set(filteredProducts.map(product => product.productGroup.categories))];
     setAccCategories(uniqueCategories);
   }, [groupId, products]);
@@ -60,6 +86,8 @@ const AccessoriesPage = () => {
           onSortChange={handleSortChange}
           onFilterChange={handleFilterChange}
           products={sortedProducts}
+          filterOptions={filterOptions}
+          filterType="series"
         />
       </div>
       {sortedProducts.map(product => (

@@ -4,7 +4,7 @@ import { fetchAllProduct } from "../../store/slices/productSlice";
 import Button from "../../components/Button";
 
 
-export default function FilterProduct({ onFilterChange, filterType, filterOptions }) {
+export default function FilterProduct({ onFilterChange, filterType, filterOptions, ...props }) {
     const dispatch = useDispatch();
     const { products } = useSelector(store => store.products) || { products: [] };
     const [selectedFilters, setSelectedFilters] = useState({});
@@ -40,10 +40,8 @@ export default function FilterProduct({ onFilterChange, filterType, filterOption
 
     const handleApplyFilters = () => {
         onFilterChange(selectedFilters);
+        setSelectedFilters({ ...filterOptions });
     };
-
-
-
     return (
         <div>
             <div className="flex flex-col justify-start text-left items-start">
@@ -55,6 +53,7 @@ export default function FilterProduct({ onFilterChange, filterType, filterOption
                                 <input
                                     type="checkbox"
                                     defaultChecked={selectedFilters[option]}
+
                                     className="checkbox"
                                     onChange={() => handleCheckboxChange(option)}
                                 />
@@ -65,7 +64,7 @@ export default function FilterProduct({ onFilterChange, filterType, filterOption
                 </div>
                 <div className="divider"></div>
                 <div className="form-control">
-                    <Button color="white" bg="darkGray" onClick={handleApplyFilters}>Apply</Button>
+                    <Button color="white" bg="darkGray" onClick={handleApplyFilters}>CLEAR</Button>
                 </div>
             </div>
         </div>
