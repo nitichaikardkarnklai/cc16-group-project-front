@@ -80,7 +80,6 @@ export default function ChatUi() {
                         // console.log(users);
                         setOnlineUsers(users);
                     })
-
                 }
             } catch (error) {
                 console.log(error.response?.data.message);
