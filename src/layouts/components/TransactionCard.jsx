@@ -1,11 +1,17 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 
-export default function transactionCard({ data }) {
+export default function TransactionCard({ data }) {
+  const location = useLocation();
+
   console.log('data', data);
   return (
     <div className='flex py-10 gap-2 w-full '>
       <div className='flex flex-col w-[200px] pr-4 border-r flex-shrink-0'>
         <div className='text-2xl font-semibold'>Transaction Id {data.id}</div>
+        {location.pathname === '/admin/admin-transaction-monitoring-page' && (
+          <div>{data.user?.email}</div>
+        )}
         <div>status: {data.status}</div>
         <div>discount: {(+data.discount).toLocaleString()} THB</div>
         <div className='text-lg font-medium'>

@@ -305,7 +305,7 @@ export default function ProductPage() {
                 </div>
                 <div className='mt-3 flex select-none flex-wrap items-center gap-1'></div>
 
-                {isLaunch || product?.stockQuantity == 0 ? (
+                {!isLaunch && product?.stockQuantity == 0 ? (
                   authUser?.role !== 'ADMIN' ? (
                     <div className='mt-10 flex flex-col items-center justify-start gap-4 space-y-4 border-t border-b py-4 sm:flex-row sm:space-y-0'>
                       <Button
