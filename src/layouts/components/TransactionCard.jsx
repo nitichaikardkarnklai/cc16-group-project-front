@@ -1,8 +1,16 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 
 export default function TransactionCard({ data }) {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleOnClickImage = async (id) => {
+    console.log(id);
+    await localStorage.setItem('productId', id);
+    navigate('/product');
+  };
 
   console.log('data', data);
   return (
@@ -23,7 +31,10 @@ export default function TransactionCard({ data }) {
           console.log('el', el);
           return (
             <div key={index} className='flex gap-4'>
-              <div className='h-[90px] w-[90px] bg-grayBg100 flex-shrink-0'>
+              <div
+                onClick={() => handleOnClickImage(el.productId)}
+                className='h-[90px] w-[90px] bg-grayBg100 flex-shrink-0'
+              >
                 <img src={el.products?.productCover?.[0].cover} alt='' />
               </div>
               <div className='flex flex-col justify-between w-full'>
