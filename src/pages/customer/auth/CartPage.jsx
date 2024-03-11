@@ -87,7 +87,11 @@ export default function CartPage() {
   };
 
   const sumDiscount = () => {
-    return reward / 100;
+    return Math.floor(reward / 100);
+  };
+
+  const sumReward = () => {
+    return Math.floor(reward / 100) * 100;
   };
 
   //sum total price
@@ -143,7 +147,7 @@ export default function CartPage() {
         ...prev,
         totalAmount: transaction.totalAmount,
         discount: transaction.discount,
-        reward: transaction.reward,
+        reward: sumReward(),
         cartItemId: transaction.cartItemId,
       }));
       document.getElementById('check-out-modal').showModal();
