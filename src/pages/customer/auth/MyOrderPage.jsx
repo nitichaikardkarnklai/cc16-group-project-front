@@ -5,19 +5,31 @@ import * as transactionApi from '../../../api/transaction';
 import TransactionCard from '../../../layouts/components/TransactionCard';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import Spinner from '../../../components/Spinner';
 
 export default function MyOrderPage() {
   const navigate = useNavigate();
   const [transaction, setTransaction] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     (async () => {
-      const response = await transactionApi.getUserTransaction();
-      setTransaction(response.data.transaction);
+      try {
+        setLoading(true);
+        const response = await transactionApi.getUserTransaction();
+        setTransaction(response.data.transaction);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setLoading(false);
+      }
     })();
   }, []);
 
-  console.log(transaction);
+  // console.log(transaction);
+  if (loading) {
+    return <Spinner />;
+  }
 
   return (
     <div className='relative w-full min-h-screen'>
