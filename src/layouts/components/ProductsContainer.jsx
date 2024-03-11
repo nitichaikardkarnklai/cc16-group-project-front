@@ -47,9 +47,10 @@ export default function ProductsContainer({ title = 'TITLE', ProductCards = Prod
       (!filter.serieId || product.serieId === filter.serieId) &&
       (!filter.isHot || product.isHot) &&
       (!filter.isNew || product.isNew) &&
-      // (!filterOptions.length || filterOptions.includes(product.productGroup.categories))
-      // &&
-      (!filterOptions.length || filterOptions.includes(product.productSeries.series))
+      (!filterOptions.length ||
+        (filterType === 'group' && filterOptions.includes(product.productGroup.categories)) ||
+        (filterType === 'series' && filterOptions.includes(product.productSeries.series))
+      )
     );
   });
 
