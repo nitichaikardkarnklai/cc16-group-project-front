@@ -16,6 +16,7 @@ import Spinner from '../../components/Spinner';
 import { toast } from 'react-toastify';
 import useAuth from '../../hooks/use-auth';
 import { useNavigate } from 'react-router-dom';
+import BackIcon from '../../assets/icon/BackIcon';
 
 const initialCartItem = {
   productId: null,
@@ -205,7 +206,13 @@ export default function ProductPage() {
   }
 
   return (
-    <div className='hero '>
+    <div className='relative hero '>
+      <div
+        onClick={() => navigate(-1)}
+        className='absolute left-24 top-12 btn bg-transparent border-none shadow-none'
+      >
+        <BackIcon />
+      </div>
       <div className=' m-auto w-3/4  '>
         <section className='pt-12 sm:pt-16'>
           <div className='container mx-auto px-4'>
