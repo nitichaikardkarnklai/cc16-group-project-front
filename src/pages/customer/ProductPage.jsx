@@ -56,6 +56,7 @@ export default function ProductPage() {
           quantity: count,
           price: data.data.resultProductById.price,
         });
+        isItLaunch(data.data.resultProductById.launchDate);
       } catch (error) {
         setLoading(false);
         console.log(error);
@@ -65,12 +66,10 @@ export default function ProductPage() {
     })();
     dispatch(fetchWishlist());
     numberInCart();
-    isItLaunch();
   }, []);
 
   useEffect(() => {
     isInWishlist();
-    isItLaunch();
     setNewCartItem({
       productId: productId,
       quantity: count,
@@ -78,7 +77,9 @@ export default function ProductPage() {
     });
   }, [wishlistItems, count]);
 
-  console.log(product);
+  useEffect(() => {}, []);
+
+  console.log('product', product);
 
   //------------------------------------image zone
 
@@ -89,17 +90,31 @@ export default function ProductPage() {
 
   //------------------------------------time manipulate zone
 
-  const isItLaunch = () => {
-    console.log('launchTime', product);
+  const isItLaunch = (date) => {
+    console.log('launchTime', date);
+    console.log('Now', new Date().toISOString());
+
+    const now = new Date().toISOString();
+
+    if (date > now) {
+      console.log('more than');
+      setIsLaunch(false);
+    } else {
+      console.log('less than');
+      setIsLaunch(true);
+    }
   };
 
   //------------------------------------counter zone
 
   //counter function increment
   const increment = () => {
-    if (count < 99) {
+    if (count < 99 && count < product?.stockQuantity) {
       setCount(count + 1);
-    } else return count;
+    } else {
+      toast.error('limit on stock');
+      return count;
+    }
   };
 
   //counter function decrement
@@ -290,39 +305,47 @@ export default function ProductPage() {
                 </div>
                 <div className='mt-3 flex select-none flex-wrap items-center gap-1'></div>
 
-                {authUser?.role !== 'ADMIN' ? (
-                  <div className='mt-10 flex flex-col items-center justify-start gap-4 space-y-4 border-t border-b py-4 sm:flex-row sm:space-y-0'>
-                    <Button
-                      onClick={() => {
-                        if (authUser?.role === 'USER') {
-                          return onAddTOCart();
-                        } else if (!authUser) {
-                          return navigate('/login');
-                        }
-                      }}
-                      bg='red'
-                      type='submit'
-                      color='white'
-                    >
-                      ADD TO CART
-                    </Button>
-                    <Button
-                      onClick={() => {
-                        if (authUser?.role === 'USER') {
-                          onAddTOCart();
-                          return navigate('/cart-page');
-                        } else if (!authUser) {
-                          return navigate('/login');
-                        }
-                      }}
-                      bg='black'
-                      type='submit'
-                      color='white'
-                    >
-                      BUY NOW
+                {isLaunch || product?.stockQuantity == 0 ? (
+                  authUser?.role !== 'ADMIN' ? (
+                    <div className='mt-10 flex flex-col items-center justify-start gap-4 space-y-4 border-t border-b py-4 sm:flex-row sm:space-y-0'>
+                      <Button
+                        onClick={() => {
+                          if (authUser?.role === 'USER') {
+                            return onAddTOCart();
+                          } else if (!authUser) {
+                            return navigate('/login');
+                          }
+                        }}
+                        bg='red'
+                        type='submit'
+                        color='white'
+                      >
+                        ADD TO CART
+                      </Button>
+                      <Button
+                        onClick={() => {
+                          if (authUser?.role === 'USER') {
+                            onAddTOCart();
+                            return navigate('/cart-page');
+                          } else if (!authUser) {
+                            return navigate('/login');
+                          }
+                        }}
+                        bg='black'
+                        type='submit'
+                        color='white'
+                      >
+                        BUY NOW
+                      </Button>
+                    </div>
+                  ) : null
+                ) : (
+                  <div>
+                    <Button color='white' bg='black' width='full'>
+                      Product is not available
                     </Button>
                   </div>
-                ) : null}
+                )}
                 <div className='collapse collapse-arrow '>
                   <input type='radio' name='my-accordion-2' />
                   <div className='collapse-title text-xl font-medium'>

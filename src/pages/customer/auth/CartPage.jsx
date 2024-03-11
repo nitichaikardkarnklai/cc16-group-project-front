@@ -11,6 +11,7 @@ import { useState } from 'react';
 import Spinner from '../../../components/Spinner';
 import Modal from '../../../components/Modal';
 import Button from '../../../components/Button';
+import { toast } from 'react-toastify';
 
 const initialTransaction = {
   subTotal: 0,
@@ -30,7 +31,6 @@ const destinationTransaction = {
 export default function CartPage() {
   const [onfetch, setOnfetch] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [checkCart, setCheckCart] = useState([]);
   const [transaction, setTransaction] = useState(initialTransaction);
   const [finalTransaction, setFinalTransaction] = useState(
     destinationTransaction
@@ -72,10 +72,17 @@ export default function CartPage() {
 
   //update item amount
   const handleUpdateCart = async (item) => {
-    await cartApi.upsertIntoCart(item);
-    setOnfetch((c) => !c);
+    try {
+      await cartApi.upsertIntoCart(item);
+      setOnfetch((c) => !c);
+    } catch (err) {
+      toast.error(err.response.data.message);
+      console.log(err);
+      console.log(err.response.data.quantity);
+    }
   };
 
+  // cartItems Id
   const putItemIdIntoCart = () => {
     return itemsInCart.map((el) => {
       return el.id;
@@ -111,20 +118,6 @@ export default function CartPage() {
     }
   };
 
-  //check to add items function
-  const addCheck = (id, count, price) => {
-    setCheckCart((prev) => [...prev, { id: id, count: count, price: price }]);
-  };
-
-  //check to remove items function
-  const removeCheck = (id) => {
-    const toBeRemove = checkCart.find((item) => item.id === id);
-    if (toBeRemove) {
-      checkCart.splice(checkCart.indexOf(toBeRemove), 1);
-      setCheckCart([...checkCart]);
-    }
-  };
-
   const toggleDiscount = () => {
     setDiscount((c) => !c);
   };
@@ -155,8 +148,13 @@ export default function CartPage() {
   };
 
   const onCheckout = async () => {
-    const response = await transactionApi.createTransaction(finalTransaction);
-    window.location.href = response.data.url;
+    try {
+      const response = await transactionApi.createTransaction(finalTransaction);
+      window.location.href = response.data.url;
+    } catch (err) {
+      toast.error(err.response.data.message);
+      console.log(err);
+    }
   };
 
   if (loading) {
@@ -181,8 +179,6 @@ export default function CartPage() {
                     data={el}
                     onUpdate={handleUpdateCart}
                     onRemove={handleRemove}
-                    addCheck={addCheck}
-                    removeCheck={removeCheck}
                   />
                 );
               })

@@ -11,7 +11,7 @@ import { Square3Stack3DIcon } from '@heroicons/react/24/outline';
 export default function BarChart({ children, seriesName, totalSale }) {
   const chartConfig = {
     type: 'bar',
-    height: 240,
+    height: 400,
     series: [
       {
         name: 'Sales',
@@ -74,8 +74,10 @@ export default function BarChart({ children, seriesName, totalSale }) {
           },
         },
         padding: {
-          top: 5,
-          right: 10,
+          top: -20,
+          right: 15,
+          left: 30,
+          bottom: 50,
         },
       },
       fill: {
@@ -93,12 +95,12 @@ export default function BarChart({ children, seriesName, totalSale }) {
         floated={false}
         shadow={false}
         color='transparent'
-        className='flex flex-col gap-4 rounded-none md:flex-row md:items-center'
+        className='flex flex-col gap-4 rounded-none md:flex-row md:items-center h-[40px]'
       >
         <div>{children}</div>
       </CardHeader>
-      <CardBody className='px-2 pb-0'>
-        <Chart {...chartConfig} />
+      <CardBody className='pt-0 px-2 pb-0'>
+        <Chart className='' {...chartConfig} />
       </CardBody>
     </Card>
   );

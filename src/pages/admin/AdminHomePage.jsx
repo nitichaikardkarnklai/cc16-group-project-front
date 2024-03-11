@@ -51,7 +51,7 @@ export default function AdminHomePage() {
         </div>
         <div className='w-[550px]'>
           <BarChart
-            seriesName={summaryData?.totalSaleByNameInThirtyDay?.productId}
+            seriesName={summaryData?.totalSaleByNameInThirtyDay?.productName}
             totalSale={summaryData?.totalSaleByNameInThirtyDay?.totalSales}
           >
             <h1 className='text-3xl text-black'>Top selling by product</h1>

@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import MinusIcon from '../../assets/icon/MinusIcon';
 import PlusIcon from '../../assets/icon/PlusIcon';
+import { toast } from 'react-toastify';
 
 const initialCartItem = {
   productId: null,
@@ -10,13 +11,7 @@ const initialCartItem = {
   price: null,
 };
 
-export default function CartCard({
-  data,
-  onRemove,
-  onUpdate,
-  addCheck,
-  removeCheck,
-}) {
+export default function CartCard({ data, onRemove, onUpdate }) {
   const [cartItem, setCartItem] = useState(initialCartItem);
   const [count, setCount] = useState(0);
   const [checked, setChecked] = useState(true);
@@ -32,7 +27,7 @@ export default function CartCard({
 
   //counter function increment and update database
   const increment = () => {
-    if (count < 99) {
+    if (count < 99 && count < data.products.stockQuantity) {
       setCount((prevCount) => {
         const newCount = prevCount + 1;
         console.log(newCount);
@@ -40,7 +35,10 @@ export default function CartCard({
         onUpdate({ ...cartItem, quantity: newCount });
         return newCount;
       });
-    } else return count;
+    } else {
+      toast.error('limit on stock');
+      return count;
+    }
   };
 
   //counter function decrement and update database
@@ -55,17 +53,8 @@ export default function CartCard({
     } else return onRemove(data.id);
   };
 
-  // check if check add item into state
-  const handleOnChange = (e) => {
-    setChecked((c) => !c);
-    if (e.target.checked) {
-      addCheck(data.id, count, data.price);
-    } else {
-      removeCheck(data.id);
-    }
-  };
-
   console.log('cartItem', cartItem);
+  console.log('data', data);
   return (
     <div className='flex py-2 border-b'>
       {/* <input
