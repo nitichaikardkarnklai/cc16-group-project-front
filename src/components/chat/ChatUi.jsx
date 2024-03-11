@@ -125,7 +125,7 @@ export default function ChatUi() {
         <div className='flex w-full gap-8'>
             {authUser.role !== "USER" && (
                 <div className='flex flex-col min-w-56 border-2 gap-2 p-2'>
-                    {onlineUsers.map(el => (
+                    {onlineUsers?.map(el => (
                         <button
                             key={el?.userId}
                             className='bg-red-100 flex h-8 items-center rounded-lg gap-2 px-2'
@@ -142,7 +142,7 @@ export default function ChatUi() {
             )}
             <div className='flex flex-col justify-between gap-4 min-h-[700px] w-full'>
                 {authUser.role !== "USER" && !user?.userId ?
-                    <div className='text-2xl'>You are not choose a conversation yet...</div>
+                    <div className='text-2xl'>You did not choose a conversation yet...</div>
                     :
                     <>
                         <div className='flex flex-col gap-2 relative items-start'>
