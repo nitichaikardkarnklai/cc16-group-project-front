@@ -41,19 +41,23 @@ export default function ProductsContainer({ title = 'TITLE', ProductCards = Prod
   }, [selectedFilters]);
 
 
-
-
   const filteredProducts = selectedProducts.filter(product => {
-    console.log(product);
     return (
       (!filter.groupId || product.groupId === filter.groupId) &&
       (!filter.serieId || product.serieId === filter.serieId) &&
       (!filter.isHot || product.isHot) &&
-      (!filter.isNew || product.isNew) &&
-      (!filterOptions.categories || product.productGroup.categories === filterOptions.categories)
-
+      (!filter.isNew || product.isNew)
     );
   });
+
+  const filterProducts2 = filteredProducts.filter(product => {
+    console.log("filterOptions", filterOptions);
+    console.log("product.productGroup.group", product.productGroup);
+    return (
+      filterOptions.includes(product.productGroup.categories)
+    )
+  })
+  console.log("filterProducts2", filterProducts2);
 
   return (
     <div className='flex flex-col justify-center items-center'>

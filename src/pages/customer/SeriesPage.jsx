@@ -37,11 +37,11 @@ const SeriesPage = () => {
       console.log("filters", filters);
       console.log("filteredlist", filteredList);
 
-      const test = filteredList.length > 0 ? filteredList.reduce((acc, el) => {
-        console.log(el[0]);
-        for (let i = 0; i < filteredList.length; i++) {
-        }
-      }, []) : ""
+      // const test = filteredList.length > 0 ? filteredList.reduce((acc, el) => {
+      //   console.log(el[0]);
+      //   for (let i = 0; i < filteredList.length; i++) {
+      //   }
+      // }, []) : ""
 
 
       return (
@@ -57,7 +57,11 @@ const SeriesPage = () => {
     console.log("Filtered Products", filteredProducts);
     setSortedProducts(filteredProducts);
     // setFilterOptions(filters);
-    setFilterOptions(filteredList);
+    let filteredListTemp = []
+    for (let i = 0; i < filteredList.length; i++) {
+      filteredListTemp[i] = filteredList[i][0]
+    }
+    setFilterOptions(filteredListTemp);
 
   };
 
