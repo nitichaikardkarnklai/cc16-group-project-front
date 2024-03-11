@@ -44,6 +44,7 @@ export default function ProductsContainer({ title = 'TITLE', ProductCards = Prod
 
 
   const filteredProducts = selectedProducts.filter(product => {
+    console.log(product);
     return (
       (!filter.groupId || product.groupId === filter.groupId) &&
       (!filter.serieId || product.serieId === filter.serieId) &&

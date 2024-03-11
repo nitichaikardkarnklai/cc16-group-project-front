@@ -56,7 +56,8 @@ const SeriesPage = () => {
 
     console.log("Filtered Products", filteredProducts);
     setSortedProducts(filteredProducts);
-    setFilterOptions(filters);
+    // setFilterOptions(filters);
+    setFilterOptions(filteredList);
 
   };
 
