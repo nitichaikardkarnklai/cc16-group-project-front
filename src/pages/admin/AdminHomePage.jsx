@@ -4,7 +4,6 @@ import BarChart from '../../layouts/components/BarChart';
 import * as summaryApi from '../../api/summary';
 import { useEffect } from 'react';
 import { useState } from 'react';
-import { data } from 'autoprefixer';
 import Spinner from '../../components/Spinner';
 
 export default function AdminHomePage() {
