@@ -7,6 +7,7 @@ import TransactionCard from '../../layouts/components/TransactionCard';
 export default function AdminTransactionMonitoringPage() {
   const [allTransaction, setAllTransaction] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [query, setQuery] = useState('');
 
   useEffect(() => {
     (async () => {
@@ -25,7 +26,7 @@ export default function AdminTransactionMonitoringPage() {
 
   return (
     <div>
-      <div>filter</div>
+      <div></div>
       <div>
         {allTransaction?.map((el) => {
           return <TransactionCard data={el} />;
