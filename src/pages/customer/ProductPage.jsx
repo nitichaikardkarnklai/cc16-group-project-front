@@ -3,6 +3,7 @@ import Button from '../../components/Button';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
+import { isBefore } from 'date-fns';
 import * as productApi from '../../api/product';
 import * as cartApi from '../../api/cart';
 import {
@@ -97,13 +98,17 @@ export default function ProductPage() {
 
     const now = new Date().toISOString();
 
-    if (date > now) {
-      console.log('more than');
-      setIsLaunch(false);
-    } else {
-      console.log('less than');
-      setIsLaunch(true);
-    }
+    console.log(isBefore(now, date));
+
+    return setIsLaunch(isBefore(now, date));
+
+    // if (date > now) {
+    //   console.log('more than');
+    //   setIsLaunch(false);
+    // } else {
+    //   console.log('less than');
+    //   setIsLaunch(true);
+    // }
   };
 
   //------------------------------------counter zone
@@ -312,7 +317,7 @@ export default function ProductPage() {
                 </div>
                 <div className='mt-3 flex select-none flex-wrap items-center gap-1'></div>
 
-                {!isLaunch && product?.stockQuantity == 0 ? (
+                {!isLaunch && product?.stockQuantity != 0 ? (
                   authUser?.role !== 'ADMIN' ? (
                     <div className='mt-10 flex flex-col items-center justify-start gap-4 space-y-4 border-t border-b py-4 sm:flex-row sm:space-y-0'>
                       <Button
