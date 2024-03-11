@@ -3,20 +3,27 @@ import Button from '../../components/Button';
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { fetchAllProduct, fetchProductById } from '../../store/slices/productSlice';
-import * as apiProduct from "../../api/product";
-import { toast } from "react-toastify"
+import {
+  fetchAllProduct,
+  fetchProductById,
+} from '../../store/slices/productSlice';
+import * as apiProduct from '../../api/product';
+import { toast } from 'react-toastify';
 
-export default function ProductCard({ productObj, location = '', onClick = () => { } }) {
+export default function ProductCard({
+  productObj,
+  location = '',
+  onClick = () => {},
+}) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const locate = useLocation();
 
   const handleDeleteProduct = async () => {
-    if (confirm("Are you sure to delete this product?")) {
+    if (confirm('Are you sure to delete this product?')) {
       try {
         await apiProduct.deleteProduct(productObj.id);
-        toast.success("product is successfully deleted");
+        toast.success('product is successfully deleted');
       } catch (error) {
         console.log(error.response.data);
         toast.error(error.response?.data.message);
@@ -24,7 +31,7 @@ export default function ProductCard({ productObj, location = '', onClick = () =>
         dispatch(fetchAllProduct());
       }
     }
-  }
+  };
 
   const handleOnclick = async (e) => {
     // console.log(locate.pathname);
@@ -42,7 +49,9 @@ export default function ProductCard({ productObj, location = '', onClick = () =>
       role={locate.pathname === '/admin/admin-product-mgt-page' || locate.pathname === '/admin/admin-trend-mgt-page' ? "" : "button"}
     >
       <div
-        onClick={(c) => location === "/admin/admin-product-edit-form" || onClick(productObj)}
+        onClick={(c) =>
+          location === '/admin/admin-product-edit-form' || onClick(productObj)
+        }
         className='overflow-hidden border-none w-[250px] h-[320px] bg-grayBg100 flex justify-center items-center'
       >
         {productObj?.productCover ? (
@@ -55,15 +64,28 @@ export default function ProductCard({ productObj, location = '', onClick = () =>
         <div className=' font-semibold text-goldToyMart'>
           {productObj?.brand}
         </div>
-        <div className='font-medium text-lg'>{productObj?.productName}</div>
+        <div className='font-medium text-lg line-clamp-1'>
+          {productObj?.productName}
+        </div>
         <div className='font-medium text-xl mt-2 text-redHero flex justify-between w-full items-center'>
           {(+productObj?.price).toLocaleString()} Baht
           {location?.pathname === '/admin/admin-product-mgt-page' && (
             <div className='flex gap-2'>
-              <Button onClick={() => { localStorage.setItem('productId', productObj.id); navigate("/admin/admin-product-edit-form"); }} color='white' bg='darkGray'>
+              <Button
+                onClick={() => {
+                  localStorage.setItem('productId', productObj.id);
+                  navigate('/admin/admin-product-edit-form');
+                }}
+                color='white'
+                bg='darkGray'
+              >
                 Edit
               </Button>
-              <Button onClick={() => handleDeleteProduct()} color='white' bg='red'>
+              <Button
+                onClick={() => handleDeleteProduct()}
+                color='white'
+                bg='red'
+              >
                 DELETE
               </Button>
             </div>

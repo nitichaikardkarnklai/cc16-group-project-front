@@ -6,6 +6,7 @@ const initialState = {
   wishlistItems: [],
   loading: false,
   error: '',
+  newWishlist: {},
 };
 
 export const fetchWishlist = createAsyncThunk(
@@ -25,7 +26,9 @@ export const addWishlist = createAsyncThunk(
   'wishlist/addWishlist',
   async (payload, { rejectWithValue, fulfillWithValue }) => {
     try {
-      await wishlistApi.createWishlist(payload);
+      const { data } = await wishlistApi.createWishlist(payload);
+      console.log('response', data.result);
+      return fulfillWithValue(data.result);
     } catch (error) {
       console.log(error);
       return rejectWithValue(error.response.statusText);
@@ -53,7 +56,7 @@ const wishlistSlice = createSlice({
     // ======fetch wishlist ======
     builder
       .addCase(fetchWishlist.pending, (state, action) => {
-        state.wishlistItems = [];
+        // state.wishlistItems = [];
         state.loading = true;
       })
       .addCase(fetchWishlist.fulfilled, (state, action) => {
@@ -70,6 +73,8 @@ const wishlistSlice = createSlice({
         state.loading = true;
       })
       .addCase(addWishlist.fulfilled, (state, action) => {
+        console.log(action);
+        state.newWishlist = action.payload;
         state.loading = false;
       })
       .addCase(addWishlist.rejected, (state, action) => {

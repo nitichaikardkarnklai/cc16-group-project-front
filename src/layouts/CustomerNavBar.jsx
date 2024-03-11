@@ -15,6 +15,7 @@ import useAuth from '../hooks/use-auth';
 import UserIcon from '../assets/icon/UserIcon';
 import { fetchGroups } from '../store/slices/groupSlice';
 import { fetchSeries } from '../store/slices/seriesSlice';
+import { fetchCart } from '../store/slices/cartSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 const openState = {
@@ -35,6 +36,9 @@ export default function CustomerNavBar() {
   const dispatch = useDispatch();
   const { groups } = useSelector((store) => store.group) || { groups: [] };
   const { series } = useSelector((store) => store.series) || { series: [] };
+  const { itemsInCart } = useSelector((store) => store.cart) || {
+    itemsInCart: [],
+  };
   const [subPages, setSubPages] = useState([]);
   const [groupSubPages, setGroupSubPages] = useState([]);
   const [seriesSubPages, setSeriesSubPages] = useState([]);
@@ -51,7 +55,6 @@ export default function CustomerNavBar() {
     return () => document.removeEventListener('click', handleClickOutside);
   }, [open, navRef.current]);
 
-
   useEffect(() => {
     const fetchGroupsData = async () => {
       try {
@@ -60,12 +63,22 @@ export default function CustomerNavBar() {
         console.error('Error fetching groups:', error);
       }
     };
+    const fetchCartData = async () => {
+      try {
+        await dispatch(fetchCart());
+      } catch (err) {
+        console.log('Error fetching cart', err);
+      }
+    };
     fetchGroupsData();
+    fetchCartData();
   }, []);
 
   useEffect(() => {
     if (groups.length > 0) {
-      setGroupSubPages(groups.map((group) => ({ id: group.id, name: group.categories })));
+      setGroupSubPages(
+        groups.map((group) => ({ id: group.id, name: group.categories }))
+      );
     }
   }, [groups]);
 
@@ -82,7 +95,9 @@ export default function CustomerNavBar() {
 
   useEffect(() => {
     if (series.length > 0) {
-      setSeriesSubPages(series.map((series) => ({ id: series.id, name: series.series })));
+      setSeriesSubPages(
+        series.map((series) => ({ id: series.id, name: series.series }))
+      );
     }
   }, [series]);
 
@@ -91,11 +106,8 @@ export default function CustomerNavBar() {
     setOpen(openState);
   }, [pathname]);
 
-
   const isGroupsEmpty = !groups || groups.length === 0;
   // console.log(isGroupsEmpty);
-
-
 
   const onClickFeature = () => {
     setOpen({
@@ -287,7 +299,9 @@ export default function CustomerNavBar() {
               <Link to='/cart-page'>
                 <div className='w-[77px] h-[34px] rounded-3xl border border-gray-400 flex justify-center items-center'>
                   <ShoppingBagIcon />
-                  <div>1</div>
+                  <div>
+                    {itemsInCart.length != 0 ? itemsInCart.length : null}
+                  </div>
                 </div>
               </Link>
             </div>
@@ -296,10 +310,33 @@ export default function CustomerNavBar() {
         <div className='absolute w-full bg-white z-50'>
           {open.feature && <FeatureMenuList />}
 
-          {open.series && <SeriesMenulist link={'/series'} subPages={seriesSubPages} />}
-          {open.mega && <Menulist link={'/mega'} subPages={groupSubPages.filter(page => page.id >= 1 && page.id <= 3)} />}
-          {open.types && <Menulist link={'/types'} subPages={groupSubPages.filter(page => page.id >= 4 && page.id <= 6)} />}
-          {open.accessories && <Menulist link={'/accessories'} subPages={groupSubPages.filter(page => page.id >= 7 && page.id <= 9)} />}
+          {open.series && (
+            <SeriesMenulist link={'/series'} subPages={seriesSubPages} />
+          )}
+          {open.mega && (
+            <Menulist
+              link={'/mega'}
+              subPages={groupSubPages.filter(
+                (page) => page.id >= 1 && page.id <= 3
+              )}
+            />
+          )}
+          {open.types && (
+            <Menulist
+              link={'/types'}
+              subPages={groupSubPages.filter(
+                (page) => page.id >= 4 && page.id <= 6
+              )}
+            />
+          )}
+          {open.accessories && (
+            <Menulist
+              link={'/accessories'}
+              subPages={groupSubPages.filter(
+                (page) => page.id >= 7 && page.id <= 9
+              )}
+            />
+          )}
         </div>
       </div>
     </div>
