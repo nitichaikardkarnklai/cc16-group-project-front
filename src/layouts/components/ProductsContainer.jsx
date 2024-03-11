@@ -18,8 +18,6 @@ export default function ProductsContainer({ title = 'TITLE', ProductCards = Prod
     setSelectedProducts(products);
   }, [products]);
 
-
-
   const applySortBy = (criteria) => {
     let sortedProducts = [...products];
     if (criteria === 'latest') {
