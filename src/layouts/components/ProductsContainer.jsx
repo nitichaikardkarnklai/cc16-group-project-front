@@ -54,6 +54,8 @@ export default function ProductsContainer({ title = 'TITLE', ProductCards = Prod
     );
   });
 
+  console.log(filteredProducts)
+
 
 
 
