@@ -22,7 +22,6 @@ export default function ChatUi() {
     const [socket, setSocket] = useState(null);
     const [user, setUser] = useState(null); // room is same as userId, and used for select user to talk with
     const [loading, setLoading] = useState(true);
-    const [onFetch, setOnfetch] = useState(false);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -150,13 +149,13 @@ export default function ChatUi() {
                                 socket.disconnect();
                                 navigate(-1);
                             }}><BackIcon /></button> : <div className='h-[60px] text-3xl self-end mr-6 mt-4 flex gap-4 items-center'><UserIcon size="30" />{user.username}</div>}
-                            <div className='flex flex-col gap-4 h-[600px] overflow-y-scroll border-2 p-4 w-full'>
+                            <div className='flex flex-col gap-4 h-[600px] overflow-y-hidden border-2 p-4 w-full'>
                                 <ScrollToBottom className='break-words overflow-y-scroll'>
                                     {texts?.map((el, id) => {
                                         return el.role === authUser.role || (authUser.role !== "USER" && el.role !== "USER") ?
-                                            <ChatEnd textObj={el} key={id}>{el.message}</ChatEnd>
+                                            <ChatEnd textObj={el} key={id} id={`chat${id}`}>{el.message}</ChatEnd>
                                             :
-                                            <ChatStart textObj={el} key={id}>{el.message}</ChatStart>
+                                            <ChatStart textObj={el} key={id} id={`chat${id}`}>{el.message}</ChatStart>
                                     })}
                                 </ScrollToBottom>
                             </div>
