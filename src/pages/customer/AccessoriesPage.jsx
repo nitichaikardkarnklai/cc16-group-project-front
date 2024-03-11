@@ -31,6 +31,8 @@ const AccessoriesPage = () => {
     // Add other filter criteria if needed
   };
 
+
+
   const handleFilterChange = (filters) => {
     // Apply the filters to the products
     const filteredProducts = products.filter(product => product.groupId === filters.groupId);
@@ -45,7 +47,7 @@ const AccessoriesPage = () => {
     setAccCategories(uniqueCategories);
   }, [groupId, products]);
 
-  console.log(products)
+  // console.log(products)
 
 
   return (
@@ -56,6 +58,8 @@ const AccessoriesPage = () => {
           filter={filter}
           ProductCards={ProductCard}
           onSortChange={handleSortChange}
+          onFilterChange={handleFilterChange}
+          products={sortedProducts}
         />
       </div>
       {sortedProducts.map(product => (

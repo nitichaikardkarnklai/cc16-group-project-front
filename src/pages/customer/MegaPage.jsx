@@ -12,36 +12,47 @@ const MegaPage = () => {
 
   const [sortedProducts, setSortedProducts] = useState([]);
   const [megaCategories, setMegaCategories] = useState([]);
+  const [filterOptions, setFilterOptions] = useState({}); // เพิ่ม state เก็บค่าที่เลือกจาก FilterProduct
+
 
   const handleSortChange = (sortedProducts) => {
     setSortedProducts(sortedProducts);
   };
 
-  useEffect(() => {
-    dispatch(fetchAllProduct());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(fetchAllProduct());
+  // }, [dispatch]);
 
   const groupId = parseInt(megaId);
 
   const filter = {
     groupId: groupId,
+    ...filterOptions,
   };
+
+  console.log(products);
 
   const handleFilterChange = (filters) => {
-    // Apply the filters to the products
+    const filter = {
+      groupId: groupId,
+      ...filters
+    };
     const filteredProducts = products.filter(product => product.groupId === filters.groupId);
-    setSortedProducts(filteredProducts);
+    setSortedProducts(filteredProducts); // This might cause re-renders leading to infinite loop
+    setFilterOptions(filters);
   };
 
-  // Fetch products based on megaId
   useEffect(() => {
-    const filteredProducts = products.filter(product => product.groupId === groupId);
-    setSortedProducts(filteredProducts);
-
-    // Extract unique categories from filtered products
+    const filteredProducts = products.filter(product => {
+      return (
+        (!filter.groupId || product.groupId === filter.groupId) &&
+        (!filter.series || product.productSeries.series === filter.series)
+      );
+    });
     const uniqueCategories = [...new Set(filteredProducts.map(product => product.productGroup.categories))];
     setMegaCategories(uniqueCategories);
-  }, [groupId, products]);
+  }, [groupId,]); // This might cause re-renders leading to infinite loop
+
 
   return (
     <div className='hero'>
@@ -51,6 +62,9 @@ const MegaPage = () => {
           filter={filter}
           ProductCards={ProductCard}
           onSortChange={handleSortChange}
+          filterType="group"
+          onFilterChange={handleFilterChange} // ส่ง callback function ไปยัง ProductsContainer
+
         />
       </div>
       {sortedProducts.map(product => (
