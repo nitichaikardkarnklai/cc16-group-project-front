@@ -1,11 +1,22 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function WishListCard({ data, onRemove }) {
   console.log('data', data);
+  const navigate = useNavigate();
+
+  const handleOnClickImage = async (id) => {
+    // console.log(id);
+    await localStorage.setItem('productId', id);
+    navigate('/product');
+  };
 
   return (
     <div className='w-[1035px] flex items-center gap-6 p-2 border-b'>
-      <div className='w-[180px] h-[180px] flex-shrink-0 bg-grayBg100 bg-cover overflow-hidden'>
+      <div
+        onClick={() => handleOnClickImage(data.productId)}
+        className='w-[180px] h-[180px] flex-shrink-0 bg-grayBg100 bg-cover overflow-hidden'
+      >
         <img src={data.products.productCover?.[0].cover} alt='' />
       </div>
       <div className='flex flex-col w-full gap-4'>
