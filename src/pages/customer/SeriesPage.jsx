@@ -12,10 +12,12 @@ const SeriesPage = () => {
 
   const [sortedProducts, setSortedProducts] = useState([]);
   const [seriesName, setSeriesName] = useState([]);
+  const [filterOptions, setFilterOptions] = useState({}); // เพิ่ม state เก็บค่าที่เลือกจาก FilterProduct
+  const [filteredProducts, setFilteredProducts] = useState([]);
+
   const handleSortChange = (sortedProducts) => {
     setSortedProducts(sortedProducts);
   };
-
 
   useEffect(() => {
     dispatch(fetchAllProduct());
@@ -25,21 +27,45 @@ const SeriesPage = () => {
 
   const filter = {
     serieId: serieId,
+    ...filterOptions,
   };
 
   const handleFilterChange = (filters) => {
-    const filteredProducts = products.filter(product => product.serieId === filters.serieId);
+    const filteredList = Object.entries(filters).filter(el => el[1] === true)
+    const filteredProducts = products.filter(product => {
+      return (
+        (!product.serieId || product.serieId === filters.serieId)
+        &&
+        (!filters.categories || product.productGroup.categories === filters.categories)
+      );
+    });
+
+    const filterProducts2 = filteredProducts.filter(product => {
+      return (
+        filterOptions?.includes(product.productGroup.categories)
+      );
+    });
+    setFilteredProducts(filterProducts2);
     setSortedProducts(filteredProducts);
-  }
+    // setFilterOptions(filters);
+    let filteredListTemp = []
+    for (let i = 0; i < filteredList.length; i++) {
+      filteredListTemp[i] = filteredList[i][0]
+    }
+    setFilterOptions(filteredListTemp);
+  };
+
 
   useEffect(() => {
-    const filteredProducts = products.filter(product => product.serieId === serieId);
-    setSortedProducts(filteredProducts);
-
-    // Extract unique series names filtered by serieId
+    const filteredProducts = products.filter(product => {
+      return (
+        (!filter.serieId || product.serieId === filter.serieId)
+      )
+    })
     const uniqueSeries = [...new Set(filteredProducts.map(product => product.productSeries.series))];
     setSeriesName(uniqueSeries);
   }, [serieId, products]);
+
 
   return (
     <div className='hero'>
@@ -49,12 +75,17 @@ const SeriesPage = () => {
           filter={filter}
           ProductCards={ProductCard}
           onSortChange={handleSortChange}
+          onFilterChange={handleFilterChange}
+          sortedProducts={sortedProducts}
+          filterOptions={filterOptions}
+          filterType="group"
         />
       </div>
       {sortedProducts.map(product => (
         <div key={product.id}>{product.name}</div>
       ))}
     </div>
+
   );
 }
 

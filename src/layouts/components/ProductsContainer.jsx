@@ -4,7 +4,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import FilterProduct from './FilterProduct';
 import { fetchAllProduct } from '../../store/slices/productSlice';
 
-export default function ProductsContainer({ title = 'TITLE', ProductCards = ProductCard, filter = {}, onSortChange, ...props }) {
+export default function ProductsContainer({ title = 'TITLE', ProductCards = ProductCard, onFilterChange, filter, onSortChange, filterType, sortedProducts, filterOptions, ...props }) {
+
   const dispatch = useDispatch();
   const { products } = useSelector(store => store.products) || { products: [] };
   const [selectedFilters, setSelectedFilters] = useState({});
@@ -18,33 +19,44 @@ export default function ProductsContainer({ title = 'TITLE', ProductCards = Prod
     setSelectedProducts(products);
   }, [products]);
 
-
-
   const applySortBy = (criteria) => {
     let sortedProducts = [...products];
     if (criteria === 'latest') {
       sortedProducts.sort((a, b) => new Date(b.date) - new Date(a.date));
-    } else if (criteria === 'best_selling') {
-      // Logic for sorting by best selling
     } else if (criteria === 'price_low_to_high') {
       sortedProducts.sort((a, b) => a.price - b.price);
+    } else if (criteria === 'price_high_to_low') {
+      sortedProducts.sort((a, b) => b.price - a.price);
     }
     setSelectedProducts(sortedProducts);
-    // Send sorted products to MegaPage
     onSortChange(sortedProducts);
   };
 
   const handleFilterChange = (filters) => {
     setSelectedFilters(filters);
   };
+
+  useEffect(() => {
+    onFilterChange(selectedFilters);
+  }, [selectedFilters]);
+
+
   const filteredProducts = selectedProducts.filter(product => {
     return (
       (!filter.groupId || product.groupId === filter.groupId) &&
       (!filter.serieId || product.serieId === filter.serieId) &&
       (!filter.isHot || product.isHot) &&
-      (!filter.isNew || product.isNew)
+      (!filter.isNew || product.isNew) &&
+      (!filterOptions.length ||
+        (filterType === 'group' && filterOptions.includes(product.productGroup.categories)) ||
+        (filterType === 'series' && filterOptions.includes(product.productSeries.series))
+      )
     );
   });
+
+  console.log(filteredProducts)
+
+
 
 
   return (
@@ -67,19 +79,18 @@ export default function ProductsContainer({ title = 'TITLE', ProductCards = Prod
                     <h2 className="text-2xl pt-3">Sort By</h2>
                     <div className="divider"></div>
                     <div className="form-control">
-                      <label className="cursor-pointer">
-                        <input type="radio" name="radio-1" className="radio" onChange={() => applySortBy('latest')} />
-                        <span className="label-text text-xl px-3"> Latest arrival </span>
-                      </label>
-                      <label className="cursor-pointer">
-                        <input type="radio" name="radio-1" className="radio" onChange={() => applySortBy('best_selling')} />
-                        <span className="label-text text-xl px-3"> Best selling</span>
-                      </label>
-                      <label className="cursor-pointer">
-                        <input type="radio" name="radio-1" className="radio" onChange={() => applySortBy('price_low_to_high')} />
-                        <span className="label-text text-xl px-3">Price: low to high </span>
-                      </label>
+                      {[
+                        { value: 'latest', label: 'Latest arrival' },
+                        { value: 'price_low_to_high', label: 'Price: low to high' },
+                        { value: 'price_high_to_low', label: 'Price: high to low' }
+                      ].map(option => (
+                        <label key={option.value} className="cursor-pointer">
+                          <input type="radio" name="radio-1" className="radio" onChange={() => applySortBy(option.value)} />
+                          <span className="label-text text-xl px-3">{option.label}</span>
+                        </label>
+                      ))}
                     </div>
+
                   </div>
                 </ul>
               </div>
@@ -102,7 +113,11 @@ export default function ProductsContainer({ title = 'TITLE', ProductCards = Prod
                     <h2 className="text-2xl pt-3">Filter</h2>
                     <div className="divider"></div>
                   </div>
-                  <FilterProduct onFilterChange={handleFilterChange} />
+                  <FilterProduct
+                    onFilterChange={handleFilterChange}
+                    filterType={filterType}
+                    filterOptions={filterOptions}
+                  />
                 </ul>
               </div>
             </div>
@@ -111,7 +126,9 @@ export default function ProductsContainer({ title = 'TITLE', ProductCards = Prod
       </div>
       <div className="flex flex-col py-10">
         <div className='grid grid-cols-4 gap-8 w-[1235px] mx-auto' style={{ zIndex: 9 }}>
-          {filteredProducts.map((el, index) => <ProductCards key={el.id} productObj={el} />)}
+          {filteredProducts.map((el, index) =>
+            <ProductCards key={el.id} productObj={el}
+            />)}
         </div>
       </div>
     </div>

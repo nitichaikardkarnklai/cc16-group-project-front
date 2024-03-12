@@ -3,29 +3,34 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchAllProduct } from "../../store/slices/productSlice";
 import Button from "../../components/Button";
 
-export default function FilterProduct({ onFilterChange }) {
+
+export default function FilterProduct({ onFilterChange, filterType, filterOptions, ...props }) {
     const dispatch = useDispatch();
-    const { products } = useSelector((store) => store.product) || {};
-    const [selectedFilters, setSelectedFilters] = useState({
-        mega100: false,
-        mega400: false,
-        mega1000: false,
-        collaborations: false,
-        figure: false,
-        actionFigure: false,
-        phoneAccessories: false,
-        plushToys: false,
-        bags: false,
-    });
+    const { products } = useSelector(store => store.products) || { products: [] };
+    const [selectedFilters, setSelectedFilters] = useState({});
+    const [options, setOptions] = useState([]);
+
 
     useEffect(() => {
         dispatch(fetchAllProduct());
     }, []);
 
-    const handleCheckboxChange = (filterName) => {
-        setSelectedFilters((prevFilters) => ({
+    useEffect(() => {
+        const uniqueOptions = [...new Set(products.map(product => {
+            if (filterType === 'series') {
+                return product.productSeries.series;
+            } else if (filterType === 'group') {
+                return product.productGroup.categories;
+            }
+        }))];
+        setOptions(uniqueOptions.filter(option => option));
+    }, [products, filterType]);
+
+
+    const handleCheckboxChange = (option) => {
+        setSelectedFilters(prevFilters => ({
             ...prevFilters,
-            [filterName]: !prevFilters[filterName],
+            [option]: !prevFilters[option],
         }));
     };
 
@@ -33,40 +38,33 @@ export default function FilterProduct({ onFilterChange }) {
         onFilterChange(selectedFilters);
     }, [selectedFilters, onFilterChange]);
 
-    const checkboxes = [
-        { name: 'mega100', label: 'MEGA 100%' },
-        { name: 'mega400', label: 'MEGA 400%' },
-        { name: 'mega1000', label: 'MEGA 1000%' },
-        { name: 'collaborations', label: 'Collaborations' },
-        { name: 'figure', label: 'Figure' },
-        { name: 'actionFigure', label: 'Action Figure' },
-        { name: 'phoneAccessories', label: 'Phone Accessories' },
-        { name: 'plushToys', label: 'Plush Toys' },
-        { name: 'bags', label: 'Bags' },
-    ];
-
+    const handleApplyFilters = () => {
+        onFilterChange(selectedFilters);
+        setSelectedFilters({ ...filterOptions });
+    };
     return (
         <div>
             <div className="flex flex-col justify-start text-left items-start">
-                <h2 className="text-2xl py-3">Category</h2>
+                <h2 className="text-2xl py-3">{filterType === 'series' ? 'Series' : 'Categories'}</h2>
                 <div>
-                    {checkboxes.map((checkbox) => (
-                        <div className="form-control" key={checkbox.name}>
+                    {options.map((option, index) => (
+                        <div className="form-control" key={index}>
                             <label className="cursor-pointer">
                                 <input
                                     type="checkbox"
-                                    defaultChecked={selectedFilters[checkbox.name]}
+                                    defaultChecked={selectedFilters[option]}
+
                                     className="checkbox"
-                                    onChange={() => handleCheckboxChange(checkbox.name)}
+                                    onChange={() => handleCheckboxChange(option)}
                                 />
-                                <span className="label-text text-xl px-3">{checkbox.label}</span>
+                                <span className="label-text text-xl px-3">{option}</span>
                             </label>
                         </div>
                     ))}
                 </div>
                 <div className="divider"></div>
                 <div className="form-control">
-                    <Button color="white" bg="darkGray" onClick={() => { dispatch(fetchAllProduct()) }}>Apply</Button>
+                    <Button color="white" bg="darkGray" onClick={handleApplyFilters}>CLEAR</Button>
                 </div>
             </div>
         </div>
