@@ -39,7 +39,6 @@ export default function CustomerNavBar() {
   const { itemsInCart } = useSelector((store) => store.cart) || {
     itemsInCart: [],
   };
-  const [subPages, setSubPages] = useState([]);
   const [groupSubPages, setGroupSubPages] = useState([]);
   const [seriesSubPages, setSeriesSubPages] = useState([]);
   const navRef = useRef(null);
@@ -269,9 +268,9 @@ export default function CustomerNavBar() {
             </div>
           </div>
           <div className='flex gap-4  items-center font-semibold'>
-            <div className='w-[226px] h-[42px] border-r pr-4'>
+            {/* <div className='w-[226px] h-[42px] border-r pr-4'>
               <SearchBar />
-            </div>
+            </div> */}
             <div className='flex items-center gap-4'>
               <Link to='/my-account-page'>
                 {authUser ? (

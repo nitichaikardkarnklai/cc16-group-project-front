@@ -41,19 +41,19 @@ export default function MyAccountPage() {
         <div className='flex  justify-between py-6 px-6 '>
           <Link to='/my-order-page'>
             <div className='btn text-lg bg-gray-200 w-[180px] h-[88px] rounded-2xl'>
-              My order
+              My Order
             </div>
           </Link>
           <Link to='/my-reward-page'>
             <div className='btn text-lg bg-gray-200 w-[180px] h-[88px] rounded-2xl'>
-              My reward
+              My Reward
             </div>
           </Link>
         </div>
         <div className='flex  justify-between py-6 px-6 '>
           <Link to='/my-address-page'>
             <div className='btn text-lg bg-gray-200 w-[180px] h-[88px] rounded-2xl'>
-              Address book
+              Address Book
             </div>
           </Link>
           <div

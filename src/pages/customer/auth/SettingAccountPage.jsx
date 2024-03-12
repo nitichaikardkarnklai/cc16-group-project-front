@@ -57,7 +57,7 @@ export default function SettingAccountPage() {
           <HeadPhoneIcon />
         </div>
         <div>
-          <div className='text-lg font-medium'>Online customer service</div>
+          <div className='text-lg font-medium'>Online Customer Service</div>
           <div className='text-sm'>
             Click the customer service icon to start talking with us,
             <br /> using either automated or human service.
@@ -68,7 +68,7 @@ export default function SettingAccountPage() {
           <MailIcon />
         </div>
         <div className='border-b pb-6'>
-          <div className='text-lg font-medium'>Email service</div>
+          <div className='text-lg font-medium'>Email Service</div>
           <div className='text-sm'>
             Please contact us at support@toymart.com
           </div>
