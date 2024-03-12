@@ -85,6 +85,8 @@ export default function ProductManageAdd() {
             } else {
                 toast.error(err);
             }
+        } finally {
+            navigate("/admin/admin-product-mgt-page");
         }
     }
 
