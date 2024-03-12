@@ -13,7 +13,7 @@ import { toast } from 'react-toastify';
 export default function ProductCard({
   productObj,
   location = '',
-  onClick = () => {},
+  onClick = () => { },
 }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -64,7 +64,7 @@ export default function ProductCard({
         <div className=' font-semibold text-goldToyMart'>
           {productObj?.brand}
         </div>
-        <div className='font-medium text-lg line-clamp-1'>
+        <div className='font-medium text-lg text-left line-clamp-1'>
           {productObj?.productName}
         </div>
         <div className='font-medium text-xl mt-2 text-redHero flex justify-between w-full items-center'>
