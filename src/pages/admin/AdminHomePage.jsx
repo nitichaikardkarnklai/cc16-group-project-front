@@ -31,12 +31,13 @@ export default function AdminHomePage() {
   console.log(summaryData);
   return (
     <div className='flex flex-col gap-8 justify-center items-center'>
+      <div className='self-end'>* This dashboard has been  calculated from the past one  month data until now</div>
       <div className='w-[1130px]'>
         <LineChart
           date={summaryData?.totalSaleByDateInThirtyDay?.date}
           totalSale={summaryData?.totalSaleByDateInThirtyDay?.totalSale}
         >
-          <h1 className='text-3xl text-black'>Amount sell by date time</h1>
+          <h1 className='text-3xl text-black'>Amount Sell by Date time</h1>
         </LineChart>
       </div>
       <div className='flex gap-8'>
@@ -45,7 +46,7 @@ export default function AdminHomePage() {
             seriesName={summaryData?.totalSaleBySerieInThirtyDay?.serieName}
             totalSale={summaryData?.totalSaleBySerieInThirtyDay?.totalSales}
           >
-            <h1 className='text-3xl text-black'>Amount sell by series</h1>
+            <h1 className='text-3xl text-black'>Amount Sell by Series</h1>
           </BarChart>
         </div>
         <div className='w-[550px]'>
@@ -53,7 +54,7 @@ export default function AdminHomePage() {
             seriesName={summaryData?.totalSaleByNameInThirtyDay?.productName}
             totalSale={summaryData?.totalSaleByNameInThirtyDay?.totalSales}
           >
-            <h1 className='text-3xl text-black'>Top selling by product</h1>
+            <h1 className='text-3xl text-black'>Top Selling by Product</h1>
           </BarChart>
         </div>
       </div>
