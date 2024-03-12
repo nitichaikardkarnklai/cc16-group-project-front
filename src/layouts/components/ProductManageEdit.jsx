@@ -190,7 +190,6 @@ export default function ProductManageEdit() {
                                             <div key={el.id}>
                                                 <input
                                                     type="file"
-                                                    multiple
                                                     className="hidden"
                                                     ref={imageProductEl}
                                                     onChange={e => {
@@ -217,7 +216,6 @@ export default function ProductManageEdit() {
                                     })}
                                     <input
                                         type="file"
-                                        multiple
                                         className="hidden"
                                         ref={imageProductAddEl}
                                         onChange={e => {
