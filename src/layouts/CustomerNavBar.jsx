@@ -324,7 +324,7 @@ export default function CustomerNavBar() {
             <Menulist
               link={'/types'}
               subPages={groupSubPages.filter(
-                (page) => page.id >= 4 && page.id <= 6
+                (page) => page.id >= 4 && page.id <= 7
               )}
             />
           )}
@@ -332,7 +332,7 @@ export default function CustomerNavBar() {
             <Menulist
               link={'/accessories'}
               subPages={groupSubPages.filter(
-                (page) => page.id >= 7 && page.id <= 9
+                (page) => page.id >= 8 && page.id <= 10
               )}
             />
           )}
