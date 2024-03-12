@@ -298,9 +298,6 @@ export default function CustomerNavBar() {
               <Link to='/cart-page'>
                 <div className='w-[77px] h-[34px] rounded-3xl border border-gray-400 flex justify-center items-center'>
                   <ShoppingBagIcon />
-                  <div>
-                    {itemsInCart.length != 0 ? itemsInCart.length : null}
-                  </div>
                 </div>
               </Link>
             </div>

@@ -62,10 +62,7 @@ export default function FilterProduct({ onFilterChange, filterType, filterOption
                         </div>
                     ))}
                 </div>
-                <div className="divider"></div>
-                <div className="form-control">
-                    <Button color="white" bg="darkGray" onClick={handleApplyFilters}>CLEAR</Button>
-                </div>
+
             </div>
         </div>
     );

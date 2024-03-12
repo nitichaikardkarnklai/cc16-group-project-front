@@ -49,7 +49,16 @@ export default function AdminTrendMgtPage() {
   const handleAddLandingImage = async (e) => {
     e.preventDefault();
     setLoading(true);
-    if (!input.imageFile || !input.product) {
+    try {
+      if (!input.imageFile || !input.product) return setError(true); e.stopPropagation();
+      const formData = new FormData();
+      formData.append("image", input.imageFile);
+      await landingApi.createLanding(formData, input.product.id);
+    } catch (error) {
+      toast.error(error.response?.data?.message)
+    } finally {
+      setOnfetch(c => !c);
+      // setLoading(c => { setOnfetch(c => !c); return false });
       setLoading(false);
       return setError(true);
     } else {

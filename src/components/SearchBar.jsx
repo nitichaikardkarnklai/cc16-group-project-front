@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 
-export default function SearchBar({ placeholder = 'Search', onClick }) {
+export default function SearchBar({ placeholder = 'Search user by email', onClick }) {
   const [input, setInput] = useState("");
 
   const handleChangeInput = (e) => {
