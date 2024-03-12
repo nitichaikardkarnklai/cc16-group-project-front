@@ -38,10 +38,9 @@ export default function SettingAccountPage() {
             disabled
           />
         </div>
-        <div className='border-b pb-6'>
+        {/* <div className='border-b pb-6'>
           <div className='text-lg font-medium'>Subscribe</div>
           <div className='flex gap-4'>
-            {/* -----CheckBox subscribeBox----- */}
             <input
               type='checkbox'
               onChange={handleOnCheck}
@@ -52,7 +51,7 @@ export default function SettingAccountPage() {
               Show me newsletters,promotion,events from TOY MART via Email.
             </div>
           </div>
-        </div>
+        </div> */}
         <div>
           <HeadPhoneIcon />
         </div>
