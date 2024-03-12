@@ -12,7 +12,7 @@ export default function TransactionCard({ data }) {
     navigate('/product');
   };
 
-  console.log('data', data);
+  // console.log('data', data);
   return (
     <div className='flex py-10 gap-2 w-full '>
       <div className='flex flex-col w-[200px] pr-4 border-r flex-shrink-0'>
@@ -28,7 +28,6 @@ export default function TransactionCard({ data }) {
       </div>
       <div className='flex flex-col gap-2 w-full'>
         {data.itemPayments.map((el, index) => {
-          console.log('el', el);
           return (
             <div key={index} className='flex gap-4'>
               <div
