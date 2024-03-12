@@ -31,7 +31,7 @@ export default function AdminHomePage() {
   console.log(summaryData);
   return (
     <div className='flex flex-col gap-8 justify-center items-center'>
-      <div className='self-end'>* This dashboard has been  calculated from the past one  month data until now</div>
+      <div className='self-end'>* This dashboard has been calculated using data from the past month up to the present.</div>
       <div className='w-[1130px]'>
         <LineChart
           date={summaryData?.totalSaleByDateInThirtyDay?.date}
