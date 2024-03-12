@@ -50,7 +50,7 @@ export default function AdminTrendMgtPage() {
     e.preventDefault();
     setLoading(true);
     try {
-      if (!input.imageFile || !input.product) return setError(true)
+      if (!input.imageFile || !input.product) return setError(true); e.stopPropagation();
       const formData = new FormData();
       formData.append("image", input.imageFile);
       await landingApi.createLanding(formData, input.product.id);
