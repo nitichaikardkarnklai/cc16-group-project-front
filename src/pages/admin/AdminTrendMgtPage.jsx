@@ -49,18 +49,23 @@ export default function AdminTrendMgtPage() {
   const handleAddLandingImage = async (e) => {
     e.preventDefault();
     setLoading(true);
-    try {
-      if (!input.imageFile || !input.product) return setError(true)
-      const formData = new FormData();
-      formData.append("image", input.imageFile);
-      await landingApi.createLanding(formData, input.product.id);
-    } catch (error) {
-      toast.error(error.response?.data?.message)
-    } finally {
-      setOnfetch(c => !c);
-      // setLoading(c => { setOnfetch(c => !c); return false });
+    if (!input.imageFile || !input.product) {
       setLoading(false);
+      return setError(true);
+    } else {
+      try {
+        const formData = new FormData();
+        formData.append("image", input.imageFile);
+        await landingApi.createLanding(formData, input.product.id);
+      } catch (error) {
+        toast.error(error.response?.data?.message)
+      } finally {
+        // setLoading(c => { setOnfetch(c => !c); return false });
+        setOnfetch(c => !c);
+        setLoading(false);
+      }
     }
+
   }
 
   const handleDeleteLandingImage = async (e, landingId) => {
@@ -97,7 +102,7 @@ export default function AdminTrendMgtPage() {
           <div className='flex flex-col gap-4'>
             <div className='flex flex-col gap-4'>
               {error && <div className='text-redHero'>you does'n t select landing image or linked product yet</div>}
-              <Button color="white" bg="red" onClick={(e) => handleAddLandingImage(e)}>CREATE LANDING IMAGE</Button>
+              <Button color="white" bg="red" type="button" onClick={(e) => handleAddLandingImage(e)}>CREATE LANDING IMAGE</Button>
               <input
                 type="file"
                 className="hidden"
