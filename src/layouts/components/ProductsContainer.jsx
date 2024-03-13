@@ -22,7 +22,7 @@ export default function ProductsContainer({ title = 'TITLE', ProductCards = Prod
   const applySortBy = (criteria) => {
     let sortedProducts = [...products];
     if (criteria === 'latest') {
-      sortedProducts.sort((a, b) => new Date(b.date) - new Date(a.date));
+      sortedProducts.sort((a, b) => new Date(b.launchDate) - new Date(a.launchDate));
     } else if (criteria === 'price_low_to_high') {
       sortedProducts.sort((a, b) => a.price - b.price);
     } else if (criteria === 'price_high_to_low') {
