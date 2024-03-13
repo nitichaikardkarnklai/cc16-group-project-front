@@ -40,7 +40,7 @@ export default function LandingPage() {
     })();
   }, []);
 
-  const handleOnClick = (e) => {};
+  const handleOnClick = (e) => { };
 
   const handleOnclickLanding = (e, productId) => {
     localStorage.setItem('productId', productId);
@@ -56,107 +56,107 @@ export default function LandingPage() {
 
   return (
     <div>
-      <div>
-        <div className='hero w-full mb-8 mx-auto '>
-          <Carousel className='mx-auto w-full flex'>
-            {landing.map((el, index) => {
-              // console.log(el.image);
-              return (
-                <button
-                  key={el.id}
-                  onClick={(e) => handleOnclickLanding(e, el.products.id)}
-                  className='w-full'
-                >
-                  <img
-                    src={el.image}
-                    alt='landingImage'
-                    className='h-full w-full object-cover'
+
+      <div className='hero w-full mb-8 mx-auto '>
+        <Carousel className='mx-auto w-full flex'>
+          {landing.map((el, index) => {
+            // console.log(el.image);
+            return (
+              <button
+                key={el.id}
+                onClick={(e) => handleOnclickLanding(e, el.products.id)}
+                className='w-full'
+              >
+                <img
+                  src={el.image}
+                  alt='landingImage'
+                  className='h-full w-full object-cover'
+                />
+              </button>
+            );
+          })}
+        </Carousel>
+      </div>
+
+      <div className='w-3/4 m-auto '>
+        <h1 className='text-2xl text-red-500 font-semibold'>New Arrivals</h1>
+      </div>
+      <div className='flex flex-col justify-center items-center '>
+        <div className='hero '>
+          <div className='carousel w-3/4 m-auto py-5'>
+            <div className='carousel h-2/4 gap-4 carousel-end rounded-box relative'>
+              <div className='carousel-item gap-4'>
+                {newProducts.map((el, index) => (
+                  <ProductCard
+                    key={el.id}
+                    productObj={el}
+                    onClick={handleOnClick}
                   />
-                </button>
-              );
-            })}
-          </Carousel>
-        </div>
+                ))}
+                <div className='flex align-middle items-center'>
+                  <Link
+                    to='/new-arrivals'
+                    className='btn btn-circle bg-gray-100'
+                  >
+                    &gt;
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
 
-        <div className='w-3/4 m-auto '>
-          <h1 className='text-2xl text-red-500 font-semibold'>New Arrivals</h1>
-        </div>
-        <div className='flex flex-col justify-center items-center '>
-          <div className='hero '>
-            <div className='carousel w-3/4 m-auto py-5'>
-              <div className='carousel h-2/4 gap-4 carousel-end rounded-box relative'>
-                <div className='carousel-item gap-4'>
-                  {newProducts.map((el, index) => (
-                    <ProductCard
-                      key={el.id}
-                      productObj={el}
-                      onClick={handleOnClick}
-                    />
-                  ))}
-                  <div className='flex align-middle items-center'>
-                    <Link
-                      to='/new-arrivals'
-                      className='btn btn-circle bg-gray-100'
-                    >
-                      &gt;
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div></div>
-          </div>
-        </div>
-        <br />
-        <div className='w-3/4 m-auto  '>
-          <h1 className='text-2xl  font-semibold text-red-600'>Tops Selling</h1>
-        </div>
-        <div className='flex flex-col justify-center items-center '>
-          <div className='hero '>
-            <div className='carousel w-3/4 m-auto py-5'>
-              <div className='carousel h-2/4 gap-4 carousel-end rounded-box'>
-                <div className='carousel-item gap-4'>
-                  {topSellingProducts.map((el, index) => (
-                    <ProductCard key={el.id} productObj={el} />
-                  ))}
-                  <div className='flex align-middle items-center'>
-                    <Link
-                      to='/top-selling'
-                      className='btn btn-circle bg-gray-100'
-                    >
-                      &gt;
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div></div>
-          </div>
-        </div>
-        <div className='flex flex-col justify-center items-center '>
-          <div className='hero '>
-            <div className='carousel w-3/4 m-auto py-5'>
-              <div className='carousel h-2/4 gap-4 carousel-end rounded-box'>
-                <div className='carousel-item gap-4'>
-                  {topSellingProducts2.map((el, index) => (
-                    <ProductCard key={el.id} productObj={el} />
-                  ))}
-                  <div className='flex align-middle items-center'>
-                    <Link
-                      to='/top-selling'
-                      className='btn btn-circle bg-gray-100'
-                    >
-                      &gt;
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div></div>
-          </div>
+          <div></div>
         </div>
       </div>
+      <br />
+      <div className='w-3/4 m-auto  '>
+        <h1 className='text-2xl  font-semibold text-red-600'>Tops Selling</h1>
+      </div>
+      <div className='flex flex-col justify-center items-center '>
+        <div className='hero '>
+          <div className='carousel w-3/4 m-auto py-5'>
+            <div className='carousel h-2/4 gap-4 carousel-end rounded-box'>
+              <div className='carousel-item gap-4'>
+                {topSellingProducts.map((el, index) => (
+                  <ProductCard key={el.id} productObj={el} />
+                ))}
+                <div className='flex align-middle items-center'>
+                  <Link
+                    to='/top-selling'
+                    className='btn btn-circle bg-gray-100'
+                  >
+                    &gt;
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div></div>
+        </div>
+      </div>
+      <div className='flex flex-col justify-center items-center '>
+        <div className='hero '>
+          <div className='carousel w-3/4 m-auto py-5'>
+            <div className='carousel h-2/4 gap-4 carousel-end rounded-box'>
+              <div className='carousel-item gap-4'>
+                {topSellingProducts2.map((el, index) => (
+                  <ProductCard key={el.id} productObj={el} />
+                ))}
+                <div className='flex align-middle items-center'>
+                  <Link
+                    to='/top-selling'
+                    className='btn btn-circle bg-gray-100'
+                  >
+                    &gt;
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div></div>
+        </div>
+      </div>
+
     </div>
   );
 }
