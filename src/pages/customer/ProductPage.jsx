@@ -79,7 +79,7 @@ export default function ProductPage() {
     });
   }, [wishlistItems, count]);
 
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   console.log('product', product);
 
@@ -295,7 +295,7 @@ export default function ProductPage() {
                 <div className='mt-5 flex items-center'></div>
                 <div className='flex items-end'>
                   <h1 className='text-2xl font-semibold text-red-500'>
-                    {product.price} BTH
+                    {(+product.price).toLocaleString()} BTH
                   </h1>
                 </div>
 
