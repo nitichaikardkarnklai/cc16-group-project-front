@@ -47,7 +47,7 @@ export default function TransactionCard({ data }) {
                 </div>
                 <div className='flex justify-between'>
                   <div className='text-redHero font-semibold'>
-                    {el.price} THB
+                    {(+el.price).toLocaleString()} THB
                   </div>
                   <div>Quantity: {el.quantity} pcs.</div>
                 </div>
